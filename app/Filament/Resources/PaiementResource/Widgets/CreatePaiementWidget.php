@@ -4,6 +4,7 @@ namespace App\Filament\Resources\PaiementResource\Widgets;
 
 use App\Models\Annee;
 use App\Models\Classe;
+use Filament\Forms\Get;
 use App\Models\Etudiant;
 use App\Models\Paiement;
 use Filament\Forms\Form;
@@ -47,15 +48,19 @@ class CreatePaiementWidget extends Widget   implements HasForms
                     Select::make('classe_id')
                         ->label("Classe")
                         ->required()
+                        ->live()
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
                         }),
-                    Select::make('etudiant_id')
+                        Select::make('etudiant_id')
                         ->label("Etudiant")
+                        ->live()
+                        ->options(function(Get $get){
+                            return Etudiant::query()->whereClasse_id($get("classe_id"))->pluck("nom","id");
+                        })
                         ->required()
-                        ->options(function(){
-                            return Etudiant::query()->pluck("nom","id");
-                        }),
+                        ->searchable()
+                        ->required(),
                     TextInput::make('motif')
                         ->required()
                         ->placeholder("Ex: Frais Académique")
@@ -72,7 +77,23 @@ class CreatePaiementWidget extends Widget   implements HasForms
                 ->description('Uploader le bordereau comme preuve de paiement')
                 ->schema([
                     FileUpload::make('bordereau')
-                        ->required(),
+                        ->required()->disk("public")->directory('bordereaux'),
+                        TextInput::make("Etudiant")
+                        ->label('Etudiant Séléctionné')
+                        ->placeholder(function(Get $get): string
+                        {
+                            // dd($get("etudiant_id"));
+                            if($get("etudiant_id") <> Null){
+                                $Etudiant=Etudiant::query()->whereId($get("etudiant_id"))->get(["nom","postnom","prenom","genre","matricule"]);
+
+                                return $Etudiant[0]->nom." ".$Etudiant[0]->postnom." ".$Etudiant[0]->prenom;
+                            }else{
+                                return "";
+                            }
+                        })
+                        ->visible(fn(Get $get):bool => filled($get("etudiant_id")))
+                        ->disabled(fn(Get $get):bool => filled($get("etudiant_id")))
+                        ->columnSpanFull()
 
                 ])->ColumnSpan(1),
 

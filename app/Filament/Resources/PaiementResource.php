@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Tables;
 use App\Models\Annee;
 use App\Models\Classe;
+use Filament\Forms\Get;
 use App\Models\Etudiant;
 use App\Models\Paiement;
 use Filament\Forms\Form;
@@ -14,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
@@ -58,12 +60,15 @@ class PaiementResource extends Resource
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
                         }),
-                    Select::make('etudiant_id')
+                        Select::make('etudiant_id')
                         ->label("Etudiant")
+                        ->live()
+                        ->options(function(Get $get){
+                            return Etudiant::query()->whereClasse_id($get("classe_id"))->pluck("nom","id");
+                        })
                         ->required()
-                        ->options(function(){
-                            return Etudiant::query()->pluck("nom","id");
-                        }),
+                        ->searchable()
+                        ->required(),
                     TextInput::make('motif')
                         ->required()
                         ->placeholder("Ex: Frais Académique")
@@ -80,7 +85,23 @@ class PaiementResource extends Resource
                 ->description('Uploader le bordereau comme preuve de paiement')
                 ->schema([
                     FileUpload::make('bordereau')
-                        ->required(),
+                        ->required()->disk("public")->directory('bordereaux'),
+                        TextInput::make("Etudiant")
+                        ->label('Etudiant Séléctionné')
+                        ->placeholder(function(Get $get): string
+                        {
+                            // dd($get("etudiant_id"));
+                            if($get("etudiant_id") <> Null){
+                                $Etudiant=Etudiant::query()->whereId($get("etudiant_id"))->get(["nom","postnom","prenom"]);
+
+                                return $Etudiant[0]->nom." ".$Etudiant[0]->postnom." ".$Etudiant[0]->prenom;
+                            }else{
+                                return "";
+                            }
+                        })
+                        ->visible(fn(Get $get):bool => filled($get("etudiant_id")))
+                        ->disabled(fn(Get $get):bool => filled($get("etudiant_id")))
+                        ->columnSpanFull()
 
                 ])->ColumnSpan(1),
 
@@ -91,6 +112,29 @@ class PaiementResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('annee.lib')
+                    ->label("Année Académique")
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('classe.lib')
+                    ->label("Classe")
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('etudiant.nom')
+                    ->label("Nom")
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('etudiant.postnom')
+                    ->label("Post Nom")
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('etudiant.prenom')
+                    ->label("Prénom")
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('frais.montant')
+                    ->label("Frais")
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('montant')
                     ->numeric()
                     ->sortable(),
@@ -99,20 +143,8 @@ class PaiementResource extends Resource
                 Tables\Columns\TextColumn::make('datepaie')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('bordereau')
+                ImageColumn::make('bordereau')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('classe_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('annee_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('etudiant_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('frais_id')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

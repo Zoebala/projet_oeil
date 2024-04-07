@@ -52,6 +52,7 @@ class DepartementResource extends Resource
                             }),
                         TextInput::make('lib')
                             ->label("Departement")
+                            ->unique("departements")
                             ->required()
                             ->placeholder("Ex: Informatique")
                             ->maxLength(255),
@@ -70,16 +71,16 @@ class DepartementResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('lib')
-                    ->label("Departement")
-                    ->searchable(),
-                TextColumn::make('description')
-                    ->label("Departement")
-                    ->searchable(),
                 TextColumn::make('section.lib')
                     ->label("Section")
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('lib')
+                    ->label("Departement")
+                    ->searchable(),
+                TextColumn::make('description')
+                    ->label("description")
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
