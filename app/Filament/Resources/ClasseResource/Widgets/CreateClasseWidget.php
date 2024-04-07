@@ -46,6 +46,7 @@ class CreateClasseWidget extends Widget implements HasForms
                         ->label("Classe")
                         ->placeholder("Ex: L1 IT")
                         ->required()
+                        ->unique("classes")
                         ->maxLength(255),
                     ]),
                     Step::make("Description")

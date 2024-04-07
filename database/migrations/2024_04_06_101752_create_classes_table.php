@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
             $table->string("lib");
-            $table->string("description");
+            $table->string("description")->nullable();
             $table->unsignedBigInteger("departement_id");
             $table->timestamps();
         });

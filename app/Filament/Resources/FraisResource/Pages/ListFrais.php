@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\FraisResource\Pages;
 
-use App\Filament\Resources\FraisResource;
 use Filament\Actions;
+use Livewire\Attributes\On;
+use App\Filament\Resources\FraisResource;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\FraisResource\Widgets\CreateFraisWidget;
 
 class ListFrais extends ListRecords
 {
@@ -13,7 +15,17 @@ class ListFrais extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            // Actions\CreateAction::make(),
         ];
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            CreateFraisWidget::class,
+        ];
+    }
+
+    #[On('frais-created')]
+    public function refresh() {}
 }

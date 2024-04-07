@@ -12,6 +12,7 @@ use App\Models\Departement;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Wizard;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Wizard\Step;
@@ -72,18 +73,21 @@ class ClasseResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('lib')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('description')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('departement_id')
-                    ->numeric()
+                TextColumn::make('departement.lib')
+                    ->label("Departement")
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('lib')
+                    ->label('Classe')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('description')
+                    ->label('Description')
+                    ->searchable(),
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -93,6 +97,7 @@ class ClasseResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

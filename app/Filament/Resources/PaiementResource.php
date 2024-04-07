@@ -17,7 +17,17 @@ class PaiementResource extends Resource
 {
     protected static ?string $model = Paiement::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+    protected static ?string $navigationGroup ="COGE Management";
+    protected static ?int $navigationSort = 8;
+    public static function getNavigationBadge():string
+    {
+        return static::getModel()::count();
+    }
+    public static function getNavigationBadgeColor():string
+    {
+        return "success";
+    }
 
     public static function form(Form $form): Form
     {
