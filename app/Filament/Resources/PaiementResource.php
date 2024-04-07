@@ -2,16 +2,25 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PaiementResource\Pages;
-use App\Filament\Resources\PaiementResource\RelationManagers;
-use App\Models\Paiement;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Annee;
+use App\Models\Classe;
+use App\Models\Etudiant;
+use App\Models\Paiement;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\DateTimePicker;
+use App\Filament\Resources\PaiementResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\PaiementResource\RelationManagers;
+use App\Filament\Resources\PaiementResource\Widgets\CreatePaiementWidget;
 
 class PaiementResource extends Resource
 {
@@ -32,31 +41,50 @@ class PaiementResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('montant')
+        ->schema([
+                Section::make("Paiement Frais")
+                ->icon("heroicon-o-banknotes")
+                ->schema([
+
+                    Select::make('annee_id')
+                    ->label("Annee Académique")
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('motif')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('datepaie')
-                    ->required(),
-                Forms\Components\TextInput::make('bordereau')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('classe_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('annee_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('etudiant_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('frais_id')
-                    ->required()
-                    ->numeric(),
-            ]);
+                    ->options(function(){
+                        return Annee::query()->pluck("lib","id");
+                    }),
+                    Select::make('classe_id')
+                        ->label("Classe")
+                        ->required()
+                        ->options(function(){
+                            return Classe::query()->pluck("lib","id");
+                        }),
+                    Select::make('etudiant_id')
+                        ->label("Etudiant")
+                        ->required()
+                        ->options(function(){
+                            return Etudiant::query()->pluck("nom","id");
+                        }),
+                    TextInput::make('motif')
+                        ->required()
+                        ->placeholder("Ex: Frais Académique")
+                        ->maxLength(255),
+                    TextInput::make('montant')
+                        ->required()
+                        ->placeholder("Ex: 300000")
+                        ->numeric(),
+                    DateTimePicker::make('datepaie')
+                        ->required(),
+                ])->columns(2)->columnSpan(2),
+                Section::make()
+                ->icon("heroicon-o-banknotes")
+                ->description('Uploader le bordereau comme preuve de paiement')
+                ->schema([
+                    FileUpload::make('bordereau')
+                        ->required(),
+
+                ])->ColumnSpan(1),
+
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table
@@ -120,6 +148,13 @@ class PaiementResource extends Resource
             'index' => Pages\ListPaiements::route('/'),
             'create' => Pages\CreatePaiement::route('/create'),
             'edit' => Pages\EditPaiement::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+           CreatePaiementWidget::class,
         ];
     }
 }

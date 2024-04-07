@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\PaiementResource\Pages;
 
-use App\Filament\Resources\PaiementResource;
 use Filament\Actions;
+use Livewire\Attributes\On;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\PaiementResource;
+use App\Filament\Resources\PaiementResource\Widgets\CreatePaiementWidget;
 
 class ListPaiements extends ListRecords
 {
@@ -13,7 +15,17 @@ class ListPaiements extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            // Actions\CreateAction::make(),
         ];
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            CreatePaiementWidget::class,
+        ];
+    }
+
+    #[On('paiement-created')]
+    public function refresh() {}
 }
