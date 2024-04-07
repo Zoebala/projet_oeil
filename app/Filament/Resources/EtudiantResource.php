@@ -336,7 +336,7 @@ class EtudiantResource extends Resource
                         foreach($records as $record){
                             Inscription::whereEtudiant_id($record->id)->update([
                                 "actif"=>true,
-                                "etudiant_id"=>$record->id,
+                                // "etudiant_id"=>$record->id,
                                 "annee_id"=>$data["annee_id"],
                                 "classe_id"=>$data["classe_id"],
 
