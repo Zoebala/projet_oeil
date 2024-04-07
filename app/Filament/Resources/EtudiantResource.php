@@ -20,6 +20,7 @@ use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Wizard\Step;
 use Illuminate\Database\Eloquent\Collection;
@@ -196,6 +197,8 @@ class EtudiantResource extends Resource
     {
         return $table
             ->columns([
+                    ToggleColumn::make('inscriptions.actif')
+                    ->label("Inscrit ?"),
                 Tables\Columns\TextColumn::make('classe.lib')
                     ->label("Classe")
                     ->searchable()
@@ -289,7 +292,7 @@ class EtudiantResource extends Resource
                         })->required(),
 
                     ])->modalWidth(MaxWidth::Medium)
-                    ->modalIcon("heroicon-o-chat-bubble-left")
+                    ->modalIcon("heroicon-o-clipboard-document-list")
                     ->Action(function(array $data,Etudiant $Etudiant){
 
                         // dd($data);
@@ -309,6 +312,7 @@ class EtudiantResource extends Resource
 
                     })
                 ])->button()
+                // ->color('primary')
                 ->label("Actions"),
             ])
             ->bulkActions([

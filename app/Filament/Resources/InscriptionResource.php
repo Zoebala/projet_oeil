@@ -11,16 +11,17 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\Inscription;
 use Filament\Resources\Resource;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\InscriptionResource\Pages;
 use App\Filament\Resources\InscriptionResource\RelationManagers;
+use App\Filament\Resources\InscriptionResource\Widgets\CreateInscriptionWidget;
 
 class InscriptionResource extends Resource
 {
@@ -116,7 +117,7 @@ class InscriptionResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    
+
                 ]),
             ]);
     }
@@ -134,6 +135,13 @@ class InscriptionResource extends Resource
             'index' => Pages\ListInscriptions::route('/'),
             'create' => Pages\CreateInscription::route('/create'),
             'edit' => Pages\EditInscription::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            CreateInscriptionWidget::class,
         ];
     }
 }

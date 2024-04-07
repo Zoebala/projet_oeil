@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\InscriptionResource\Pages;
 
-use App\Filament\Resources\InscriptionResource;
 use Filament\Actions;
+use Livewire\Attributes\On;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\InscriptionResource;
+use App\Filament\Resources\InscriptionResource\Widgets\CreateInscriptionWidget;
 
 class ListInscriptions extends ListRecords
 {
@@ -13,7 +15,19 @@ class ListInscriptions extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            // Actions\CreateAction::make(),
+
         ];
     }
+
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            CreateInscriptionWidget::class,
+        ];
+    }
+
+    #[On('inscription-created')]
+    public function refresh() {}
 }

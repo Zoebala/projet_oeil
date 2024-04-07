@@ -90,7 +90,7 @@ class FraisResource extends Resource
                 Tables\Columns\TextColumn::make('montant')
                     ->numeric()
                     ->sortable()
-                    ->suffix("$"),
+                    ->suffix(" $"),
                 Tables\Columns\TextColumn::make('nombre_tranche')
                     ->numeric()
                     ->sortable(),

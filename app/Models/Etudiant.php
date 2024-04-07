@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Classe;
 use App\Models\Paiement;
+use App\Models\Inscription;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,5 +24,10 @@ class Etudiant extends Model
     public function paiements()
     {
         return $this->HasMany(Paiement::class);
+    }
+
+    public function inscriptions()
+    {
+        return $this->HasMany(Inscription::class);
     }
 }
