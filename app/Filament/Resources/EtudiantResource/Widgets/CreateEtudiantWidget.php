@@ -41,7 +41,7 @@ class CreateEtudiantWidget extends Widget implements HasForms
                         ->schema([
                             Select::make('classe_id')
                             ->label("Classe")
-                            // ->required()
+                            ->required()
                             ->options(function(){
                                 return Classe::query()->pluck("lib","id");
                             }),
@@ -50,22 +50,22 @@ class CreateEtudiantWidget extends Widget implements HasForms
                                 ->maxLength(15),
                             TextInput::make('nom')
                                 ->placeholder("Ex: Dupon")
-                                // ->required()
+                                ->required()
                                 ->maxLength(25),
                             TextInput::make('postnom')
                                 ->placeholder("Ex: Smith")
-                                // ->required()
+                                ->required()
                                 ->maxLength(25),
                             TextInput::make('prenom')
-                                // ->required()
+                                ->required()
                                 ->placeholder('Ex: joseph')
                                 ->maxLength(25),
                                 Select::make('genre')
                                 ->options([
                                     "F"=>"F",
                                     "M"=>"M",
-                                ]),
-                                    // ->required(),
+                                ])
+                                ->required(),
                                 DatePicker::make('datenais')
                                     ->label("Date de Naissance")
                                     ->columnSpanFull()

@@ -357,6 +357,9 @@ class EtudiantResource extends Resource
                     }),
                 ]),
             ]);
+            // ->headerActions([
+            //     Tables\Actions\CreateAction::make(),
+            // ]);
     }
 
     public static function getRelations(): array
