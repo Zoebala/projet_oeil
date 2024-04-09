@@ -26,6 +26,11 @@
                 </button>
 
             </div>
+            <div class="mt-3">
+                @error('file')
+                    <span class="text-danger-700">{{$message}}</span>
+                @enderror
+            </div>
 
 
         </form>

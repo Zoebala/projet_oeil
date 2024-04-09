@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\UserResource\Pages;
 
-use App\Filament\Resources\UserResource;
 use Filament\Actions;
+use Livewire\Attributes\On;
+use App\Filament\Resources\UserResource;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\UserResource\Widgets\CreateUserWidget;
 
 class ListUsers extends ListRecords
 {
@@ -13,7 +15,17 @@ class ListUsers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            // Actions\CreateAction::make(),
         ];
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            CreateUserWidget::class,
+        ];
+    }
+
+    #[On('user-created')]
+    public function refresh() {}
 }

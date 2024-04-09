@@ -6,6 +6,7 @@ use Filament\Actions;
 use App\Models\Etudiant;
 use Livewire\Attributes\On;
 use Illuminate\Http\Request;
+use Livewire\Attributes\Rule;
 use App\Imports\EtudiantsImport;
 use Illuminate\Contracts\View\View;
 use Filament\Support\Enums\MaxWidth;
@@ -57,7 +58,7 @@ class ListEtudiants extends ListRecords
             CreateEtudiantWidget::class,
         ];
     }
-
+    #[Rule('required|file|mimes:csv:max:4048')]
     public $file="";
 
     public function save(){
