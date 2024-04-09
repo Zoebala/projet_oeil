@@ -16,6 +16,8 @@ use Filament\Notifications\Notification;
 use Filament\Forms\Components\FileUpload;
 use Filament\Resources\Pages\ListRecords;
 use App\Filament\Resources\EtudiantResource;
+use Konnco\FilamentImport\Actions\ImportField;
+use Konnco\FilamentImport\Actions\ImportAction;
 use App\Filament\Resources\EtudiantResource\Widgets\CreateEtudiantWidget;
 
 class ListEtudiants extends ListRecords
@@ -25,6 +27,29 @@ class ListEtudiants extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            ImportAction::make("Importer")
+            ->icon("heroicon-o-users")
+            // ->uniqueField('nom')
+            ->fields([
+                ImportField::make('nom')
+                    ->required(),
+                ImportField::make('postnom')
+                    ->required()
+                    ->label('Postnom'),
+                ImportField::make('prenom')
+                    ->required()
+                    ->label('Prenom'),
+                ImportField::make('teletudiant')
+                    ->required()
+                    ->label('Téléphone Etudiant'),
+                ImportField::make('genre')
+                    ->required()
+                    ->label('Genre'),
+                ImportField::make('classe_id')
+                    ->required()
+                    ->label('Classe'),
+
+            ]),
             // Actions\CreateAction::make(),
             // Actions\Action::make("importer")
             // ->icon("heroicon-o-user-plus")
@@ -46,11 +71,11 @@ class ListEtudiants extends ListRecords
             // }),
         ];
     }
-    public function getHeader():?View
-    {
-        $data=Actions\CreateAction::make();
-        return view("filament.custom.upload-file",compact("data"));
-    }
+    // public function getHeader():?View
+    // {
+    //     $data=Actions\CreateAction::make();
+    //     return view("filament.custom.upload-file",compact("data"));
+    // }
 
     protected function getHeaderWidgets(): array
     {
