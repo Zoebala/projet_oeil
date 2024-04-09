@@ -72,7 +72,17 @@ class CreatePaiementWidget extends Widget   implements HasForms
                     TextInput::make('motif')
                         ->required()
                         ->placeholder("Ex: Frais Académique")
-                        ->maxLength(255),
+                        ->maxLength(255)->columnSpan(2),
+                    Select::make('devise')
+                        ->label("Devise")
+                        ->required()
+                        ->options(
+                            [
+                                "CDF" =>"CDF",
+                                "USD" =>"USD",
+                            ]
+                        )->preload()
+                        ->searchable(),
                     TextInput::make('montant')
                         ->required()
                         ->placeholder("Ex: 300000")

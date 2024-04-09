@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer("montant");
             $table->string("motif");
+            $table->string("devise");
             $table->datetime("datepaie");
             $table->string("bordereau");
             $table->unsignedBigInteger("classe_id");

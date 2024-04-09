@@ -82,7 +82,17 @@ class PaiementResource extends Resource
                     TextInput::make('motif')
                         ->required()
                         ->placeholder("Ex: Frais Académique")
-                        ->maxLength(255),
+                        ->maxLength(255)->columnSpan(2),
+                        Select::make('devise')
+                            ->label("Devise")
+                            ->required()
+                            ->options(
+                                [
+                                    "CDF" =>"CDF",
+                                    "USD" =>"USD",
+                                ]
+                            )->preload()
+                            ->searchable(),
                     TextInput::make('montant')
                         ->required()
                         ->placeholder("Ex: 300000")
@@ -150,6 +160,10 @@ class PaiementResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('montant')
                     ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('devise')
+                    ->label("Devise")
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('motif')
                     ->searchable(),
