@@ -83,10 +83,7 @@ class EtudiantResource extends Resource
                                     "M"=>"M",
                                 ]),
                                     // ->required(),
-                                DatePicker::make('datenais')
-                                    ->label("Date de Naissance")
-                                    ->columnSpanFull()
-                                    ->required(),
+
 
                         ])->columnSpan(2)->columns(2),
                         Section::make()
@@ -94,6 +91,10 @@ class EtudiantResource extends Resource
                             FileUpload::make('photo')
                             ->disk("public")->directory("photos")
                             ->visibleOn("edit"),
+                            DatePicker::make('datenais')
+                            ->label("Date de Naissance")
+                            ->columnSpanFull()
+                            ->required(),
                             // ->maxLength(255),
                         ])->columnSpan(1)->columns(1),
 

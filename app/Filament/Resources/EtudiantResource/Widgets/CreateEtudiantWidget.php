@@ -66,9 +66,7 @@ class CreateEtudiantWidget extends Widget implements HasForms
                                     "M"=>"M",
                                 ])
                                 ->required(),
-                                DatePicker::make('datenais')
-                                    ->label("Date de Naissance")
-                                    ->columnSpanFull()
+
                                     // ->required(),
 
                         ])->columnSpan(2)->columns(2),
@@ -77,6 +75,9 @@ class CreateEtudiantWidget extends Widget implements HasForms
                             FileUpload::make('photo')
                             ->disk("public")->directory("photos")
                             ->visibleOn("edit"),
+                            DatePicker::make('datenais')
+                            ->label("Date de Naissance")
+                            ->columnSpanFull()
                             // ->maxLength(255),
                         ])->columnSpan(1)->columns(1),
 
