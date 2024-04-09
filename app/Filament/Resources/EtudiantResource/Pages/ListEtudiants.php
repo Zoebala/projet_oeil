@@ -13,11 +13,14 @@ use Filament\Support\Enums\MaxWidth;
 use Maatwebsite\Excel\Facades\Excel;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use pxlrbt\FilamentExcel\Columns\Column;
 use Filament\Forms\Components\FileUpload;
 use Filament\Resources\Pages\ListRecords;
 use App\Filament\Resources\EtudiantResource;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Konnco\FilamentImport\Actions\ImportField;
 use Konnco\FilamentImport\Actions\ImportAction;
+use pxlrbt\FilamentExcel\Actions\Pages\ExportAction;
 use App\Filament\Resources\EtudiantResource\Widgets\CreateEtudiantWidget;
 
 class ListEtudiants extends ListRecords
@@ -50,6 +53,18 @@ class ListEtudiants extends ListRecords
                     ->required()
                     ->label('Classe'),
 
+            ]),
+
+            ExportAction::make("Export")
+            ->label("Exporter")
+            ->exports([
+                ExcelExport::make()
+                    ->fromTable()
+                    ->withFilename(fn ($resource) => $resource::getModelLabel() . '-' . date('Y-m-d'))
+                    ->withWriterType(\Maatwebsite\Excel\Excel::CSV)
+                    ->withColumns([
+                        // Column::make('updated_at'),
+                    ])
             ]),
 
         ];

@@ -198,27 +198,44 @@ class EtudiantResource extends Resource
         return $table
             ->columns([
                     ToggleColumn::make('inscriptions.actif')
-                    ->label("Inscrit ?"),
+                    ->label("Inscrit ?")
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('classe.lib')
                     ->label("Classe")
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('matricule')
-                    ->searchable(),
+                    ->label("Matricule")
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('nom')
+                    ->label("Nom")
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('postnom')
+                    ->label("Postnom")
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('prenom')
+                    ->label("Prenom")
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('genre')
+                    ->label("Genre")
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('photo')
-                    ->searchable(),
+                    ->label("Photo")
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('province')
+                    ->label("Province")
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('territoire')
+                    ->label("Territoire")
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('territoireEcole')
