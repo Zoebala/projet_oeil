@@ -15,6 +15,7 @@ use Filament\Support\Enums\MaxWidth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
@@ -37,6 +38,32 @@ class EtudiantResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationGroup ="COGE Management";
     protected static ?int $navigationSort = 5;
+    protected static ?string $recordTitleAttribute ="nom";
+
+    public static function getGlobalSearchResultTitle(Model $record):string
+    {
+        return $record->nom.' '.$record->postnom." ".$record->prenom;
+    }
+    public static function getGloballySearchableAttributes():array
+    {
+        return [
+            "nom",
+            "postnom",
+            "prenom",
+            "classe.lib"
+        ];
+    }
+    public static function getGlobalSearchResultDetails(Model $record):array
+    {
+        return [
+            "Classe"=>$record->classe->lib,
+        ];
+    }
+
+      public static function getGlobalSearchResultEloquentQuery(Model $record):Builder
+    {
+        return parent::getGlobalSearchEloquentQuery()->with(['classes']);
+    }
     public static function getNavigationBadge():string
     {
         return static::getModel()::count();
