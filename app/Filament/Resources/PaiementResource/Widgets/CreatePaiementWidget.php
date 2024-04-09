@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PaiementResource\Widgets;
 
 use App\Models\Annee;
+use App\Models\Frais;
 use App\Models\Classe;
 use Filament\Forms\Get;
 use App\Models\Etudiant;
@@ -61,6 +62,13 @@ class CreatePaiementWidget extends Widget   implements HasForms
                         ->required()
                         ->searchable()
                         ->required(),
+                        Select::make('frais_id')
+                        ->label("Frais")
+                        ->required()
+                        ->options(function(Get $get){
+                          return Frais::query()->whereClasse_id($get("classe_id"))->pluck("montant","id");
+
+                        }),
                     TextInput::make('motif')
                         ->required()
                         ->placeholder("Ex: Frais Académique")
@@ -69,8 +77,7 @@ class CreatePaiementWidget extends Widget   implements HasForms
                         ->required()
                         ->placeholder("Ex: 300000")
                         ->numeric(),
-                    DateTimePicker::make('datepaie')
-                        ->required(),
+
                 ])->columns(2)->columnSpan(2),
                 Section::make()
                 ->icon("heroicon-o-banknotes")
@@ -78,6 +85,9 @@ class CreatePaiementWidget extends Widget   implements HasForms
                 ->schema([
                     FileUpload::make('bordereau')
                         ->required()->disk("public")->directory('bordereaux'),
+                         DateTimePicker::make('datepaie')
+                         ->label("Date de Paiment")
+                        ->required(),
                         TextInput::make("Etudiant")
                         ->label('Etudiant Séléctionné')
                         ->placeholder(function(Get $get): string

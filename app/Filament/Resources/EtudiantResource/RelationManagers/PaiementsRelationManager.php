@@ -39,7 +39,7 @@ class PaiementsRelationManager extends RelationManager
                 ->toggleable()
                 ->sortable(),
                 TextColumn::make('datepaie')
-                ->label("Date De paiement")
+                ->label("Date de Paiement")
                 ->searchable()
                 ->toggleable()
                 ->sortable(),
@@ -48,7 +48,7 @@ class PaiementsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

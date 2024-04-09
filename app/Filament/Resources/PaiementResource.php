@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Annee;
+use App\Models\Frais;
 use App\Models\Classe;
 use Filament\Forms\Get;
 use App\Models\Etudiant;
@@ -56,6 +57,7 @@ class PaiementResource extends Resource
                     }),
                     Select::make('classe_id')
                         ->label("Classe")
+                        ->live()
                         ->required()
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
@@ -69,6 +71,14 @@ class PaiementResource extends Resource
                         ->required()
                         ->searchable()
                         ->required(),
+                    Select::make('frais_id')
+                        ->label("Frais")
+                        ->required()
+                        ->options(function(Get $get){
+                          return Frais::query()->whereClasse_id($get("classe_id"))->pluck("montant","id");
+
+                        })
+                        ->suffix(" $"),
                     TextInput::make('motif')
                         ->required()
                         ->placeholder("Ex: Frais Académique")
@@ -77,8 +87,7 @@ class PaiementResource extends Resource
                         ->required()
                         ->placeholder("Ex: 300000")
                         ->numeric(),
-                    DateTimePicker::make('datepaie')
-                        ->required(),
+
                 ])->columns(2)->columnSpan(2),
                 Section::make()
                 ->icon("heroicon-o-banknotes")
@@ -86,6 +95,9 @@ class PaiementResource extends Resource
                 ->schema([
                     FileUpload::make('bordereau')
                         ->required()->disk("public")->directory('bordereaux'),
+                        DateTimePicker::make('datepaie')
+                        ->label("Date de Paiment")
+                        ->required(),
                         TextInput::make("Etudiant")
                         ->label('Etudiant Séléctionné')
                         ->placeholder(function(Get $get): string
@@ -134,6 +146,7 @@ class PaiementResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('frais.montant')
                     ->label("Frais")
+                    ->suffix(" $")
                     ->sortable(),
                 Tables\Columns\TextColumn::make('montant')
                     ->numeric()
@@ -141,7 +154,9 @@ class PaiementResource extends Resource
                 Tables\Columns\TextColumn::make('motif')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('datepaie')
+                    ->label("Date de Paiement")
                     ->dateTime()
+                    ->date("d/m/Y H:i:s")
                     ->sortable(),
                 ImageColumn::make('bordereau')
                     ->searchable(),
@@ -159,6 +174,7 @@ class PaiementResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
