@@ -76,6 +76,10 @@ class ClasseResource extends Resource
                 TextColumn::make('departement.lib')
                     ->label("Departement")
                     ->sortable(),
+                TextColumn::make('id')
+                    ->label('Id Classe')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('lib')
                     ->label('Classe')
                     ->searchable()
