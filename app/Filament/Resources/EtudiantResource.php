@@ -400,6 +400,39 @@ class EtudiantResource extends Resource
                         ->success()
                         ->send();
                     }),
+                    Tables\Actions\BulkAction::make("Incriptions")
+                    ->icon("heroicon-o-clipboard-document-list")
+                    ->color("warning")
+                    ->form([
+                        Select::make("annee_id")
+                        ->label("Année Académique")
+                        ->options(function(){
+                            return Annee::query()->pluck("lib","id");
+                        })->required(),
+                        Select::make("classe_id")
+                        ->label("Classe")
+                        ->options(function(){
+                            return Classe::query()->pluck("lib","id");
+                        })->required(),
+
+                    ])->modalWidth(MaxWidth::Medium)
+                    ->modalIcon("heroicon-o-chat-bubble-left")
+                    ->Action(function(Collection $Etudiants,array $data){
+
+                        foreach($Etudiants as $Etudiant){
+                            Inscription::create([
+                                "actif"=>true,
+                                "annee_id"=>$data['annee_id'],
+                                "classe_id"=>$data['classe_id'],
+                                "etudiant_id"=>$Etudiant->id,
+                            ]);
+                         }
+                        Notification::make()
+                        ->title("L'inscription des étudiants a été effetuée avec succès!")
+                        // ->successRedirectUrl("presences.list")
+                        ->success()
+                        ->send();
+                    }),
                 ]),
             ]);
             // ->headerActions([

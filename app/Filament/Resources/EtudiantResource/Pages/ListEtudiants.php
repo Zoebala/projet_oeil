@@ -49,6 +49,9 @@ class ListEtudiants extends ListRecords
                 ImportField::make('genre')
                     ->required()
                     ->label('Genre'),
+                ImportField::make('matricule')
+                    ->required()
+                    ->label('Matricule'),
                 ImportField::make('classe_id')
                     ->required()
                     ->label('Classe'),

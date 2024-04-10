@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string("matricule",15)->nullable();
             $table->string("nom",25);
             $table->string("postnom",25);
-            $table->string("prenom",25);
+            $table->string("prenom",25)->nullable();
             $table->string("genre",1);
             $table->string("photo")->nullable();
             $table->string("province",50)->nullable();
