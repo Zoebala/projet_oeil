@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Filament\Resources\AnneeResource\Widgets;
+namespace App\Filament\Resources\RoleResource\Widgets;
 
-use App\Models\Annee;
 use Filament\Forms\Form;
 use Filament\Widgets\Widget;
+use Spatie\Permission\Models\Role;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
 
-class CreateAnneeWidget extends Widget implements HasForms
+class CreateRoleWidget extends Widget implements HasForms
 {
     use InteractsWithForms;
-    protected static string $view = 'filament.resources.annee-resource.widgets.create-annee-widget';
+    protected static string $view = 'filament.resources.role-resource.widgets.create-role-widget';
+
 
     protected int | string | array $columnSpan = 'full';
 
@@ -29,24 +30,25 @@ class CreateAnneeWidget extends Widget implements HasForms
     {
         return $form
             ->schema([
-                Section::make("Définition de l'année Académique")
-                ->icon("heroicon-o-calendar-days")
+                //
+                Section::make("Définition des Rôles")
+                ->icon("heroicon-o-finger-print")
                 ->schema([
-
-                    TextInput::make('lib')
-                        ->label("Annee Académique")
-                        ->placeholder('Ex :2023-2024')
-                        ->maxLength(9)
-                        ->columnSpan(1),
-                ]),
-            ])->statePath("data")->columns(2);
+                    TextInput::make("name")
+                    ->label("Désignation du rôle")
+                    ->placeholder("Ex: DG")
+                    ->unique("roles")
+                    ->required()
+                    ->columnSpan(1)
+                ])->columns(2),
+            ])->statePath("data");
     }
 
     public function create(): void
     {
-        Annee::create($this->form->getState());
+        Role::create($this->form->getState());
         $this->form->fill();
-        $this->dispatch('annee-created');
+        $this->dispatch('role-created');
 
         Notification::make()
         ->title('Enregistrement effectué avec succès')
@@ -54,4 +56,5 @@ class CreateAnneeWidget extends Widget implements HasForms
          ->duration(5000)
         ->send();
     }
+
 }
