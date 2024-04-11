@@ -11,6 +11,7 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Resources\Pages\Page;
 use Illuminate\Support\Facades\Hash;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
@@ -67,7 +68,21 @@ class UserResource extends Resource
                         ->required(fn(Page $livewire) =>($livewire instanceof CreateUser) )
                         ->maxLength(255)
                         ->columnSpan(1),
-                ])->columns(3),
+                    Select::make("roles")
+                        ->label("Roles")
+                        ->searchable()
+                        ->preload()
+                        ->multiple()
+                        ->relationship("roles","name")
+                        ->required(),
+                    Select::make("permissions")
+                        ->label("Permission")
+                        ->searchable()
+                        ->preload()
+                        ->multiple()
+                        ->relationship("permissions","name")
+                        ->required()
+                ])->columns(2),
             ]);
     }
 
@@ -82,6 +97,9 @@ class UserResource extends Resource
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('email')
+                    ->searchable(),
+                TextColumn::make('roles.name')
+                    ->label("Roles")
                     ->searchable(),
                 TextColumn::make('email_verified_at')
                     ->dateTime()
@@ -131,5 +149,10 @@ class UserResource extends Resource
         return [
             CreateUserWidget::class,
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where("name","!=","Admin");
     }
 }

@@ -75,6 +75,9 @@ class DepartementResource extends Resource
                     ->label("Section")
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('id')
+                    ->label("Id Departement")
+                    ->searchable(),
                 TextColumn::make('lib')
                     ->label("Departement")
                     ->searchable(),

@@ -44,7 +44,7 @@ class ListEtudiants extends ListRecords
                     ->required()
                     ->label('Prenom'),
                 ImportField::make('teletudiant')
-                    ->required()
+                    // ->required()
                     ->label('Téléphone Etudiant'),
                 ImportField::make('genre')
                     ->required()

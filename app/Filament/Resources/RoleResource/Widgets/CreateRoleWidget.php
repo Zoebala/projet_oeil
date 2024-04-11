@@ -5,10 +5,12 @@ namespace App\Filament\Resources\RoleResource\Widgets;
 use Filament\Forms\Form;
 use Filament\Widgets\Widget;
 use Spatie\Permission\Models\Role;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Spatie\Permission\Models\Permission;
 use Filament\Forms\Concerns\InteractsWithForms;
 
 class CreateRoleWidget extends Widget implements HasForms
@@ -37,9 +39,16 @@ class CreateRoleWidget extends Widget implements HasForms
                     TextInput::make("name")
                     ->label("Désignation du rôle")
                     ->placeholder("Ex: DG")
-                    ->unique("roles")
+                    ->unique(ignoreRecord:true,table: Role::class)
                     ->required()
-                    ->columnSpan(1)
+                    ->columnSpan(1),
+                    Select::make("permissions")
+                    ->label("Permission")
+                    ->searchable()
+                    ->preload()
+                    ->multiple()
+                    ->options(Permission::all()->pluck("name","id"))
+                    ->required()
                 ])->columns(2),
             ])->statePath("data");
     }

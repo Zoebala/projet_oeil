@@ -4,14 +4,18 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 
+use App\Models\Role;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+
 use Filament\Resources\Resource;
-use Spatie\Permission\Models\Role;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\RoleResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -45,9 +49,16 @@ class RoleResource extends Resource
                     TextInput::make("name")
                     ->label("Désignation du rôle")
                     ->placeholder("Ex: DG")
-                    ->unique()
+                    ->unique(ignoreRecord:true,table: Role::class)
                     ->required()
-                    ->columnSpan(1)
+                    ->columnSpan(1),
+                    Select::make("permissions")
+                    ->label("Permission")
+                    ->searchable()
+                    ->preload()
+                    ->multiple()
+                    ->relationship("permissions","name")
+                    ->required()
                 ])->columns(2),
             ]);
     }
@@ -58,16 +69,32 @@ class RoleResource extends Resource
             ->columns([
                 //
                 TextColumn::make("name")
-                ->label("Désignation du rôle")
+                ->label("Rôle")
                 ->searchable()
                 ->sortable(),
+                TextColumn::make("permissions.name")
+                ->label("Permissions")
+                ->searchable()
+                ->sortable(),
+                TextColumn::make("created_at")
+                ->label("Créé le")
+                ->datetime("d/m/Y à H:i:s")
+                // ->searchable()
+                ->sortable(),
+
+
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])->label("Actions")
+                ->button(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

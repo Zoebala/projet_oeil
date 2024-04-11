@@ -6,12 +6,13 @@ use Filament\Forms;
 use Filament\Tables;
 
 use Filament\Forms\Form;
+use App\Models\Permission;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn;
+
 use Filament\Forms\Components\TextInput;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PermissionResource\Pages;
@@ -45,6 +46,7 @@ class PermissionResource extends Resource
                ->schema([
                    TextInput::make("name")
                    ->label("Désignation de la Permission")
+                   ->unique(ignoreRecord:true,table: Permission::class)
                    ->placeholder("Ex: Create Etudiants"),
 
                ]),
@@ -59,6 +61,11 @@ class PermissionResource extends Resource
                 TextColumn::make("name")
                 ->label("Désignation de la Permission")
                 ->searchable()
+                ->sortable(),
+                TextColumn::make("created_at")
+                ->label("Créé le")
+                ->datetime("d/m/Y à H:i:s")
+                // ->searchable()
                 ->sortable(),
             ])
             ->filters([

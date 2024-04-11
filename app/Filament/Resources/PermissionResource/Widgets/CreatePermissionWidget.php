@@ -38,6 +38,7 @@ class CreatePermissionWidget extends Widget  implements HasForms
                    TextInput::make("name")
                    ->label("Désignation de la Permission")
                    ->placeholder("Ex: Create Etudiant")
+                   ->unique(ignoreRecord:true,table: Permission::class)
                    ->required()
                    ->columnspan(1),
 

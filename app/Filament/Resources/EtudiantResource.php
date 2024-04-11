@@ -416,7 +416,7 @@ class EtudiantResource extends Resource
                         })->required(),
 
                     ])->modalWidth(MaxWidth::Medium)
-                    ->modalIcon("heroicon-o-chat-bubble-left")
+                    ->modalIcon("heroicon-o-clipboard-document-list")
                     ->Action(function(Collection $Etudiants,array $data){
 
                         foreach($Etudiants as $Etudiant){
