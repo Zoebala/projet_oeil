@@ -227,7 +227,7 @@ class EtudiantResource extends Resource
             ->columns([
                     ToggleColumn::make('inscriptions.actif')
                     ->label("Inscrit ?")
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('classe.lib')
                     ->label("Classe")
                     ->searchable()
@@ -322,7 +322,7 @@ class EtudiantResource extends Resource
                 ActionGroup::make([
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\Action::make("Incripition")
+                    Tables\Actions\Action::make("Inscrire")
                     ->icon("heroicon-o-clipboard-document-list")
                     ->form([
                         Select::make("annee_id")
@@ -363,7 +363,8 @@ class EtudiantResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\BulkAction::make("Passer de classe")
+                    Tables\Actions\BulkAction::make("Skip")
+                    ->label("Passer de classe")
                     ->icon("heroicon-o-forward")
                     ->color("success")
                     ->form([
@@ -400,7 +401,7 @@ class EtudiantResource extends Resource
                         ->success()
                         ->send();
                     }),
-                    Tables\Actions\BulkAction::make("Incriptions")
+                    Tables\Actions\BulkAction::make("Inscrire")
                     ->icon("heroicon-o-clipboard-document-list")
                     ->color("warning")
                     ->form([

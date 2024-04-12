@@ -10,6 +10,6 @@ class Annee extends Model
     use HasFactory;
 
     protected $fillable=[
-        "lib",
+        "lib","debut","fin"
     ];
 }

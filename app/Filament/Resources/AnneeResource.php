@@ -6,9 +6,13 @@ use Filament\Forms;
 use Filament\Tables;
 use App\Models\Annee;
 
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\AnneeResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -35,11 +39,21 @@ class AnneeResource extends Resource
     {
         return $form
             ->schema([
-                
-                Forms\Components\TextInput::make('lib')
+
+                TextInput::make('lib')
                     ->required()
+                    ->unique(ignoreRecord:true,table: Annee::class)
                     ->placeholder('Ex :2023-2024')
+                    ->live(debounce:1000)
+                    ->afterStateUpdated(function(Get $get,Set $set){
+                        $set("debut",substr($get("lib"),0,4));
+                        $set("fin",substr($get("lib"),5,9));
+                    })
                     ->maxLength(9)
+                    ->columnSpan(1),
+                Hidden::make('debut')
+                    ->columnSpan(1),
+                Hidden::make('fin')
                     ->columnSpan(1),
             ]);
     }
@@ -50,6 +64,12 @@ class AnneeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('lib')
                     ->label('Année Académiquue')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('debut')
+                    ->label('Année Début')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('fin')
+                    ->label('Année Fin')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

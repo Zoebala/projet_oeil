@@ -58,6 +58,7 @@ class EtudiantPolicy
         //
         return $user->hasPermissionTo('DeleteAny Etudiants');
     }
+  
 
     /**
      * Determine whether the user can restore the model.

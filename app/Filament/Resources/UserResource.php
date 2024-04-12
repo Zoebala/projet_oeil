@@ -63,6 +63,7 @@ class UserResource extends Resource
                     // DateTimePicker::make('email_verified_at'),
                     TextInput::make('password')
                         ->password()
+                        ->placeholder("Ex : password")
                         ->dehydrateStateUsing(fn($state)=>Hash::make($state))
                         ->dehydrated(fn($state)=> filled($state))
                         ->required(fn(Page $livewire) =>($livewire instanceof CreateUser) )
@@ -75,7 +76,7 @@ class UserResource extends Resource
                         ->multiple()
                         ->relationship("roles","name")
                         ->required(),
-                    // 
+                    //
                 ])->columns(2),
             ]);
     }

@@ -3,8 +3,11 @@
 namespace App\Filament\Resources\AnneeResource\Widgets;
 
 use App\Models\Annee;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Widgets\Widget;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
@@ -36,10 +39,20 @@ class CreateAnneeWidget extends Widget implements HasForms
                     TextInput::make('lib')
                         ->label("Annee Académique")
                         ->placeholder('Ex :2023-2024')
+                        ->unique(ignoreRecord:true,table: Annee::class)
+                        ->live(debounce:1000)
+                        ->afterStateUpdated(function(Get $get,Set $set){
+                            $set("debut",substr($get("lib"),0,4));
+                            $set("fin",substr($get("lib"),5,9));
+                        })
                         ->maxLength(9)
                         ->columnSpan(1),
-                ]),
-            ])->statePath("data")->columns(2);
+                    Hidden::make('debut')
+                        ->columnSpan(1),
+                    Hidden::make('fin')
+                        ->columnSpan(1),
+                ])->columns(2),
+            ])->statePath("data");
     }
 
     public function create(): void
