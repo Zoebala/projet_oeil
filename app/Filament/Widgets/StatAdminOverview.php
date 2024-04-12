@@ -43,16 +43,17 @@ class StatAdminOverview extends BaseWidget
             ->chart([34,2,5,23])
             ->Icon("heroicon-o-users"),
             Stat::make("Nombre Filles", Etudiant::join("inscriptions","inscriptions.etudiant_id","=","etudiants.id")->Where("etudiants.genre","F")->count())
-            ->description("Etudiantes")
+            ->description("Etudiantes Inscrites")
             ->color("warning")
             ->chart([34,2,5,23])
             ->Icon("heroicon-o-users"),
             Stat::make("Nombre Garçons", Etudiant::join("inscriptions","inscriptions.etudiant_id","=","etudiants.id")->Where("etudiants.genre","M")->count())
-            ->description("Etudiants")
+            ->description("Etudiants Inscrits")
             ->color("success")
             ->chart([34,2,5,23])
             ->Icon("heroicon-o-users"),
-            Stat::make("Total Solde Paiement", Etudiant::join("paiements","paiements.etudiant_id","=","etudiants.id")->sum("montant"). " FC")
+            // SELECT substring(lib,1,4) AS Annee,SUM(montant) AS Montant FROM annees JOIN paiements ON annees.id=paiements.annee_id GROUP BY lib HAVING Annee=2023
+            Stat::make("Total Solde Paiement", Etudiant::join("paiements","paiements.etudiant_id","=","etudiants.id")->join("annees","annees.id","=","paiements.annee_id")->sum("montant")." FC")
             ->description("Nos paiements")
             ->color("warning")
             ->chart([34,2,5,23])

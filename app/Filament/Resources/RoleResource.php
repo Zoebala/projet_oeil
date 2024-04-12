@@ -58,7 +58,7 @@ class RoleResource extends Resource
                     ->preload()
                     ->multiple()
                     ->relationship("permissions","name")
-                    ->required()
+                    // ->required()
                 ])->columns(2),
             ]);
     }
