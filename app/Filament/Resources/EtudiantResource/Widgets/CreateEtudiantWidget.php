@@ -168,6 +168,16 @@ class CreateEtudiantWidget extends Widget implements HasForms
                             ->placeholder("Ex: congolaise")
                             ->maxLength(20),
                     ])->columns(2),
+                    Step::make("Elements Dossiers")
+                    ->schema([
+                        FileUpload::make("files")
+                        ->label("Mes éléments de dossiers")
+                        ->multiple()
+                        ->openable()
+                        ->downloadable()
+                        ->maxSize("2048")
+                        ->preserveFilenames(),
+                    ])
                 ])->columnSpanFull(),
 
 

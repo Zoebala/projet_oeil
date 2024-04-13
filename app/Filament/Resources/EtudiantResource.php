@@ -211,7 +211,20 @@ class EtudiantResource extends Resource
                         TextInput::make('nationalite')
                             ->placeholder("Ex: congolaise")
                             ->maxLength(20),
+
                     ])->columns(2),
+                    Step::make("Elements Dossiers")
+                    ->schema([
+                        FileUpload::make("files")
+                        ->label("Mes éléments de dossiers")
+                        ->multiple()
+                        ->openable()
+                        ->downloadable()
+                        ->maxSize("2048")
+                        ->disk("public")->directory("dossiers")
+                        ->visibleOn("edit")
+                        ->preserveFilenames(),
+                    ])
                 ])->columnSpanFull(),
 
 
@@ -255,6 +268,11 @@ class EtudiantResource extends Resource
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('photo')
                     ->label("Photo")
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\ImageColumn::make('files')
+                    ->label("Mes éléments de dossier")
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
@@ -355,7 +373,8 @@ class EtudiantResource extends Resource
                             ->success()
                             ->send();
 
-                    })
+                    }),
+
                 ])->button()
                 // ->color('primary')
                 ->label("Actions"),

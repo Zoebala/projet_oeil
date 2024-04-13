@@ -16,6 +16,10 @@ class Etudiant extends Model
 
     protected $guarded=[];
 
+    protected $casts=[
+        "files"=>"array",
+    ];
+
     public function classe()
     {
         return $this->BelongsTo(Classe::class);
