@@ -5,6 +5,7 @@ namespace App\Filament\Widgets;
 use App\Models\Section;
 use App\Models\Etudiant;
 use App\Models\Departement;
+use App\Models\Inscription;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
@@ -36,9 +37,9 @@ class StatAdminOverview extends BaseWidget
             ->color("warning")
             ->chart([34,2,5,23])
             ->Icon("heroicon-o-users"),
-            Stat::make("Etudiants", Etudiant::where("actif")
-                                        ->leftjoin("inscriptions","inscriptions.etudiant_id","=","etudiants.id")
-                                        ->count())
+            Stat::make("Etudiants",Etudiant::leftJoin("inscriptions","inscriptions.etudiant_id","etudiants.id")
+                                        ->where("actif")->count())
+
             ->description("Etudiants non Inscrits")
             ->color("danger")
             ->chart([34,2,5,23])

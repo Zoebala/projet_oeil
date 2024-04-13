@@ -52,7 +52,7 @@ class DepartementResource extends Resource
                             }),
                         TextInput::make('lib')
                             ->label("Departement")
-                            ->unique("departements")
+                            ->unique(ignoreRecord:true,table: Departement::class)
                             ->required()
                             ->placeholder("Ex: Informatique")
                             ->maxLength(255),
@@ -80,6 +80,7 @@ class DepartementResource extends Resource
                     ->searchable(),
                 TextColumn::make('lib')
                     ->label("Departement")
+
                     ->searchable(),
                 TextColumn::make('description')
                     ->label("description")

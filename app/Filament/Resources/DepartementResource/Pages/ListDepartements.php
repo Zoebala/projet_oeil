@@ -22,7 +22,7 @@ class ListDepartements extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            CreateDepartementWidget::class,
+            // CreateDepartementWidget::class,
         ];
     }
 

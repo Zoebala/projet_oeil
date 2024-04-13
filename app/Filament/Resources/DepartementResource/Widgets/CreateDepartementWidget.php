@@ -44,7 +44,7 @@ class CreateDepartementWidget extends Widget implements HasForms
                         TextInput::make('lib')
                             ->label("Departement")
                             ->required()
-                            ->unique("departements")
+                            ->unique(ignoreRecord:true,table: Departement::class)
                             ->placeholder("Ex: Informatique")
                             ->maxLength(255),
 
