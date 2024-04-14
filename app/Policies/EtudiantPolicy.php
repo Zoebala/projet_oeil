@@ -49,16 +49,14 @@ class EtudiantPolicy
      */
     public function delete(User $user, Etudiant $etudiant): bool
     {
-        //
-        return $user->hasPermissionTo('Delete Etudiants');
-
+        return $user->hasPermissionTo("Delete Etudiants");
     }
     public function deleteAny(User $user): bool
     {
         //
         return $user->hasPermissionTo('DeleteAny Etudiants');
     }
-  
+
 
     /**
      * Determine whether the user can restore the model.
