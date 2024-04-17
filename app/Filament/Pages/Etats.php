@@ -5,7 +5,10 @@ namespace App\Filament\Pages;
 use App\Models\Etudiant;
 use Filament\Pages\Page;
 use Filament\Actions\Action;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Actions\ActionGroup;
 use Filament\Tables\Concerns\HasActions;
+use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Concerns\InteractsWithForms;
 
 
@@ -26,11 +29,18 @@ class Etats extends Page
     protected function getHeaderActions(): array
     {
         return [
-            Action::make("toto")
-            // ->url(fn(String $state)=>route("etudiant.generate_promotion", $state))
-            //         ->openUrlInNewTab(),
-            // ->url(fn(Etudiant $Student) =>route("etudiant.generate_promotion",$Student)
-            //         ->openUrlInNewTab()),
+            ActionGroup::make([
+
+                Action::make("Listes Des Etudiants ayant payé")
+                ->url(fn(Collection $Student) =>route("etudiant.generate_promotion",$Student))
+                ->openUrlInNewTab(),
+                Action::make("Listes des paiements journaliers"),
+                Action::make("Listes des étudiants non inscrits"),
+                Action::make("Listes Départements"),
+                Action::make("Listes Départements"),
+            ])->label("Génération des Etats de Sorties")
+            ->Icon("heroicon-o-clipboard-document-list")
+            ->button(),
         ];
 
     }

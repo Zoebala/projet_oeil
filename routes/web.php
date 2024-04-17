@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Etat;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 
@@ -20,3 +21,6 @@ Route::get('/', function () {
 });
 
 Route::get("/{Student}/pdf",[PdfController::class,"generate_pdf"])->name("etudiant.generate_promotion");
+
+
+Route::get("/Etat",Etat::class);
