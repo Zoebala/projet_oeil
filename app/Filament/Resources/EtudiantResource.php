@@ -374,6 +374,11 @@ class EtudiantResource extends Resource
                             ->send();
 
                     }),
+                Tables\Actions\Action::make("Generer")
+                    ->label("Génrérer Promotion")
+                    ->icon("heroicon-o-user")
+                    ->url(fn(Etudiant $Student) =>route("etudiant.generate_promotion",$Student))
+                    ->openUrlInNewTab(),
 
                 ])->button()
                 // ->color('primary')
@@ -453,6 +458,13 @@ class EtudiantResource extends Resource
                         ->success()
                         ->send();
                     }),
+                    // Tables\Actions\BulkAction::make("Generer")
+                    // ->label("Génrérer Promotion")
+                    // ->icon("heroicon-o-document-download")
+                    // ->url(function(Collection $Students){
+                    //     return route("etudiant.generate_promotion",$Etudiants);
+                    // })
+                    // ->openUrlInNewTab(),
                 ]),
             ]);
             // ->headerActions([

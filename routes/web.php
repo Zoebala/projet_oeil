@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PdfController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,5 @@ Route::get('/', function () {
     // return view('welcome');
     return redirect("/admin");
 });
+
+Route::get("/{Student}/pdf",[PdfController::class,"generate_pdf"])->name("etudiant.generate_promotion");

@@ -57,18 +57,10 @@ class ListEtudiants extends ListRecords
                     ->label('Classe'),
 
             ]),
+           
 
-            ExportAction::make("Export")
-            ->label("Exporter")
-            ->exports([
-                ExcelExport::make()
-                    ->fromTable()
-                    ->withFilename(fn ($resource) => $resource::getModelLabel() . '-' . date('Y-m-d'))
-                    ->withWriterType(\Maatwebsite\Excel\Excel::CSV)
-                    ->withColumns([
-                        // Column::make('updated_at'),
-                    ])
-            ]),
+
+
 
         ];
     }
