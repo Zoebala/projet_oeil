@@ -17,5 +17,9 @@
 <div>
     {{-- {{$this->form}} --}}
 
-   {{$this->table}}
+   {{-- {{$this->table}} --}}
+
+   <div>
+      {{-- {{$this->getHeaderActions}} --}}
+   </div>
 </div>

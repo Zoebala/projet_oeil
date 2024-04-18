@@ -31,14 +31,20 @@ class Etats extends Page
         return [
             ActionGroup::make([
 
-                Action::make("Listes Des Etudiants ayant payé")
-                ->url(fn(Collection $Student) =>route("etudiant.generate_promotion",$Student))
-                ->openUrlInNewTab(),
-                Action::make("Listes des paiements journaliers"),
+                Action::make("Etudiants Inscrits")
+                    ->label("Listes des étudiants Inscrits")
+                    ->tooltip("Listes des étudiants Inscrits")
+                    ->url(fn():string =>route("etudiant.generate_promotion"))
+                    ->openUrlInNewTab(),
+                Action::make("étudiants ayant payé")
+                    ->label("Liste des étudiants ayant payé")
+                    ->url(fn():string =>route("etudiants.paye"))
+                    ->openUrlInNewTab()
+                    ->tooltip("Liste des étudiants ayant payé"),
                 Action::make("Listes des étudiants non inscrits"),
                 Action::make("Listes Départements"),
                 Action::make("Listes Départements"),
-            ])->label("Génération des Etats de Sorties")
+            ])->label("_________________________________________Génération des Etats de Sorties_______________________________________________")
             ->Icon("heroicon-o-clipboard-document-list")
             ->button(),
         ];

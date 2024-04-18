@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Etudiant;
+use App\Models\Departement;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,12 +14,19 @@ class PdfController extends Controller
 
     public function generate_pdf(){
 
-       $Etudiant=Etudiant::all();
+       $queries=Departement::join("classes","classes.departement_id","=","departements.id")
+                        ->join("etudiants","etudiants.classe_id","=","classes.id")
+                        ->join("inscriptions","inscriptions.etudiant_id","=","etudiants.id")
+                        ->join("annees","annees.id","=","inscriptions.annee_id")
+                        ->Where("annees.debut",date("Y")-1)
+                        ->orderBy("departements.lib","asc")
+                        ->orderBy("etudiants.nom","asc")
+                        ->get(["nom","postnom","prenom","genre","classes.lib as classe","departements.lib as departement"]);
     //    dd($Etudiants);
         $data=[
-            "title" => "Liste Des promotions",
+            "title" => 'Liste des étudiants inscrits de l\'année '.(date("Y")-1).'-'.date("Y"),
             "date" => date("d/m/Y"),
-            "Etudiants"=> $Etudiant
+            "queries"=> $queries
         ];
         // dd($data["Etudiants"]);
         $pdf = Pdf::loadView('Etats/promotion',$data);

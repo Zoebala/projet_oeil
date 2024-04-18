@@ -2,6 +2,7 @@
 @section("contenu")
 
 
+
         <div class="tableau">
             <hr style="border:1px dashed black">
             <h3 class="text-center"> {{$title}}</h3>
@@ -13,6 +14,7 @@
                     <th>Genre</th>
                     <th>Promotion</th>
                     <th>Departement</th>
+                    <th>Montant</th>
 
                 </thead>
                 <tbody>
@@ -26,6 +28,7 @@
                             <td>{{$query->genre}}</td>
                             <td>{{$query->classe}}</td>
                             <td>{{$query->departement}}</td>
+                            <td>{{$query->montant. " FC"}}</td>
                         </tr>
                         @endforeach
                 </tbody>
@@ -33,5 +36,10 @@
             </table>
 
         </div>
+
+  
 @endsection
+
+
+
 

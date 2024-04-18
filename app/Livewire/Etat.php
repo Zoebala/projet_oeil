@@ -20,6 +20,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
+use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 
@@ -53,6 +54,25 @@ class Etat extends Component implements HasForms,HasTable
                 Hidden::make('fin')
                     ->columnSpan(1),
             ]);
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            // ActionGroup::make([
+
+                Action::make("Listes Des Etudiants ayant payé")
+                ->url(fn(Collection $Student) =>route("etudiant.generate_promotion",$Student))
+                ->openUrlInNewTab(),
+                Action::make("Listes des paiements journaliers"),
+                Action::make("Listes des étudiants non inscrits"),
+                Action::make("Listes Départements"),
+                // Action::make("Listes Départements"),
+            // ])->label("Génération des Etats de Sorties")
+            // ->Icon("heroicon-o-clipboard-document-list")
+            // ->button(),
+        ];
+
     }
 
     public static function table(Table $table): Table

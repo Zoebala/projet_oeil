@@ -3,6 +3,7 @@
 use App\Livewire\Etat;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\PaiementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,9 @@ Route::get('/', function () {
     return redirect("/admin");
 });
 
-Route::get("/{Student}/pdf",[PdfController::class,"generate_pdf"])->name("etudiant.generate_promotion");
+Route::get("etudiants_inscrits",[PdfController::class,"generate_pdf"])->name("etudiant.generate_promotion");
+Route::get("paiement",[PaiementController::class,"generate_pdf"])->name("etudiants.paye");
+
 
 
 Route::get("/Etat",Etat::class);
