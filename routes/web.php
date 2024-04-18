@@ -20,10 +20,11 @@ Route::get('/', function () {
     // return view('welcome');
     return redirect("/admin");
 });
-
+//chargement de la page Etat livewire sur filament via sa blade page
+Route::get("/Etat",Etat::class);
+//Routes pour les états de sorties
 Route::get("etudiants_inscrits",[PdfController::class,"generate_pdf"])->name("etudiant.generate_promotion");
 Route::get("paiement",[PaiementController::class,"generate_pdf"])->name("etudiants.paye");
 
 
 
-Route::get("/Etat",Etat::class);
