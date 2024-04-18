@@ -3,9 +3,11 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Section;
+use App\Models\Etudiant;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\DB;
 
 class SectionChart extends ChartWidget
 {
@@ -15,27 +17,59 @@ class SectionChart extends ChartWidget
 
     protected function getData(): array
     {
-        $data = Trend::model(Section::class)
-        ->between(
-            start: now()->startOfMonth(),
-            end: now()->endOfMonth(),
-        )
-        ->perDay()
-        ->count();
+        $Sections=Section::get("lib");
+        $tableau=[];$SectionsId=[];$EffectifParSection=[];
+        //mise des valeurs de l'objet dans la variable tableau
+        foreach ($Sections as $Section) {
+            $tableau[]=$Section->lib;
+        }
+
+        $Sections=Section::get(["lib","id"]);
+        //récupération des clefs de sections
+        foreach ($Sections as $Section){
+            $SectionsId[]=$Section->id;
+        }
+        //récupération des effectifs par section
+        foreach($SectionsId as $index){
+
+            $EffectifParSection[]=Etudiant::join("classes","classes.id","etudiants.classe_id")
+                                        ->join("departements","departements.id","classes.departement_id")
+                                        ->join("sections","sections.id","departements.section_id")
+                                        ->where("sections.id",$index)
+                                        ->count();
+        }
+
+
+
+
+
+
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Blog posts',
-                    'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
+                    'label' => 'Blog posts created',
+                    'data' => $EffectifParSection,
+                    // définition des couleurs pour les effectifs des sections
+                    'backgroundColor' => [
+                        'rgb(255,99,132)',
+                        'rgb(54,162,235)',
+                        'rgb(255,205,86)',
+                        'red',
+                        'gray',
+                        'green',
+                        'yellow',
+                        'lightblue',
+
+                    ],
                 ],
             ],
-            'labels' => $data->map(fn (TrendValue $value) => $value->date),
+            'labels' => $tableau,
         ];
     }
 
     protected function getType(): string
     {
-        return 'pie';
+        return 'doughnut';
     }
 }
