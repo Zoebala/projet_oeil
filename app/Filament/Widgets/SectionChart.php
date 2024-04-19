@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class SectionChart extends ChartWidget
 {
-    protected static ?string $heading = 'Effectifs par Section';
+    protected static ?string $heading = 'Effectifs des étudiants par Section';
     protected static ?int $sort = 8;
 
 
@@ -29,12 +29,16 @@ class SectionChart extends ChartWidget
         foreach ($Sections as $Section){
             $SectionsId[]=$Section->id;
         }
-        //récupération des effectifs par section
+        //récupération des effectifs par section pour l'année en cours
+        $annee=(date("Y")-1);
         foreach($SectionsId as $index){
 
             $EffectifParSection[]=Etudiant::join("classes","classes.id","etudiants.classe_id")
                                         ->join("departements","departements.id","classes.departement_id")
                                         ->join("sections","sections.id","departements.section_id")
+                                        ->join("inscriptions","inscriptions.etudiant_id","etudiants.id")
+                                        ->join("annees","annees.id","inscriptions.annee_id")
+                                        ->where("annees.debut",$annee)
                                         ->where("sections.id",$index)
                                         ->count();
         }
@@ -48,7 +52,7 @@ class SectionChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Blog posts created',
+                    'label' => 'Effectifs des étudiants par Section',
                     'data' => $EffectifParSection,
                     // définition des couleurs pour les effectifs des sections
                     'backgroundColor' => [
