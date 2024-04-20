@@ -6,11 +6,11 @@ use App\Models\Etudiant;
 use App\Models\Departement;
 use Filament\Widgets\ChartWidget;
 
-class DepartementChart extends ChartWidget
+class DepartementPaiement extends ChartWidget
 {
-    protected static ?string $heading = 'Effectifs des étudiants par Département';
+    protected static ?string $heading = 'Effectif des étudiants ayant payé par Département';
+    protected static ?int $sort = 12;
 
-    protected static ?int $sort = 9;
     protected function getData(): array
     {
         $Departements=Departement::get("lib");
@@ -32,9 +32,13 @@ class DepartementChart extends ChartWidget
             $EffectifparDepartement[]=Etudiant::join("classes","classes.id","etudiants.classe_id")
                                         ->join("departements","departements.id","classes.departement_id")
                                         ->join("inscriptions","inscriptions.etudiant_id","etudiants.id")
+                                        ->join("paiements","paiements.etudiant_id","etudiants.id")
                                         ->join("annees","annees.id","inscriptions.annee_id")
                                         ->where("annees.debut",$annee)
                                         ->where("departements.id",$index)
+                                        ->select(["etudiants.nom","etudiants.postnom","etudiants.prenom"])
+                                        ->groupBy(["etudiants.nom","etudiants.postnom","etudiants.prenom"])
+                                        ->get()
                                         ->count();
         }
 
@@ -47,7 +51,7 @@ class DepartementChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Effectifs des étudiants par Département',
+                    'label' => 'Effectif des étudiants ayant payé par Département',
                     'data' => $EffectifparDepartement,
                     // définition des couleurs pour les effectifs des sections
                     'backgroundColor' => [
@@ -69,6 +73,6 @@ class DepartementChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'doughnut';
+        return 'bar';
     }
 }
