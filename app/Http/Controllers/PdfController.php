@@ -6,6 +6,7 @@ use App\Models\Etudiant;
 use App\Models\Departement;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Collection;
 
 class PdfController extends Controller
@@ -29,6 +30,11 @@ class PdfController extends Controller
             "queries"=> $queries
         ];
         // dd($data["Etudiants"]);
+        Notification::make()
+        ->title('Génération pdf effectuée avec succès!')
+        ->success()
+         ->duration(5000)
+        ->send();
         $pdf = Pdf::loadView('Etats/promotion',$data);
         return $pdf->download('Liste_promotions.pdf');
     }

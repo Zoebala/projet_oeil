@@ -63,6 +63,9 @@ class DepartementPaiement extends ChartWidget
                         'green',
                         'yellow',
                         'lightblue',
+                        'pink',
+                        'blue',
+                        'white',
 
                     ],
                 ],

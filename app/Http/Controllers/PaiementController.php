@@ -6,6 +6,7 @@ use App\Models\Departement;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
+use Filament\Notifications\Notification;
 
 class PaiementController extends Controller
 {
@@ -33,6 +34,11 @@ class PaiementController extends Controller
              "queries"=> $queries
          ];
          // dd($data["Etudiants"]);
+         Notification::make()
+         ->title('Génération pdf effectuée avec succès!')
+         ->success()
+          ->duration(5000)
+         ->send();
          $pdf = Pdf::loadView('Etats/paiement',$data);
          return $pdf->download('Liste_paiement.pdf');
      }

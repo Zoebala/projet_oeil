@@ -8,7 +8,7 @@
     <script src="{{'bootstrap5/js/bootstrap.min.js'}}"></script>
     <title>{{$title}}</title>
     <style>
-         
+
          table th{
             font-weight: bold;
             /* text-align:center; */
@@ -16,7 +16,7 @@
             background-color: gray;
         }
         .tableau{
-            margin-top:8.5rem;
+            /* margin-top:8.5rem; */
         }
         th,td{
             border: 1px solid black;
@@ -27,8 +27,25 @@
             font-size:0.7rem;
             font-family: "Times New Roman","Tahoma","Arial",sans-serif;
         }
+        h3{
+            text-transform: uppercase;
+        }
 
 
     </style>
 </head>
 <body>
+    <header>
+        <div>
+            <div>
+                <img src="{{'images/drapeau.png'}}" alt="drapeau" width="100" class="img-fluid" style="margin-left:5%;">
+                <img src="{{'images/isp.png'}}" alt="drapeau" width="100" class="img-fluid" style="margin-left:60%;">
+            </div>
+            <div class="text-center">
+
+                <h2>REPUBLIQUE DEMOCRATIQUE DU CONGO</h2>
+                <h3>Ministère de l'Enseignement Supérieur et Universitaire</h3>
+                <h3>A MBANZA-NGUNGU <br> B.P: 127</h3>
+            </div>
+        </div>
+    </header>

@@ -64,6 +64,9 @@ class SectionChart extends ChartWidget
                         'green',
                         'yellow',
                         'lightblue',
+                        'pink',
+                        'blue',
+                        'white',
 
                     ],
                 ],
