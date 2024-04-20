@@ -41,8 +41,15 @@ class Etats extends Page
                     ->url(fn():string =>route("etudiants.paye"))
                     ->openUrlInNewTab()
                     ->tooltip("Liste des étudiants ayant payé"),
-                Action::make("Listes des étudiants non inscrits"),
-                Action::make("Listes Départements"),
+
+                Action::make("Liste des frais payés")
+                    ->url(fn():string =>route("frais.paye"))
+                    ->openUrlInNewTab()
+                    ->tooltip("Liste des frais payés"),
+                Action::make("Liste des frais payés par promotion")
+                    ->url(fn():string =>route("frais.paye"))
+                    ->openUrlInNewTab()
+                    ->tooltip("Listes des frais payés par promotion"),
                 Action::make("Listes Départements"),
             ])->label("_________________________________________Génération des Etats de Sorties_______________________________________________")
             ->Icon("heroicon-o-clipboard-document-list")

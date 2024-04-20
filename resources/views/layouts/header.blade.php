@@ -8,7 +8,7 @@
     <script src="{{'bootstrap5/js/bootstrap.min.js'}}"></script>
     <title>{{$title}}</title>
     <style>
-
+         
          table th{
             font-weight: bold;
             /* text-align:center; */
@@ -27,7 +27,7 @@
             font-size:0.7rem;
             font-family: "Times New Roman","Tahoma","Arial",sans-serif;
         }
-       
+
 
     </style>
 </head>
