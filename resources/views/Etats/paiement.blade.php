@@ -8,9 +8,8 @@
             <h3 class="text-center"> {{$title}}</h3>
             <table class="table table-striped">
                 <thead>
-                    <th>Nom</th>
-                    <th>Postnom</th>
-                    <th>Prénom</th>
+                    <th>N°</th>
+                    <th>Noms</th>
                     <th>Genre</th>
                     <th>Promotion</th>
                     <th>Departement</th>
@@ -21,10 +20,8 @@
                     @foreach ($queries as $query)
 
                         <tr>
-
-                            <td>{{$query->nom}}</td>
-                            <td>{{$query->postnom}}</td>
-                            <td>{{$query->prenom}}</td>
+                            <td>{{$loop->index+1}}</td>
+                            <td>{{$query->nom." ".$query->postnom." ".$query->prenom}}</td>
                             <td>{{$query->genre}}</td>
                             <td>{{$query->classe}}</td>
                             <td>{{$query->departement}}</td>
@@ -37,7 +34,7 @@
 
         </div>
 
-  
+
 @endsection
 
 

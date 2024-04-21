@@ -8,6 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Filament\Notifications\Notification;
 
+
 class PaiementController extends Controller
 {
     //
@@ -27,19 +28,25 @@ class PaiementController extends Controller
                             GROUP BY nom,postnom,prenom,genre,classe,departement,debut
                             ORDER BY dep.lib asc,etud.nom asc");
 
+        // dd($queries[0]->departement);
+        if(count($queries) >0){
 
-         $data=[
-             "title" => 'Liste des étudiants ayant payé en l\'année '.(date("Y")-1).'-'.date("Y"),
-             "date" => date("d/m/Y"),
-             "queries"=> $queries
-         ];
-         // dd($data["Etudiants"]);
-         Notification::make()
-         ->title('Génération pdf effectuée avec succès!')
-         ->success()
-          ->duration(5000)
-         ->send();
-         $pdf = Pdf::loadView('Etats/paiement',$data);
-         return $pdf->download('Liste_paiement.pdf');
+            $data=[
+                "title" => 'Liste des étudiants ayant payé en l\'année '.(date("Y")-1).'-'.date("Y"),
+                "date" => date("d/m/Y"),
+                "queries"=> $queries
+            ];
+            // dd($data["Etudiants"]);
+
+            $pdf = Pdf::loadView('Etats/paiement',$data);
+            return $pdf->download('Liste_paiement.pdf');
+        }else{
+            Notification::make()
+            ->title('Aucune donnée trouvée!')
+            ->danger()
+           ->duration(5000)
+            ->send();
+            return redirect()->back();
+        }
      }
 }

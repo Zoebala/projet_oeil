@@ -6,6 +6,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\FraisController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\FraispromotionController;
+use App\Http\Controllers\EtudianttrancheController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +26,11 @@ Route::get('/', function () {
 //chargement de la page Etat livewire sur filament via sa blade page
 Route::get("/Etat",Etat::class);
 //Routes pour les états de sorties
-Route::get("etudiants_inscrits",[PdfController::class,"generate_pdf"])->name("etudiant.generate_promotion");
+Route::get("etudiants_inscrits/{annee_id}/{classe_id}",[PdfController::class,"generate_pdf"])->name("etudiant.generate_promotion");
 Route::get("paiement",[PaiementController::class,"generate_pdf"])->name("etudiants.paye");
-Route::get("frais_payé",[FraisController::class,"generate_pdf"])->name("frais.paye");
+Route::get("frais_paye/{annee_id}/{classe_id}",[FraisController::class,"generate_pdf"])->name("frais.paye");
 Route::get("frais_promotion/{annee_id}/{classe_id}",[FraispromotionController::class,"generate_pdf"])->name("frais_promotion");
+Route::get("etudiant_tranche/{annee_id}/{classe_id}/{etat}",[EtudianttrancheController::class,"generate_pdf"])->name("etudiant_tranche");
 
 
 

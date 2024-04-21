@@ -45,7 +45,7 @@
 
                 <h2>REPUBLIQUE DEMOCRATIQUE DU CONGO</h2>
                 <h3>Ministère de l'Enseignement Supérieur et Universitaire</h3>
-                <h3>A MBANZA-NGUNGU <br> B.P: 127</h3>
+                <h3>A MBANZA-NGUNGU <br> B.P 127</h3>
             </div>
         </div>
     </header>

@@ -5,15 +5,16 @@
 
         <div class="tableau text-center">
             <hr style="border:1px dashed black">
+            <h3 class="text-center">Département : {{$queries[0]->departement }}</h3>
             <h3 class="text-center"> {{$title}}</h3>
             <div style="margin-right: 150px;">
                 <table >
                     <thead>
-                        <th>Nom</th>
-                        <th>Postnom</th>
-                        <th>Prénom</th>
+                        <th>N°</th>
+                        <th>Nom_Postnom_&_Prénom</th>
+
                         <th>Genre</th>
-                        <th>Promotion</th>
+                        {{-- <th>Promotion</th> --}}
                         {{-- <th>Departement</th> --}}
                         <th>Total_à_payer</th>
                         <th>Montant_Payé</th>
@@ -25,13 +26,10 @@
                         @foreach ($queries as $query)
 
                             <tr>
-
-                                <td>{{$query->nom}}</td>
-                                <td>{{$query->postnom}}</td>
-                                <td>{{$query->prenom}}</td>
+                                <td>{{$loop->index+1}}</td>
+                                <td>{{$query->nom." ".$query->postnom." ".$query->prenom}}</td>
                                 <td>{{$query->genre}}</td>
-                                <td>{{$query->classe}}</td>
-                                {{-- <td>{{$query->departement}}</td> --}}
+                                
                                 <td>{{$query->totalapayer. " FC"}}</td>
                                 <td>{{$query->montantpaye. " FC"}}</td>
                                 <td>{{$query->reste. " FC"}}</td>
