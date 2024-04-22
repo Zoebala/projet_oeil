@@ -17,7 +17,7 @@ class PaiementController extends Controller
 
         //récupération de l'année en cours
         $annee=(int)date("Y")-1;
-        $queries=DB::Select("SELECT nom,postnom,prenom,genre,cl.lib as classe, dep.lib as departement,an.debut as debut,SUM(paie.montant) as montant
+        $queries=DB::Select("SELECT nom,postnom,prenom,genre,cl.lib as classe, dep.lib as departement,an.debut as debut,SUM(paie.montant) as montant,an.lib as Annee
                             FROM departements dep
                             JOIN classes cl ON dep.id = cl.departement_id
                             JOIN etudiants etud ON etud.classe_id=cl.id
@@ -25,14 +25,14 @@ class PaiementController extends Controller
                             JOIN paiements paie ON paie.etudiant_id=etud.id
                             JOIN annees an ON an.id=insc.annee_id
                             WHERE debut=$annee
-                            GROUP BY nom,postnom,prenom,genre,classe,departement,debut
+                            GROUP BY nom,postnom,prenom,genre,classe,departement,debut,an.lib
                             ORDER BY dep.lib asc,etud.nom asc");
 
         // dd($queries[0]->departement);
         if(count($queries) >0){
 
             $data=[
-                "title" => 'Liste des étudiants ayant payé en l\'année '.(date("Y")-1).'-'.date("Y"),
+                "title" => 'Liste des étudiants de '.$queries[0]->classe.' ayant payé en l\'année '.$queries[0]->Annee,
                 "date" => date("d/m/Y"),
                 "queries"=> $queries
             ];
