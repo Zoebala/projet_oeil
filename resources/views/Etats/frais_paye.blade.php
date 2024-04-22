@@ -5,7 +5,7 @@
 
         <div class="tableau text-center">
             <hr style="border:1px dashed black">
-            <h3 class="text-center">Departement : {{ $queries[0]->departement }}</h3>
+            {{-- <h3 class="text-center">Departement : {{ $queries[0]->departement }}</h3> --}}
             <h3 class="text-center"> {{$title}}</h3>
             <div style="margin-right: 150px;">
                 <table >
@@ -14,7 +14,7 @@
                         <th>Nom_Postnom_&_Prénom</th>
 
                         <th>Genre</th>
-                        {{-- <th>Promotion</th> --}}
+                        <th>Promotion</th>
                         {{-- <th>Departement</th> --}}
                         <th>Total_à_payer</th>
                         <th>Montant_Payé</th>
@@ -30,7 +30,7 @@
                                 <td>{{$loop->index+1}}</td>
                                 <td>{{$query->nom." ".$query->postnom." ".$query->prenom}}</td>
                                 <td>{{$query->genre}}</td>
-                                {{-- <td>{{$query->classe}}</td> --}}
+                                <td>{{$query->classe}}</td>
                                 {{-- <td>{{$query->departement}}</td> --}}
                                 <td>{{$query->totalapayer. " FC"}}</td>
                                 <td>{{$query->montantpaye. " FC"}}</td>
@@ -40,7 +40,7 @@
                             <?php  $T_tap += $query->totalapayer; $T_mp += $query->montantpaye; $T_rp +=$query->reste; ?>
                             @if ($loop->last)
                                 <tr>
-                                    <td colspan="3">
+                                    <td colspan="4">
                                         Totaux Généraux
                                     </td>
                                     <td>{{ $T_tap." FC" }}</td>

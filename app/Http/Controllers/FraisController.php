@@ -12,7 +12,7 @@ class FraisController extends Controller
 {
     //
 
-    public function generate_pdf(int $annee_id, int $classe_id){
+    public function generate_pdf(int $annee_id){
     //récupération de l'année en cours
 
 
@@ -26,7 +26,7 @@ class FraisController extends Controller
                                 JOIN classes Cl ON Cl.id=E.classe_id
                                 JOIN departements D ON D.id=Cl.departement_id
                                 JOIN annees An ON An.id=P.annee_id
-                                WHERE Cl.id=$classe_id AND An.id=$annee_id
+                                WHERE An.id=$annee_id
                                 GROUP BY nom,postnom,genre,F.montant,F.taux,prenom,cl.lib,D.lib,An.debut
                                 ORDER BY D.lib,Cl.lib,nom,postnom");
 
@@ -34,7 +34,7 @@ class FraisController extends Controller
         if(count($queries)>0){
 
             $data=[
-                "title" => 'Liste des frais payés en '.$queries[0]->classe." - ".$queries[0]->annee,
+                "title" => 'Liste de tous les frais payés en '.$queries[0]->annee,
                 "date" => date("d/m/Y"),
                 "queries"=> $queries
             ];

@@ -98,19 +98,13 @@ class Etats extends Page
                     ->button()
                     ->icon("heroicon-o-clipboard-document-list"),
 
-                Action::make("Liste des frais payés")
+                Action::make("Liste de tous les frais payés")
                     ->form([
                         Select::make("annee_id")
                             ->label("Année Académique")
                             ->options(Annee::query()->pluck("lib","id"))
                             ->required()
                             ->searchable(),
-                        Select::make("classe_id")
-                            ->label("Promotion")
-                            ->required()
-                            ->options(Classe::query()->pluck("lib","id"))
-                            ->searchable(),
-
                     ])
                     ->button()
                     ->icon("heroicon-o-clipboard-document-list")
@@ -119,13 +113,13 @@ class Etats extends Page
                     ->action(function(array $data){
 
                         $annee_id=$data["annee_id"];
-                        $classe_id=$data["classe_id"];
 
 
-                        return redirect()->route("frais.paye",compact("annee_id","classe_id"));
+
+                        return redirect()->route("frais.paye",compact("annee_id"));
                     })
                     ->openUrlInNewTab()
-                    ->tooltip("Liste des frais payés")
+                    ->tooltip("Liste de tous les frais payés")
                     ->button()
                     ->icon("heroicon-o-clipboard-document-list")
                     ->color("success"),
