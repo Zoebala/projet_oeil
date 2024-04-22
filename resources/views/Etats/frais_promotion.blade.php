@@ -23,18 +23,31 @@
 
                     </thead>
                     <tbody>
+                        <?php  $T_tap=0; $T_mp=0; $T_rp=0; ?>
                         @foreach ($queries as $query)
 
                             <tr>
                                 <td>{{$loop->index+1}}</td>
                                 <td>{{$query->nom." ".$query->postnom." ".$query->prenom}}</td>
                                 <td>{{$query->genre}}</td>
-                                
+
                                 <td>{{$query->totalapayer. " FC"}}</td>
                                 <td>{{$query->montantpaye. " FC"}}</td>
                                 <td>{{$query->reste. " FC"}}</td>
 
                             </tr>
+                            <?php  $T_tap += $query->totalapayer; $T_mp += $query->montantpaye; $T_rp +=$query->reste; ?>
+                            @if ($loop->last)
+                                <tr>
+                                    <td colspan="3">
+                                        Totaux Généraux
+                                    </td>
+                                    <td>{{ $T_tap." FC" }}</td>
+                                    <td>{{ $T_mp." FC" }}</td>
+                                    <td>{{ $T_rp." FC" }}</td>
+                                </tr>
+
+                            @endif
                             @endforeach
                     </tbody>
 

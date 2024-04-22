@@ -15,7 +15,7 @@ class EtudianttrancheController extends Controller
 
         if($etat =="En ordre"){
 
-            $queries=DB::select("SELECT nom,postnom,genre,prenom,cl.lib as classe,D.lib as departement,An.debut as debut,
+            $queries=DB::select("SELECT nom,postnom,genre,prenom,cl.lib as classe,D.lib as departement,An.debut as debut,An.lib as Annee,
                                     SUM(P.montant) as montantpaye,F.montant, F.taux,(F.montant * F.taux) as 'totalapayer',((F.montant * F.taux)-SUM(P.montant)) as reste,
                                     ((F.montant*F.taux) / F.nombre_tranche) as 'Ptranche'
                                     FROM Frais F
@@ -26,11 +26,11 @@ class EtudianttrancheController extends Controller
                                     JOIN departements D ON D.id=Cl.departement_id
                                     JOIN annees An ON An.id=P.annee_id
                                     WHERE An.id=$annee_id AND Cl.id=$classe_id
-                                    GROUP BY nom,postnom,genre,F.montant,F.taux,prenom,cl.lib,D.lib,An.debut,F.nombre_tranche
+                                    GROUP BY nom,postnom,genre,F.montant,F.taux,prenom,cl.lib,D.lib,An.debut,F.nombre_tranche,An.lib
                                     HAVING montantpaye >= Ptranche
                                     ORDER BY D.lib,Cl.lib,nom,postnom");
         }else{
-            $queries=DB::select("SELECT nom,postnom,genre,prenom,cl.lib as classe,D.lib as departement,An.debut as debut,
+            $queries=DB::select("SELECT nom,postnom,genre,prenom,cl.lib as classe,D.lib as departement,An.debut as debut,An.lib as Annee,
                                     SUM(P.montant) as montantpaye,F.montant, F.taux,(F.montant * F.taux) as 'totalapayer',((F.montant * F.taux)-SUM(P.montant)) as reste,
                                     ((F.montant*F.taux) / F.nombre_tranche) as 'Ptranche'
                                     FROM Frais F
@@ -41,7 +41,7 @@ class EtudianttrancheController extends Controller
                                     JOIN departements D ON D.id=Cl.departement_id
                                     JOIN annees An ON An.id=P.annee_id
                                     WHERE An.id=$annee_id AND Cl.id=$classe_id
-                                    GROUP BY nom,postnom,genre,F.montant,F.taux,prenom,cl.lib,D.lib,An.debut,F.nombre_tranche
+                                    GROUP BY nom,postnom,genre,F.montant,F.taux,prenom,cl.lib,D.lib,An.debut,F.nombre_tranche,An.lib
                                     HAVING montantpaye < Ptranche
                                     ORDER BY D.lib,Cl.lib,nom,postnom");
 
@@ -51,7 +51,7 @@ class EtudianttrancheController extends Controller
 
         if(count($queries) > 0){
             $data=[
-                "title" => "Liste des étudiant ayant payés la première tranche par promotion  en l'année \n ".(date("Y")-1).'-'.date("Y"),
+                "title" => "Liste des étudiant de ". $queries[0]->classe." ayant payés la première tranche en l'année \n ".$queries[0]->Annee,
                 "date" => date("d/m/Y"),
                 "queries"=> $queries
             ];
