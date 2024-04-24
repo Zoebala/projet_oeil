@@ -58,7 +58,7 @@ class EtudianttrancheController extends Controller
 
             // Pdf::setPaper('A4','landscape');
             $pdf = Pdf::loadView('Etats/etudiant_tranche',$data);
-            return $pdf->download('Liste_étudiants_première_tranche.pdf');
+            return $pdf->download('Liste_étudiants_première_tranche_'.date("d/m/Y H:i:s").'.pdf');
         }else{
             Notification::make()
             ->title('Aucune donnée trouvée!')

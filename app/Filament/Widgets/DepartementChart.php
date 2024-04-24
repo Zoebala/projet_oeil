@@ -20,6 +20,7 @@ class DepartementChart extends ChartWidget
             $tableau[]=$Depart->lib;
         }
 
+
         $Departements=Departement::get(["lib","id"]);
         //récupération des clefs de Departements
         foreach ($Departements as $Depart){
@@ -33,13 +34,13 @@ class DepartementChart extends ChartWidget
                                         ->join("departements","departements.id","classes.departement_id")
                                         ->join("inscriptions","inscriptions.etudiant_id","etudiants.id")
                                         ->join("annees","annees.id","inscriptions.annee_id")
-                                        ->where("annees.debut",$annee)
+                                        ->where("annees.debut",session('AnneeDebut') ?? $annee)
                                         ->where("departements.id",$index)
                                         ->count();
         }
 
 
-
+        // dd(session('AnneeDebut'));
 
 
 

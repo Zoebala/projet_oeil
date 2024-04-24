@@ -38,7 +38,7 @@ class SectionChart extends ChartWidget
                                         ->join("sections","sections.id","departements.section_id")
                                         ->join("inscriptions","inscriptions.etudiant_id","etudiants.id")
                                         ->join("annees","annees.id","inscriptions.annee_id")
-                                        ->where("annees.debut",$annee)
+                                        ->where("annees.debut",session('AnneeDebut') ?? $annee)
                                         ->where("sections.id",$index)
                                         ->count();
         }

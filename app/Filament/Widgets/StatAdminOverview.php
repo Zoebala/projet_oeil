@@ -30,7 +30,7 @@ class StatAdminOverview extends BaseWidget
             ->Icon("heroicon-o-home-modern"),
             Stat::make("Etudiants", Etudiant::join("inscriptions","inscriptions.etudiant_id","=","etudiants.id")
                                         ->join("annees","annees.id","=","inscriptions.annee_id")
-                                        ->Where("annees.debut",date("Y")-1)
+                                        ->Where("annees.debut",session('AnneeDebut') ?? date("Y")-1)
                                         ->Where("inscriptions.actif",1)
                                         ->count())
             ->description("Etudiants Inscrits")
@@ -46,7 +46,7 @@ class StatAdminOverview extends BaseWidget
             ->Icon("heroicon-o-users"),
             Stat::make("Etudiants", Etudiant::join("paiements","paiements.etudiant_id","=","etudiants.id")
                                         ->join("annees","annees.id","=","paiements.annee_id")
-                                        ->Where("annees.debut",date("Y")-1)
+                                        ->Where("annees.debut",session('AnneeDebut') ?? date("Y")-1)
                                         ->count())
             ->description("Etudiant ayant payé un accompte")
             ->color("success")
@@ -54,7 +54,7 @@ class StatAdminOverview extends BaseWidget
             ->Icon("heroicon-o-users"),
             Stat::make("Nombre Filles", Etudiant::join("inscriptions","inscriptions.etudiant_id","=","etudiants.id")
                                             ->join("annees","annees.id","=","inscriptions.annee_id")
-                                            ->Where("annees.debut",date("Y")-1)
+                                            ->Where("annees.debut",session('AnneeDebut') ?? date("Y")-1)
                                             ->Where("etudiants.genre","F")
                                             ->count())
             ->description("Etudiantes Inscrites")
@@ -63,7 +63,7 @@ class StatAdminOverview extends BaseWidget
             ->Icon("heroicon-o-users"),
             Stat::make("Nombre Garçons", Etudiant::join("inscriptions","inscriptions.etudiant_id","=","etudiants.id")
                                             ->join("annees","annees.id","=","inscriptions.annee_id")
-                                            ->Where("annees.debut",date("Y")-1)
+                                            ->Where("annees.debut",session('AnneeDebut') ?? date("Y")-1)
                                             ->Where("etudiants.genre","M")
                                             ->count())
             ->description("Etudiants Inscrits")
@@ -73,7 +73,7 @@ class StatAdminOverview extends BaseWidget
             // SELECT substring(lib,1,4) AS Annee,SUM(montant) AS Montant FROM annees JOIN paiements ON annees.id=paiements.annee_id GROUP BY lib HAVING Annee=2023
             Stat::make("Total des paiements enregistrés", Etudiant::join("paiements","paiements.etudiant_id","=","etudiants.id")
                                                     ->join("annees","annees.id","=","paiements.annee_id")
-                                                    ->Where("annees.debut",date("Y")-1)
+                                                    ->Where("annees.debut",session('AnneeDebut') ?? date("Y")-1)
                                                     ->sum("montant")." FC")
             ->description("paiements enregistrés")
             ->color("warning")

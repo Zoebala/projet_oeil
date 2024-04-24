@@ -27,7 +27,7 @@ Route::get('/', function () {
 Route::get("/Etat",Etat::class);
 //Routes pour les états de sorties
 Route::get("etudiants_inscrits/{annee_id}/{classe_id}",[PdfController::class,"generate_pdf"])->name("etudiant.generate_promotion");
-Route::get("paiement",[PaiementController::class,"generate_pdf"])->name("etudiants.paye");
+Route::get("paiement/{annee_id}/{classe_id}",[PaiementController::class,"generate_pdf"])->name("etudiants.paye");
 Route::get("frais_paye/{annee_id}",[FraisController::class,"generate_pdf"])->name("frais.paye");
 Route::get("frais_promotion/{annee_id}/{classe_id}",[FraispromotionController::class,"generate_pdf"])->name("frais_promotion");
 Route::get("etudiant_tranche/{annee_id}/{classe_id}/{etat}",[EtudianttrancheController::class,"generate_pdf"])->name("etudiant_tranche");

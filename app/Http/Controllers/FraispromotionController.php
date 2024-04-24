@@ -34,7 +34,7 @@ class FraispromotionController extends Controller
             ];
 
             $pdf = Pdf::loadView('Etats/frais_promotion',$data);
-            return $pdf->download('Liste_frais_payés_par_promotion.pdf');
+            return $pdf->download('Liste_frais_payés_par_promotion_'.date("d/m/Y H:i:s").'.pdf');
         }else{
             Notification::make()
             ->title('Aucune donnée trouvée!')

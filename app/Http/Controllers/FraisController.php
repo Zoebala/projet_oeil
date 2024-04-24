@@ -41,7 +41,7 @@ class FraisController extends Controller
 
 
             $pdf = Pdf::loadView('Etats/frais_paye',$data);
-            return $pdf->download('Liste_frais_payés.pdf');
+            return $pdf->download('Liste_frais_payés_'.date("d/m/Y H:i:s").'.pdf');
         }else{
             Notification::make()
             ->title('Aucune donnée trouvée!')

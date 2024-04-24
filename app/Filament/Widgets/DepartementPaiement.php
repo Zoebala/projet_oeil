@@ -34,7 +34,7 @@ class DepartementPaiement extends ChartWidget
                                         ->join("inscriptions","inscriptions.etudiant_id","etudiants.id")
                                         ->join("paiements","paiements.etudiant_id","etudiants.id")
                                         ->join("annees","annees.id","inscriptions.annee_id")
-                                        ->where("annees.debut",$annee)
+                                        ->where("annees.debut",session('AnneeDebut') ?? $annee)
                                         ->where("departements.id",$index)
                                         ->select(["etudiants.nom","etudiants.postnom","etudiants.prenom"])
                                         ->groupBy(["etudiants.nom","etudiants.postnom","etudiants.prenom"])

@@ -38,6 +38,7 @@ class CreateAnneeWidget extends Widget implements HasForms
 
                     TextInput::make('lib')
                         ->label("Annee Académique")
+                        ->required()
                         ->placeholder('Ex :2023-2024')
                         ->unique(ignoreRecord:true,table: Annee::class)
                         ->live(debounce:1000)

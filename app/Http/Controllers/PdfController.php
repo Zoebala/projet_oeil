@@ -34,7 +34,7 @@ class PdfController extends Controller
                 "queries"=> $queries
             ];
             $pdf = Pdf::loadView('Etats/promotion',$data);
-            return $pdf->download('Liste_promotions.pdf');
+            return $pdf->download('Liste_promotions_'.date("d/m/Y H:i:s").'.pdf');
         }else{
             Notification::make()
             ->title('Aucune donnée trouvée!')

@@ -11,8 +11,12 @@ use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\Action;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\AnneeResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -90,7 +94,65 @@ class AnneeResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                ])
+
+            ])
+            ->HeaderActions([
+                Action::make("annee")
+                ->label("Définition de l'année de travail")
+                ->form([
+                    Select::make("annee")
+                    ->label("Choix de l'année")
+                    ->live()
+                    ->afterStateUpdated(function($state,Set $set){
+                        $Annee=Annee::whereId($state)->get(["lib","debut"]);
+                        $set("lib_annee",$Annee[0]->lib);
+                        $set("annee_debut",$Annee[0]->debut);
+
+
+                    })
+                    ->options(Annee::query()->pluck("lib","id")),
+                    TextInput::make("lib_annee")
+                    ->label("Année Choisie")
+                    ->disabled()
+                    // ->hidden()
+                    ->dehydrated(true)
+                    ->placeholder($annee->lib ?? date("Y")),
+                    TextInput::make("annee_debut")
+                    ->label("Année Début")
+                    ->disabled()
+                    // ->hidden()
+                    ->dehydrated(true)
+                    ->placeholder($annee->debut ?? date("Y")),
+
+                ])
+                ->modalWidth(MaxWidth::Medium)
+                ->modalIcon("heroicon-o-calendar")
+                ->action(function(array $data){
+                    if(session('Annee_id')==NULL && session('Annee')==NULL && session('AnneeDebut')==NULL){
+
+                        session()->push("Annee_id", $data["annee"]);
+                        session()->push("Annee", $data["lib_annee"]);
+                        session()->push("AnneeDebut", $data["annee_debut"]);
+                    }else{
+                        session()->pull("Annee_id");
+                        session()->pull("Annee");
+                        session()->pull("AnneeDebut");
+
+                    }
+
+                    // dd(session('Annee'));
+                    Notification::make()
+                    ->title("Fixation de l'annee de travail en ".$data['lib_annee'])
+                    ->success()
+                     ->duration(5000)
+                    ->send();
+
+
+                    return redirect("/admin");
+
+
+                }),
             ]);
     }
 
