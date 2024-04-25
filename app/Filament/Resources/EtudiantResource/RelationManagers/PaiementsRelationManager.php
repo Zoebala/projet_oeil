@@ -7,6 +7,7 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -43,6 +44,7 @@ class PaiementsRelationManager extends RelationManager
                 ->searchable()
                 ->toggleable()
                 ->sortable(),
+                ImageColumn::make("bordereau")
             ])
             ->filters([
                 //

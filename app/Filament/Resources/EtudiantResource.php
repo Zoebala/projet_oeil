@@ -222,8 +222,8 @@ class EtudiantResource extends Resource
                         ->downloadable()
                         ->maxSize("2048")
                         ->disk("public")->directory("dossiers")
-                        ->visibleOn("edit")
-                        ->preserveFilenames(),
+                        ->visibleOn("edit"),
+                        // ->preserveFilenames(),
                     ])
                 ])->columnSpanFull(),
 

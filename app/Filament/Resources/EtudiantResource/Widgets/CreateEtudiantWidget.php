@@ -172,11 +172,12 @@ class CreateEtudiantWidget extends Widget implements HasForms
                     ->schema([
                         FileUpload::make("files")
                         ->label("Mes éléments de dossiers")
+                        ->disk("public")->directory("dossiers")
                         ->multiple()
                         ->openable()
                         ->downloadable()
-                        ->maxSize("2048")
-                        ->preserveFilenames(),
+                        ->maxSize("2048"),
+                        // ->preserveFilenames(),
                     ])
                 ])->columnSpanFull(),
 
