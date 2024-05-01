@@ -51,7 +51,7 @@ class StatAdminOverview extends BaseWidget
                                         ->groupBy(["etudiants.nom","etudiants.postnom","etudiants.prenom"])
                                         ->get()
                                         ->count())
-            ->description("Etudiant ayant payé un accompte")
+            ->description("Etudiants ayant payé un accompte")
             ->color("success")
             ->chart([34,2,5,23])
             ->Icon("heroicon-o-users"),

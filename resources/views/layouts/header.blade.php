@@ -9,7 +9,11 @@
     <title>{{$title}}</title>
     <style>
 
-         table th{
+        table{
+            max-width:98%;
+            margin:0 auto;
+        }
+        table th{
             font-weight: bold;
             /* text-align:center; */
             text-transform: uppercase;
@@ -17,6 +21,8 @@
         }
         .tableau{
             /* margin-top:8.5rem; */
+            max-width:98%;
+            margin:0 auto;
         }
         th,td{
             border: 1px solid black;

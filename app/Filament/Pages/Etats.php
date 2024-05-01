@@ -34,7 +34,31 @@ class Etats extends Page
     {
         return [
             ActionGroup::make([
+                Action::make("budget")
+                ->form([
+                    Select::make("annee_id")
+                        ->label("Année Académique")
+                        ->options(Annee::query()->pluck("lib","id"))
+                        ->required()
+                        ->searchable(),
+                ])
+                ->button()
+                ->icon("heroicon-o-clipboard-document-list")
+                ->modalWidth(MaxWidth::Medium)
+                ->modalIcon("heroicon-o-users")
+                ->action(function(array $data){
 
+                    $annee_id=$data["annee_id"];
+
+
+
+                    return redirect()->route("budget",compact("annee_id"));
+                })
+                ->openUrlInNewTab()
+                ->tooltip("Liste de tous les frais payés")
+                ->button()
+                ->icon("heroicon-o-clipboard-document-list")
+                ->color("warning"),
                 Action::make("Etudiants Inscrits")
                     ->label("Listes des étudiants Inscrits")
                     ->form([

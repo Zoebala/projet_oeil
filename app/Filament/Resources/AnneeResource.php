@@ -103,6 +103,7 @@ class AnneeResource extends Resource
                 ->form([
                     Select::make("annee")
                     ->label("Choix de l'année")
+                    ->required()
                     ->live()
                     ->afterStateUpdated(function($state,Set $set){
                         $Annee=Annee::whereId($state)->get(["lib","debut"]);

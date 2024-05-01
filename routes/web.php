@@ -4,6 +4,7 @@ use App\Livewire\Etat;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\FraisController;
+use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\FraispromotionController;
 use App\Http\Controllers\EtudianttrancheController;
@@ -26,6 +27,7 @@ Route::get('/', function () {
 //chargement de la page Etat livewire sur filament via sa blade page
 Route::get("/Etat",Etat::class);
 //Routes pour les états de sorties
+Route::get("budget/{annee_id}",[BudgetController::class,"generate_pdf"])->name("budget");
 Route::get("etudiants_inscrits/{annee_id}/{classe_id}",[PdfController::class,"generate_pdf"])->name("etudiant.generate_promotion");
 Route::get("paiement/{annee_id}/{classe_id}",[PaiementController::class,"generate_pdf"])->name("etudiants.paye");
 Route::get("frais_paye/{annee_id}",[FraisController::class,"generate_pdf"])->name("frais.paye");
