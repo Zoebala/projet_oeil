@@ -30,6 +30,7 @@ class ListEtudiants extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Actions\CreateAction::make(),
             ImportAction::make("Importer")
             ->label("Importer")
             ->icon("heroicon-o-users")
@@ -57,7 +58,7 @@ class ListEtudiants extends ListRecords
                     ->label('Classe'),
 
             ]),
-           
+
 
 
 
@@ -68,7 +69,7 @@ class ListEtudiants extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            CreateEtudiantWidget::class,
+            // CreateEtudiantWidget::class,
         ];
     }
 

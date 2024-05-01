@@ -116,8 +116,8 @@ class EtudiantResource extends Resource
                         Section::make()
                         ->schema([
                             FileUpload::make('photo')
-                            ->disk("public")->directory("photos")
-                            ->visibleOn("edit"),
+                            ->disk("public")->directory("photos"),
+                            // ->visibleOn("edit"),
                             DatePicker::make('datenais')
                             ->label("Date de Naissance")
                             ->columnSpanFull()
@@ -221,8 +221,8 @@ class EtudiantResource extends Resource
                         ->openable()
                         ->downloadable()
                         ->maxSize("2048")
-                        ->disk("public")->directory("dossiers")
-                        ->visibleOn("edit"),
+                        ->disk("public")->directory("dossiers"),
+                        // ->visibleOn("edit"),
                         // ->preserveFilenames(),
                     ])
                 ])->columnSpanFull(),
