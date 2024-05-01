@@ -41,7 +41,7 @@ class CreateAnneeWidget extends Widget implements HasForms
                         ->required()
                         ->placeholder('Ex :2023-2024')
                         ->unique(ignoreRecord:true,table: Annee::class)
-                        ->live(debounce:1000)
+                        ->live(debounce:1500)
                         ->afterStateUpdated(function(Get $get,Set $set){
                             $set("debut",substr($get("lib"),0,4));
                             $set("fin",substr($get("lib"),5,9));
