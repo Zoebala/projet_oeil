@@ -11,6 +11,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Actions\ActionGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Concerns\HasActions;
 use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -133,6 +134,11 @@ class Etats extends Page
                             ->required()
                             ->options(Classe::query()->pluck("lib","id"))
                             ->searchable(),
+                        TextInput::make("Montant")
+                        ->label("Montant Payé au moins")
+                        ->placeholder("Ex: 200000")
+                        ->suffix("FC")
+
 
                     ])
                     ->button()
@@ -143,9 +149,10 @@ class Etats extends Page
 
                         $annee_id=$data["annee_id"];
                         $classe_id=$data["classe_id"];
+                        $montant=$data["Montant"];
 
 
-                        return redirect()->route("etudiants.paye",compact("annee_id","classe_id"));
+                        return redirect()->route("etudiants.paye",compact("annee_id","classe_id","montant"));
                     })
                     ->openUrlInNewTab()
                     ->tooltip("Liste des étudiants ayant payé")

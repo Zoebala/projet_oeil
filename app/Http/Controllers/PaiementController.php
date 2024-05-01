@@ -13,20 +13,35 @@ class PaiementController extends Controller
 {
     //
 
-    public function generate_pdf(int $annee_id,int $classe_id){
+    public function generate_pdf(int $annee_id,int $classe_id,int $montant){
 
 
+        if(!isset($montant)){
 
-        $queries=DB::Select("SELECT nom,postnom,prenom,genre,cl.lib as classe, dep.lib as departement,an.debut as debut,SUM(paie.montant) as montant,an.lib as Annee
-                            FROM departements dep
-                            JOIN classes cl ON dep.id = cl.departement_id
-                            JOIN etudiants etud ON etud.classe_id=cl.id
-                            JOIN inscriptions insc ON insc.etudiant_id=etud.id
-                            JOIN paiements paie ON paie.etudiant_id=etud.id
-                            JOIN annees an ON an.id=insc.annee_id
-                            WHERE an.id=$annee_id AND cl.id=$classe_id AND insc.actif=1
-                            GROUP BY nom,postnom,prenom,genre,classe,departement,debut,an.lib
-                            ORDER BY dep.lib asc,etud.nom asc");
+            $queries=DB::Select("SELECT nom,postnom,prenom,genre,cl.lib as classe, dep.lib as departement,an.debut as debut,SUM(paie.montant) as montant,an.lib as Annee
+                                FROM departements dep
+                                JOIN classes cl ON dep.id = cl.departement_id
+                                JOIN etudiants etud ON etud.classe_id=cl.id
+                                JOIN inscriptions insc ON insc.etudiant_id=etud.id
+                                JOIN paiements paie ON paie.etudiant_id=etud.id
+                                JOIN annees an ON an.id=insc.annee_id
+                                WHERE an.id=$annee_id AND cl.id=$classe_id AND insc.actif=1
+                                GROUP BY nom,postnom,prenom,genre,classe,departement,debut,an.lib
+                                ORDER BY dep.lib asc,etud.nom asc");
+        }else{
+           $queries=DB::Select("SELECT nom,postnom,prenom,genre,cl.lib as classe, dep.lib as departement,an.debut as debut,SUM(paie.montant) as montant,an.lib as Annee
+                                FROM departements dep
+                                JOIN classes cl ON dep.id = cl.departement_id
+                                JOIN etudiants etud ON etud.classe_id=cl.id
+                                JOIN inscriptions insc ON insc.etudiant_id=etud.id
+                                JOIN paiements paie ON paie.etudiant_id=etud.id
+                                JOIN annees an ON an.id=insc.annee_id
+                                WHERE an.id=$annee_id AND cl.id=$classe_id AND insc.actif=1
+                                GROUP BY nom,postnom,prenom,genre,classe,departement,debut,an.lib
+                                HAVING montant >= $montant
+                                ORDER BY dep.lib asc,etud.nom asc");
+
+        }
 
         // dd($queries[0]->departement);
         if(count($queries) >0){
