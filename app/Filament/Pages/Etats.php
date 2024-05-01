@@ -151,8 +151,12 @@ class Etats extends Page
                         $classe_id=$data["classe_id"];
                         $montant=$data["Montant"];
 
-
-                        return redirect()->route("etudiants.paye",compact("annee_id","classe_id","montant"));
+                        if(isset($montant)){
+                           
+                            return redirect()->route("etudiants.paye1",compact("annee_id","classe_id","montant"));
+                        }else{
+                            return redirect()->route("etudiants.paye",compact("annee_id","classe_id"));
+                        }
                     })
                     ->openUrlInNewTab()
                     ->tooltip("Liste des étudiants ayant payé")
