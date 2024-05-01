@@ -24,7 +24,7 @@ class PaiementController extends Controller
                             JOIN inscriptions insc ON insc.etudiant_id=etud.id
                             JOIN paiements paie ON paie.etudiant_id=etud.id
                             JOIN annees an ON an.id=insc.annee_id
-                            WHERE an.id=$annee_id AND cl.id=$classe_id
+                            WHERE an.id=$annee_id AND cl.id=$classe_id AND insc.actif=1
                             GROUP BY nom,postnom,prenom,genre,classe,departement,debut,an.lib
                             ORDER BY dep.lib asc,etud.nom asc");
 

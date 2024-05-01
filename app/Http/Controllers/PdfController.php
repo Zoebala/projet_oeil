@@ -22,6 +22,7 @@ class PdfController extends Controller
                         ->join("annees","annees.id","=","inscriptions.annee_id")
                         ->Where("annees.id",$annee_id)
                         ->Where("classes.id",$classe_id)
+                        ->Where("inscriptions.actif",1)
                         ->orderBy("departements.lib","asc")
                         ->orderBy("etudiants.nom","asc")
                         ->get(["nom","postnom","prenom","genre","classes.lib as classe","departements.lib as departement","annees.lib as annee"]);
