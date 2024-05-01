@@ -43,7 +43,7 @@
                             @if ($loop->last)
                                 <tr>
                                     <td colspan="2">
-                                        Totaux Généraux
+                                        TOTAL GENERAL
                                     </td>
                                     <td>{{ $T_tap." FC" }}</td>
                                     <td>{{ $T_mp." FC" }}</td>
