@@ -55,10 +55,40 @@ class Etats extends Page
                     return redirect()->route("budget",compact("annee_id"));
                 })
                 ->openUrlInNewTab()
-                ->tooltip("Liste de tous les frais payés")
+                ->tooltip("budget")
                 ->button()
                 ->icon("heroicon-o-clipboard-document-list")
-                ->color("warning"),
+                ->color("success"),
+                Action::make("Element_dossier")
+                    ->label("Liste des étudiant n'ayant pas leurs éléments de dossiers")
+                    ->form([
+                        Select::make("annee_id")
+                            ->label("Année Académique")
+                            ->options(Annee::query()->pluck("lib","id"))
+                            ->required()
+                            ->searchable(),
+                        Select::make("classe_id")
+                            ->label("Promotion")
+                            ->required()
+                            ->options(Classe::query()->pluck("lib","id"))
+                            ->searchable(),
+
+                    ])
+                    ->button()
+                    ->icon("heroicon-o-clipboard-document-list")
+                    ->modalWidth(MaxWidth::Medium)
+                    ->modalIcon("heroicon-o-users")
+                    ->color("warning")
+                    ->action(function(array $data){
+
+                        $annee_id=$data["annee_id"];
+                        $classe_id=$data["classe_id"];
+
+
+                        return redirect()->route("element_dossier",compact("annee_id","classe_id"));
+                    })
+                    ->openUrlInNewTab()
+                    ->tooltip("Liste des étudiant n'ayant pas leurs éléments de dossiers"),
                 Action::make("Etudiants Inscrits")
                     ->label("Listes des étudiants Inscrits")
                     ->form([
@@ -213,6 +243,7 @@ class Etats extends Page
                     ->openUrlInNewTab()
                     ->tooltip("Liste des étudiants en ordre avec la première tranche")
                     ->color("success"),
+
                 // Action::make("Listes Départements"),
             ])->label("_________________________________________Génération des Etats de Sorties_______________________________________________")
             ->Icon("heroicon-o-clipboard-document-list")
