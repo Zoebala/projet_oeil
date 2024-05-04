@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\EtudiantResource\Pages;
 
 use Filament\Actions;
+use App\Models\Classe;
 use App\Models\Etudiant;
 use Livewire\Attributes\On;
 use Illuminate\Http\Request;
