@@ -72,13 +72,14 @@ class DepartementResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('section.lib')
-                    ->label("Section")
+                    ->label("Section/Faculté")
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('id')
                     ->label("Id Departement")
                     ->searchable(),
                 TextColumn::make('lib')
+                     
                     ->label("Departement")
 
                     ->searchable(),

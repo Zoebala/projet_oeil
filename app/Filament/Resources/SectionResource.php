@@ -28,6 +28,7 @@ class SectionResource extends Resource
     protected static ?string $model = Sections::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
+    protected static ?string $navigationLabel = "Sections/Facultés";
 
     protected static ?string $navigationGroup ="COGE Management";
     protected static ?int $navigationSort = 2;
@@ -49,8 +50,9 @@ class SectionResource extends Resource
                     ->schema([
 
                         TextInput::make('lib')
-                            ->label("Section")
+                            ->label("Section/Faculté")
                             ->required()
+                            ->unique(ignoreRecord:true,table: Sections::class)
                             ->placeholder("Ex: Techniques")
                             ->maxLength(255)
                             ->columnSpan(1),
