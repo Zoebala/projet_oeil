@@ -35,7 +35,7 @@ return new class extends Migration
             $table->string("nationalite",20)->nullable();
             // $table->boolean("statut")->default(1);
             $table->unsignedBigInteger("classe_id");
-            $table->json("files");
+            $table->json("files")->nullable();
             $table->timestamps();
 
 
