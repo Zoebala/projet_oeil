@@ -38,7 +38,11 @@ class StatAdminOverview extends BaseWidget
             ->chart([34,2,5,23])
             ->Icon("heroicon-o-users"),
             Stat::make("Etudiants",Etudiant::leftJoin("inscriptions","inscriptions.etudiant_id","etudiants.id")
-                                        ->where("actif")->count())
+                                        ->where("actif")
+                                        ->select(["inscriptions.etudiant_id","inscriptions.annee_id","inscriptions.classe_id"])
+                                        ->groupBy(["inscriptions.etudiant_id","inscriptions.annee_id","inscriptions.classe_id"])
+                                        // ->get()
+                                        ->count())
 
             ->description("Etudiants non Inscrits")
             ->color("danger")
