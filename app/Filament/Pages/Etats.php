@@ -35,7 +35,7 @@ class Etats extends Page
     {
         return [
             ActionGroup::make([
-                Action::make("budget")
+                Action::make("budget Annuel")
                 ->form([
                     Select::make("annee_id")
                         ->label("Année Académique")
@@ -152,7 +152,7 @@ class Etats extends Page
                         $montant=$data["Montant"];
 
                         if(isset($montant)){
-                           
+
                             return redirect()->route("etudiants.paye1",compact("annee_id","classe_id","montant"));
                         }else{
                             return redirect()->route("etudiants.paye",compact("annee_id","classe_id"));

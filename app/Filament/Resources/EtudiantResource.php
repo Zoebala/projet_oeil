@@ -355,6 +355,7 @@ class EtudiantResource extends Resource
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
                         })->required(),
+                       
 
                     ])->modalWidth(MaxWidth::Medium)
                     ->modalIcon("heroicon-o-clipboard-document-list")

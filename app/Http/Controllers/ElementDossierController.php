@@ -19,7 +19,7 @@ class ElementDossierController extends Controller
                              JOIN  departements as dep ON dep.id=cl.departement_id
                              JOIN inscriptions as ins ON ins.etudiant_id=etud.id
                              JOIN annees as an ON an.id=ins.annee_id
-                             WHERE etud.files IS NULL AND ins.actif=1 AND cl.id=$classe_id");
+                             WHERE etud.files IS NULL AND ins.actif=1 AND cl.id=$classe_id AND an.id=$annee_id");
 
 
 

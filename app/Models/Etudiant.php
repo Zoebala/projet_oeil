@@ -38,22 +38,22 @@ class Etudiant extends Model
     }
 
 
-    protected static function booted():void{
-        
-        static::deleted(function(Etudiant $etudiant){
-            foreach($etudiant->files as $file){
-                Storage::delete("public/dossiers/$file");
-            }
-        });
+    // protected static function booted():void{
 
-        static::updating(function(Etudiant $etudiant){
+    //     static::deleted(function(Etudiant $etudiant){
+    //         foreach($etudiant->files as $file){
+    //             Storage::delete("public/dossiers/$file");
+    //         }
+    //     });
 
-            $imagesToDelete=array_diff($etudiant->getOriginal("files"));
-            foreach($imagesToDelete as $file){
-                Storage::delete("public/dossiers/$file");
-            }
-        });
-    }
+    //     static::updating(function(Etudiant $etudiant){
+
+    //         $imagesToDelete=array_diff($etudiant->getOriginal("files"));
+    //         foreach($imagesToDelete as $file){
+    //             Storage::delete("public/dossiers/$file");
+    //         }
+    //     });
+    // }
 
 
 }
