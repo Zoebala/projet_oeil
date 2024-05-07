@@ -57,7 +57,7 @@ class CreatePaiementWidget extends Widget   implements HasForms
                         ->label("Etudiant")
                         ->live()
                         ->options(function(Get $get){
-                            return Etudiant::query()->whereClasse_id($get("classe_id"))->pluck("nom","id");
+                            return Etudiant::join('inscriptions',"inscriptions.etudiant_id","etudiants.id")->where("etudiants.classe_id",$get("classe_id"))->where("actif",true)->pluck("nom","etudiants.id");
                         })
                         ->required()
                         ->searchable()

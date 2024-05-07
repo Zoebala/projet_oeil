@@ -345,11 +345,13 @@ class EtudiantResource extends Resource
                     ->form([
                         Select::make("annee_id")
                         ->label("Année Académique")
+                        ->searchable()
                         ->options(function(){
                             return Annee::query()->pluck("lib","id");
                         })->required(),
                         Select::make("classe_id")
                         ->label("Classe")
+                        ->searchable()
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
                         })->required(),
@@ -360,18 +362,36 @@ class EtudiantResource extends Resource
 
                         // dd($data);
 
-                        Inscription::create([
-                            "actif"=>true,
-                            "annee_id"=>$data['annee_id'],
-                            "classe_id"=>$data['classe_id'],
-                            "etudiant_id"=>$Etudiant->id,
-                        ]);
+                        if(!Etudiant::join("inscriptions","inscriptions.etudiant_id","etudiants.id")
+                                    ->join("annees","annees.id","inscriptions.annee_id")
+                                    ->join("classes","classes.id","inscriptions.classe_id")
+                                    ->Where("inscriptions.etudiant_id",$Etudiant->id)
+                                    ->Where("inscriptions.annee_id",$data['annee_id'])
+                                    ->Where("inscriptions.classe_id",$data['classe_id'])
+                                    ->exists()){
 
-                        Notification::make()
-                            ->title("l'étudiant $Etudiant->nom $Etudiant->postnom $Etudiant->prenom a été inscrit avec succès!")
-                            // ->successRedirectUrl("presences.list")
-                            ->success()
-                            ->send();
+                                Inscription::create([
+                                    "actif"=>true,
+                                    "annee_id"=>$data['annee_id'],
+                                    "classe_id"=>$data['classe_id'],
+                                    "etudiant_id"=>$Etudiant->id,
+                                ]);
+
+                                Notification::make()
+                                    ->title("l'étudiant(e) $Etudiant->nom $Etudiant->postnom $Etudiant->prenom a  été inscrit avec succès!")
+                                    // ->successRedirectUrl("presences.list")
+                                    ->success()
+                                    ->send();
+                        }else{
+
+
+                                    Notification::make()
+                                        ->title("l'étudiant(e) $Etudiant->nom $Etudiant->postnom $Etudiant->prenom a déjà été inscrit!")
+                                        // ->successRedirectUrl("presences.list")
+                                        ->danger()
+                                        ->send();
+
+                        }
 
                     }),
                 // Tables\Actions\Action::make("Generer")
@@ -408,6 +428,7 @@ class EtudiantResource extends Resource
                     ->Action(function(Collection $records,array $data){
 
                         foreach($records as $record){
+
                             Inscription::whereEtudiant_id($record->id)->update([
                                 "actif"=>true,
                                 // "etudiant_id"=>$record->id,
@@ -431,11 +452,13 @@ class EtudiantResource extends Resource
                     ->form([
                         Select::make("annee_id")
                         ->label("Année Académique")
+                        ->searchable()
                         ->options(function(){
                             return Annee::query()->pluck("lib","id");
                         })->required(),
                         Select::make("classe_id")
                         ->label("Classe")
+                        ->searchable()
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
                         })->required(),
@@ -444,19 +467,74 @@ class EtudiantResource extends Resource
                     ->modalIcon("heroicon-o-clipboard-document-list")
                     ->Action(function(Collection $Etudiants,array $data){
 
+
+                        $cpt=1;
                         foreach($Etudiants as $Etudiant){
-                            Inscription::create([
-                                "actif"=>true,
-                                "annee_id"=>$data['annee_id'],
-                                "classe_id"=>$data['classe_id'],
-                                "etudiant_id"=>$Etudiant->id,
-                            ]);
-                         }
-                        Notification::make()
-                        ->title("L'inscription des étudiants a été effetuée avec succès!")
-                        // ->successRedirectUrl("presences.list")
-                        ->success()
-                        ->send();
+
+                            //gestion des étudiants n'ayant pas encore été inscrits
+                            if(!Etudiant::join("inscriptions","inscriptions.etudiant_id","etudiants.id")
+                                    ->join("annees","annees.id","inscriptions.annee_id")
+                                    ->join("classes","classes.id","inscriptions.classe_id")
+                                    ->Where("inscriptions.etudiant_id",$Etudiant->id)
+                                    ->Where("inscriptions.annee_id",$data['annee_id'])
+                                    ->Where("inscriptions.classe_id",$data['classe_id'])
+                                    ->exists()){
+
+                                        Inscription::create([
+                                            "actif"=>true,
+                                            "annee_id"=>$data['annee_id'],
+                                            "classe_id"=>$data['classe_id'],
+                                            "etudiant_id"=>$Etudiant->id,
+                                        ]);
+                            }else{
+                                $Etudiants=Etudiant::join("inscriptions","inscriptions.etudiant_id","etudiants.id")
+                                ->join("annees","annees.id","inscriptions.annee_id")
+                                ->join("classes","classes.id","inscriptions.classe_id")
+                                ->Where("inscriptions.etudiant_id",$Etudiant->id)
+                                ->Where("inscriptions.annee_id",$data['annee_id'])
+                                ->Where("inscriptions.classe_id",$data['classe_id'])
+                                ->get(["nom","postnom","prenom"]);
+
+                                Notification::make()
+                                ->title("l'étudiant(e) $Etudiant->nom $Etudiant->postnom $Etudiant->prenom a déjà été inscrit!")
+                                // ->successRedirectUrl("presences.list")
+                                ->danger()
+                                ->send();
+                            }
+
+                            if($cpt==count($Etudiants)){
+
+                                 Notification::make()
+                                 ->title("L'inscription des étudiants a été effetuée avec succès!")
+                                 // ->successRedirectUrl("presences.list")
+                                 ->success()
+                                 ->send();
+                             }
+                             $cpt++;
+                        }
+
+
+
+                         //message pour les étudiants ayant déjà été inscrits
+                        //  foreach($Etudiants as $Etudiant){
+                            // if(Etudiant::join("inscriptions","inscriptions.etudiant_id","etudiants.id")
+                            // ->join("annees","annees.id","inscriptions.annee_id")
+                            // ->join("classes","classes.id","inscriptions.classe_id")
+                            // ->Where("inscriptions.etudiant_id",$Etudiant->id)
+                            // ->Where("inscriptions.annee_id",$data['annee_id'])
+                            // ->Where("inscriptions.classe_id",$data['classe_id'])
+                            // ->exists()){
+
+
+                            // }
+                        // }
+
+
+
+
+
+
+
                     }),
                     // Tables\Actions\BulkAction::make("Generer")
                     // ->label("Génrérer Promotion")

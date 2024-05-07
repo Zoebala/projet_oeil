@@ -52,6 +52,7 @@ class InscriptionResource extends Resource
                 ->schema([
                     Select::make('annee_id')
                         ->label("Année Académique")
+                        ->unique(ignoreRecord:true,table: Annee::class)
                         ->options(function(){
                             return Annee::query()->pluck("lib","id");
                         })
@@ -59,6 +60,7 @@ class InscriptionResource extends Resource
                         ->searchable(),
                     Select::make('classe_id')
                         ->label("classe")
+                        ->unique(ignoreRecord:true,table: Classe::class)
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
                         })
@@ -68,6 +70,7 @@ class InscriptionResource extends Resource
                         ->required(),
                     Select::make('etudiant_id')
                         ->label("Etudiant")
+                        // ->unique(ignoreRecord:true,table: Etudiant::class)
                         ->live()
                         ->options(function(Get $get){
                             return Etudiant::query()->whereClasse_id($get("classe_id"))->pluck("nom","id");
@@ -138,7 +141,7 @@ class InscriptionResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    
+
 
                 ]),
             ]);
