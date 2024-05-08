@@ -76,11 +76,11 @@ class RoleResource extends Resource
                 ->label("Permissions")
                 ->searchable()
                 ->sortable(),
-                TextColumn::make("created_at")
-                ->label("Créé le")
-                ->datetime("d/m/Y à H:i:s")
-                // ->searchable()
-                ->sortable(),
+                // TextColumn::make("created_at")
+                // ->label("Créé le")
+                // ->datetime("d/m/Y à H:i:s")
+                // // ->searchable()
+                // ->sortable(),
 
 
             ])

@@ -15,6 +15,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,21 +45,27 @@ class AnneeResource extends Resource
         return $form
             ->schema([
 
-                TextInput::make('lib')
-                    ->required()
-                    ->unique(ignoreRecord:true,table: Annee::class)
-                    ->placeholder('Ex :2023-2024')
-                    ->live(debounce:1000)
-                    ->afterStateUpdated(function(Get $get,Set $set){
-                        $set("debut",substr($get("lib"),0,4));
-                        $set("fin",substr($get("lib"),5,9));
-                    })
-                    ->maxLength(9)
-                    ->columnSpan(1),
-                Hidden::make('debut')
-                    ->columnSpan(1),
-                Hidden::make('fin')
-                    ->columnSpan(1),
+                Section::make("Définition de l'année Académique")
+                ->icon("heroicon-o-calendar-days")
+                ->schema([
+
+                    TextInput::make('lib')
+                        ->label("Annee Académique")
+                        ->required()
+                        ->placeholder('Ex :2023-2024')
+                        ->unique(ignoreRecord:true,table: Annee::class)
+                        ->live(debounce:1500)
+                        ->afterStateUpdated(function(Get $get,Set $set){
+                            $set("debut",substr($get("lib"),0,4));
+                            $set("fin",substr($get("lib"),5,9));
+                        })
+                        ->maxLength(9)
+                        ->columnSpan(1),
+                    Hidden::make('debut')
+                        ->columnSpan(1),
+                    Hidden::make('fin')
+                        ->columnSpan(1),
+                ])->columns(2),
             ]);
     }
 

@@ -62,11 +62,11 @@ class PermissionResource extends Resource
                 ->label("Désignation de la Permission")
                 ->searchable()
                 ->sortable(),
-                TextColumn::make("created_at")
-                ->label("Créé le")
-                ->datetime("d/m/Y à H:i:s")
-                // ->searchable()
-                ->sortable(),
+                // TextColumn::make("created_at")
+                // ->label("Créé le")
+                // ->datetime("d/m/Y à H:i:s")
+                // // ->searchable()
+                // ->sortable(),
             ])
             ->filters([
                 //

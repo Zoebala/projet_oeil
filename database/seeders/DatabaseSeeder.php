@@ -18,17 +18,45 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        //définition de l'administrateur
-        // $user=User::factory()->create([
-        //     'name' => 'Admin',
-        //     'email' => 'admin@gmail.com',
-        // ]);
+        //Définition de roles
+        DB::table("roles")->insert([
+            [
+                "name"=>"Admin",
+                "guard_name"=>"web"
 
-        // $role = Role::create(['name' => 'Admin']);
-        // $user->assignRole($role);
-        // $permission = Permission::create(['name' => 'edit articles']);
+            ],
+            [
+                "name"=>"DG",
+                "guard_name"=>"web"
 
+            ],
+            [
+                "name"=>"SGADMN",
+                "guard_name"=>"web"
 
+            ],
+            [
+                "name"=>"SGACAD",
+                "guard_name"=>"web"
+
+            ],
+            [
+                "name"=>"COMGER",
+                "guard_name"=>"web"
+
+            ],
+            [
+                "name"=>"ADMIN_BUDGET",
+                "guard_name"=>"web"
+
+            ],
+            [
+                "name"=>"SACAD",
+                "guard_name"=>"web"
+
+            ],
+
+        ]);
         //Définitions des permissions
         DB::table("permissions")->insert([
             [
@@ -187,5 +215,11 @@ class DatabaseSeeder extends Seeder
             ],
 
         ]);
+        //définition de l'administrateur et l'attribution de ce rôle
+        $user=User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+        ]);
+        $user->assignRole("Admin");
     }
 }

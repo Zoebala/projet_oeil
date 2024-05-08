@@ -8,7 +8,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Spatie\Permission\Models\Permission;
+use App\Models\Permission;
 use Filament\Forms\Concerns\InteractsWithForms;
 
 class CreatePermissionWidget extends Widget  implements HasForms
