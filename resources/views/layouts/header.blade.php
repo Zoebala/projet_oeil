@@ -24,8 +24,11 @@
             max-width:98%;
             margin:0 auto;
         }
-        th{
+        th,td{
             border: 1px solid black;
+
+        }
+        th{
             text-align: center;
 
         }
