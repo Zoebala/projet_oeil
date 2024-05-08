@@ -125,4 +125,8 @@ class RoleResource extends Resource
             CreateRoleWidget::class,
         ];
     }
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where("name","!=","Admin");
+    }
 }

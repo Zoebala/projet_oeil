@@ -20,6 +20,8 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
     ];
 
+
+    //Fonction donnant au Rôle admin toutes les permissions
     /**
      * Register any authentication / authorization services.
      */
