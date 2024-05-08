@@ -40,7 +40,7 @@ class EtudianttrancheController extends Controller
                                     JOIN classes Cl ON Cl.id=E.classe_id
                                     JOIN departements D ON D.id=Cl.departement_id
                                     JOIN annees An ON An.id=P.annee_id
-                                    WHERE An.id=$annee_id AND Cl.id=$classe_id
+                                    WHERE An.id=$annee_id AND Cl.id=$classe_id AND Ins.actif=1
                                     GROUP BY nom,postnom,genre,F.montant,F.taux,prenom,cl.lib,D.lib,An.debut,F.nombre_tranche,An.lib
                                     HAVING montantpaye < Ptranche
                                     ORDER BY D.lib,Cl.lib,nom,postnom");
