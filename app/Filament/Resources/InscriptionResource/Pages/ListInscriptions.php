@@ -30,4 +30,6 @@ class ListInscriptions extends ListRecords
 
     #[On('inscription-created')]
     public function refresh() {}
+
+    
 }

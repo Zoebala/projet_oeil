@@ -53,13 +53,38 @@ class InscriptionResource extends Resource
                     Select::make('annee_id')
                         ->label("Année Académique")
                         ->unique(ignoreRecord:true,table: Annee::class)
+                        ->live()
                         ->options(function(){
                             return Annee::query()->pluck("lib","id");
+                        })
+                        ->disabled(function(Get $get, Set $set){
+
+                            if(filled($get("etudiant_id")) && filled($get("annee_id")) && $get("classe_id") && Etudiant::join("inscriptions","inscriptions.etudiant_id","etudiants.id")
+                                    ->join("annees","annees.id","inscriptions.annee_id")
+                                    ->join("classes","classes.id","inscriptions.classe_id")
+                                    ->Where("inscriptions.etudiant_id",$get("etudiant_id"))
+                                    ->Where("inscriptions.annee_id",$get("annee_id"))
+                                    ->Where("inscriptions.classe_id",$get("classe_id"))
+                                    ->exists()){
+                                        $set("annee_id",null);
+                                        $set("classe_id",null);
+                                        $set("etudiant_id",null);
+                                        Notification::make()
+                                        ->title("cette inscription existe déjà!")
+                                        // ->successRedirectUrl("presences.list")
+                                        ->danger()
+                                        ->send();
+
+                                        return true;
+
+                                }
+
                         })
                         ->required()
                         ->searchable(),
                     Select::make('classe_id')
                         ->label("classe")
+
                         ->unique(ignoreRecord:true,table: Classe::class)
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
@@ -70,8 +95,9 @@ class InscriptionResource extends Resource
                         ->required(),
                     Select::make('etudiant_id')
                         ->label("Etudiant")
-                        // ->unique(ignoreRecord:true,table: Etudiant::class)
+                        //->unique(ignoreRecord:true,table: Etudiant::class)
                         ->live()
+
                         ->options(function(Get $get){
                             return Etudiant::query()->whereClasse_id($get("classe_id"))->pluck("nom","id");
                         })
@@ -108,19 +134,22 @@ class InscriptionResource extends Resource
                 ToggleColumn::make('actif'),
                 TextColumn::make('annee.lib')
                     ->label("Année Académique")
-
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('classe.lib')
                     ->label("Classe")
                     ->sortable(),
                TextColumn::make('etudiant.nom')
                     ->label("Nom")
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('etudiant.postnom')
                     ->label("Post Nom")
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('etudiant.prenom')
                     ->label("Prénnom")
+                    ->searchable()
                     ->sortable(),
                TextColumn::make('created_at')
                     ->dateTime()

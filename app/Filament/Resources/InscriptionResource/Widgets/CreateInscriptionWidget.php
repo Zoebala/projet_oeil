@@ -5,6 +5,7 @@ namespace App\Filament\Resources\InscriptionResource\Widgets;
 use App\Models\Annee;
 use App\Models\Classe;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use App\Models\Etudiant;
 use Filament\Forms\Form;
 use App\Models\Inscription;
@@ -40,8 +41,32 @@ class CreateInscriptionWidget extends Widget implements HasForms
                 ->schema([
                     Select::make('annee_id')
                         ->label("Année Académique")
+                        ->live()
                         ->options(function(){
                             return Annee::query()->pluck("lib","id");
+                        })
+                        ->disabled(function(Get $get, Set $set){
+
+                            if(filled($get("etudiant_id")) && filled($get("annee_id")) && $get("classe_id") && Etudiant::join("inscriptions","inscriptions.etudiant_id","etudiants.id")
+                                    ->join("annees","annees.id","inscriptions.annee_id")
+                                    ->join("classes","classes.id","inscriptions.classe_id")
+                                    ->Where("inscriptions.etudiant_id",$get("etudiant_id"))
+                                    ->Where("inscriptions.annee_id",$get("annee_id"))
+                                    ->Where("inscriptions.classe_id",$get("classe_id"))
+                                    ->exists()){
+                                        $set("annee_id",null);
+                                        $set("classe_id",null);
+                                        $set("etudiant_id",null);
+                                        Notification::make()
+                                        ->title("cette inscription existe déjà!")
+                                        // ->successRedirectUrl("presences.list")
+                                        ->danger()
+                                        ->send();
+
+                                        return true;
+
+                                }
+
                         })
                         ->required()
                         ->searchable(),
