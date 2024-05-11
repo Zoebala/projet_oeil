@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
@@ -76,8 +77,6 @@ class PaiementResource extends Resource
                                 //détermination du montant à payer pour une promotion donnée à une année académique donnée
                                 $Frais=Frais::where("classe_id",$get("classe_id"))
                                             ->where("annee_id",$get("annee_id"))
-                                            ->where("annee_id",$get("annee_id"))
-                                            // ->where("etudiant_id",$get("etudiant_id"))
                                             ->first();
                                 $MontantTotal=$Frais->montant*$Frais->taux;
 
@@ -102,8 +101,6 @@ class PaiementResource extends Resource
                                 //détermination du montant à payer pour une promotion donnée à une année académique donnée
                                 $Frais=Frais::where("classe_id",$get("classe_id"))
                                             ->where("annee_id",$get("annee_id"))
-                                            ->where("annee_id",$get("annee_id"))
-                                            // ->where("etudiant_id",$get("etudiant_id"))
                                             ->first();
                                 $MontantTotal=$Frais->montant*$Frais->taux;
 
@@ -166,7 +163,66 @@ class PaiementResource extends Resource
                             ->searchable(),
                     TextInput::make('montant')
                         ->required()
+                        ->live()
+                        ->afterStateUpdated(function($state, Get $get,Set $set){
+                            if(filled($get("etudiant_id")) && filled($get("annee_id")) && $get("classe_id") &&
+                                Paiement::Where("paiements.etudiant_id",$get("etudiant_id"))
+                                ->Where("paiements.annee_id",$get("annee_id"))
+                                ->Where("paiements.classe_id",$get("classe_id"))
+                                ->exists()){
+                                //détermination du montant à payer pour une promotion donnée à une année académique donnée
+                                $Frais=Frais::where("classe_id",$get("classe_id"))
+                                            ->where("annee_id",$get("annee_id"))
+                                            ->first();
+                                $MontantTotal=$Frais->montant*$Frais->taux;
+
+                                //détermination du montant déjà payé par l'étudiant
+
+
+                                    $Paye=Paiement::query()
+                                        ->where("etudiant_id",$get("etudiant_id"))
+                                        ->where("annee_id",$get("annee_id"))
+                                        ->SUM("montant");
+                                        //Détermination du reste à payer
+                                        $Reste=$MontantTotal-$Paye;
+                                        $state=(int)$state;
+
+
+                                //on vérifie si l'étudiant paye un montant inférieur ou égal à celui qu'il est censé payé
+                                if(filled($get('montant')) && $state>$Reste){
+                                    Notification::make()
+                                    ->title("Le montant saisi est supérieur par rapport à ce que l'étudiant doit payer!")
+                                    ->danger()
+                                    ->duration(5000)
+                                    ->send();
+                                    $set("montant",null);
+                                }
+                            }
+                            
+                            //si l'étudiant n'a pas encore payé
+                            if(filled($get("etudiant_id")) && filled($get("annee_id")) && $get("classe_id") &&
+                                !Paiement::Where("paiements.etudiant_id",$get("etudiant_id"))
+                                ->Where("paiements.annee_id",$get("annee_id"))
+                                ->Where("paiements.classe_id",$get("classe_id"))
+                                ->exists()){
+                                //détermination du montant à payer pour une promotion donnée à une année académique donnée
+                                $Frais=Frais::where("classe_id",$get("classe_id"))
+                                            ->where("annee_id",$get("annee_id"))
+                                            ->first();
+                                $MontantTotal=$Frais->montant*$Frais->taux;
+                                if(filled($get('montant')) && $state>$MontantTotal){
+                                    Notification::make()
+                                    ->title("Le montant saisi est supérieur par rapport à ce que l'étudiant doit payer!")
+                                    ->danger()
+                                    ->duration(5000)
+                                    ->send();
+                                    $set("montant",null);
+                                }
+
+                            }
+                        })
                         ->placeholder("Ex: 300000")
+                        ->suffix("FC")
                         ->numeric(),
 
                 ])->columns(2)->columnSpan(2),
