@@ -8,11 +8,13 @@ use App\Models\Annee;
 use App\Models\Frais;
 use App\Models\Classe;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use App\Models\Etudiant;
 use App\Models\Paiement;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\DB;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
@@ -49,6 +51,67 @@ class PaiementResource extends Resource
                 ->icon("heroicon-o-banknotes")
                 ->schema([
 
+                    TextInput::make("etat")
+                    ->label("Etat Paiement de l'étudiant")
+                    ->visible(fn(Get $get) :bool =>
+                        (filled($get("etudiant_id")) && filled($get("annee_id")) && $get("classe_id") &&
+                        Paiement::Where("paiements.etudiant_id",$get("etudiant_id"))
+                        ->Where("paiements.annee_id",$get("annee_id"))
+                        ->Where("paiements.classe_id",$get("classe_id"))
+                        ->exists() || filled($get("etudiant_id")) && filled($get("annee_id")) && $get("classe_id") &&
+                        !Paiement::Where("paiements.etudiant_id",$get("etudiant_id"))
+                        ->Where("paiements.annee_id",$get("annee_id"))
+                        ->Where("paiements.classe_id",$get("classe_id"))
+                        ->exists() )
+                    )
+                    ->disabled()
+                    ->live()
+                    ->placeholder(function(Get $get){
+
+                        if(filled($get("etudiant_id")) && filled($get("annee_id")) && $get("classe_id") &&
+                            Paiement::Where("paiements.etudiant_id",$get("etudiant_id"))
+                            ->Where("paiements.annee_id",$get("annee_id"))
+                            ->Where("paiements.classe_id",$get("classe_id"))
+                            ->exists()){
+                                //détermination du montant à payer pour une promotion donnée à une année académique donnée
+                                $Frais=Frais::where("classe_id",$get("classe_id"))
+                                            ->where("annee_id",$get("annee_id"))
+                                            ->where("annee_id",$get("annee_id"))
+                                            // ->where("etudiant_id",$get("etudiant_id"))
+                                            ->first();
+                                $MontantTotal=$Frais->montant*$Frais->taux;
+
+                                //détermination du montant déjà payé par l'étudiant
+                                $Paye=Paiement::query()
+                                               ->where("etudiant_id",$get("etudiant_id"))
+                                               ->where("annee_id",$get("annee_id"))
+                                               ->SUM("montant");
+                                //Détermination du reste à payer
+                                $Reste=$MontantTotal-$Paye;
+
+                                return "Montant à Payé : $MontantTotal FC | Montant Payé: $Paye FC | Reste : $Reste FC";
+                        }
+
+                        //le cas où l'étudiant n'a encore rien payé pour cette année académique
+                        if(filled($get("etudiant_id")) && filled($get("annee_id")) && $get("classe_id") &&
+                            !Paiement::Where("paiements.etudiant_id",$get("etudiant_id"))
+                            ->Where("paiements.annee_id",$get("annee_id"))
+                            ->Where("paiements.classe_id",$get("classe_id"))
+                            ->exists()){
+
+                                //détermination du montant à payer pour une promotion donnée à une année académique donnée
+                                $Frais=Frais::where("classe_id",$get("classe_id"))
+                                            ->where("annee_id",$get("annee_id"))
+                                            ->where("annee_id",$get("annee_id"))
+                                            // ->where("etudiant_id",$get("etudiant_id"))
+                                            ->first();
+                                $MontantTotal=$Frais->montant*$Frais->taux;
+
+                                return "Montant à Payé : $MontantTotal FC | Montant Payé: 0 | Reste : $MontantTotal FC";
+                        }
+
+                    })
+                    ->columnSpanFull(),
                     Select::make('annee_id')
                     ->label("Annee Académique")
                     ->required()
@@ -58,6 +121,12 @@ class PaiementResource extends Resource
                     Select::make('classe_id')
                         ->label("Classe")
                         ->live()
+                        ->preload()
+                        ->afterStateUpdated(function($state, Set $set,){
+                            if($state==null){
+                                $set("etudiant_id",null);
+                            }
+                        })
                         ->searchable()
                         ->required()
                         ->options(function(){
