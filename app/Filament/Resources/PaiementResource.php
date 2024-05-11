@@ -151,7 +151,7 @@ class PaiementResource extends Resource
                         ->placeholder("Ex: Frais Académique")
                         ->default("Frais Académique")
                         ->maxLength(255)->columnSpan(2),
-                        Select::make('devise')
+                    Select::make('devise')
                             ->label("Devise")
                             ->required()
                             ->options(
@@ -178,17 +178,23 @@ class PaiementResource extends Resource
 
                                 //détermination du montant déjà payé par l'étudiant
 
+                                $Paye=Paiement::query()
+                                    ->where("etudiant_id",$get("etudiant_id"))
+                                    ->where("annee_id",$get("annee_id"))
+                                    ->SUM("montant");
+                                    //Détermination du reste à payer
+                                    $Reste=$MontantTotal-$Paye;
+                                if($get("devise")=="USD"){
+                                    $state=(int)$state*$Frais->taux;
+                                }else{
+                                    $state=(int)$state;
 
-                                    $Paye=Paiement::query()
-                                        ->where("etudiant_id",$get("etudiant_id"))
-                                        ->where("annee_id",$get("annee_id"))
-                                        ->SUM("montant");
-                                        //Détermination du reste à payer
-                                        $Reste=$MontantTotal-$Paye;
-                                        $state=(int)$state;
+                                }
+
 
 
                                 //on vérifie si l'étudiant paye un montant inférieur ou égal à celui qu'il est censé payé
+
                                 if(filled($get('montant')) && $state>$Reste){
                                     Notification::make()
                                     ->title("Le montant saisi est supérieur par rapport à ce que l'étudiant doit payer!")
@@ -198,7 +204,7 @@ class PaiementResource extends Resource
                                     $set("montant",null);
                                 }
                             }
-                            
+
                             //si l'étudiant n'a pas encore payé
                             if(filled($get("etudiant_id")) && filled($get("annee_id")) && $get("classe_id") &&
                                 !Paiement::Where("paiements.etudiant_id",$get("etudiant_id"))
@@ -210,6 +216,12 @@ class PaiementResource extends Resource
                                             ->where("annee_id",$get("annee_id"))
                                             ->first();
                                 $MontantTotal=$Frais->montant*$Frais->taux;
+                                if($get("devise")=="USD"){
+                                    $state=(int)$state*$Frais->taux;
+                                }else{
+                                    $state=(int)$state;
+                                }
+
                                 if(filled($get('montant')) && $state>$MontantTotal){
                                     Notification::make()
                                     ->title("Le montant saisi est supérieur par rapport à ce que l'étudiant doit payer!")
