@@ -60,10 +60,11 @@ class FraisResource extends Resource
                     TextInput::make('motif')
                         ->required()
                         ->placeholder("Ex: Frais Académique")
+                        ->default("Frais Académique")
                         ->maxLength(255),
                     TextInput::make('montant')
                         ->required()
-                        ->placeholder("Ex: 500000")
+                        ->placeholder("Ex: 500")
                         ->suffix("$")
                         ->numeric(),
                     TextInput::make('nombre_tranche')

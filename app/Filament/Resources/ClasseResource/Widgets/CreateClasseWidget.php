@@ -39,6 +39,8 @@ class CreateClasseWidget extends Widget implements HasForms
                         Select::make('departement_id')
                         ->label("Departement")
                         ->required()
+                        ->preload()
+                        ->searchable()
                         ->options(function(){
                             return Departement::query()->pluck("lib","id");
                         }),

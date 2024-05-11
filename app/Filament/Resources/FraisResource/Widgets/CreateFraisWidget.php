@@ -54,6 +54,7 @@ class CreateFraisWidget extends Widget  implements HasForms
                     TextInput::make('motif')
                         ->required()
                         ->placeholder("Ex: Frais Académique")
+                        ->default("Frais Académique")
                         ->maxLength(255),
                     TextInput::make('montant')
                         ->required()

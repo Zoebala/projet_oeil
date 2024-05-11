@@ -49,6 +49,8 @@ class ClasseResource extends Resource
                         Select::make('departement_id')
                         ->label("Departement")
                         ->required()
+                        ->preload()
+                        ->searchable()
                         ->options(function(){
                             return Departement::query()->pluck("lib","id");
                         }),
