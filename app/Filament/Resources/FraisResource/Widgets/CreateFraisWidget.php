@@ -42,10 +42,11 @@ class CreateFraisWidget extends Widget  implements HasForms
                     ->options(function(){
                         return Annee::all()->pluck('lib',"id");
                     })
+                    ->searchable()
                     ->required(),
                     Select::make('classe_id')
-                    ->label("classe")
-                    ->label("classe")
+                    ->label("Classe")
+                    ->searchable()
                     ->required()
                     ->options(function(){
                         return Classe::all()->pluck('lib',"id");
@@ -56,8 +57,10 @@ class CreateFraisWidget extends Widget  implements HasForms
                         ->maxLength(255),
                     TextInput::make('montant')
                         ->required()
-                        ->placeholder("Ex: 500000")
+                        ->placeholder("Ex: 500")
                         ->suffix("$")
+                        ->maxLength(4)
+                        ->minLength(1)
                         ->numeric(),
                     TextInput::make('nombre_tranche')
                         ->required()
@@ -65,7 +68,7 @@ class CreateFraisWidget extends Widget  implements HasForms
                         ->numeric(),
                     TextInput::make('taux')
                         ->required()
-                        ->placeholder("Ex:2750")
+                        ->placeholder("Ex: 2750")
                         ->numeric(),
                 ])->columns(3),
 

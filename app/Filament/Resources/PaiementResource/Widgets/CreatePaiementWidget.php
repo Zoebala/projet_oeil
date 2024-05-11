@@ -49,6 +49,7 @@ class CreatePaiementWidget extends Widget   implements HasForms
                     Select::make('classe_id')
                         ->label("Classe")
                         ->required()
+                        ->searchable()
                         ->live()
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
@@ -72,6 +73,7 @@ class CreatePaiementWidget extends Widget   implements HasForms
                     TextInput::make('motif')
                         ->required()
                         ->placeholder("Ex: Frais Académique")
+                        ->default("Frais Académique")
                         ->maxLength(255)->columnSpan(2),
                     Select::make('devise')
                         ->label("Devise")

@@ -15,14 +15,16 @@ class ListPaiements extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            // Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+            ->label("Effectuer Paiement")
+            ->icon("heroicon-o-banknotes"),
         ];
     }
 
     protected function getHeaderWidgets(): array
     {
         return [
-            CreatePaiementWidget::class,
+            // CreatePaiementWidget::class,
         ];
     }
 

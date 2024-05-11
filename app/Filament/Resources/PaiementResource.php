@@ -58,6 +58,7 @@ class PaiementResource extends Resource
                     Select::make('classe_id')
                         ->label("Classe")
                         ->live()
+                        ->searchable()
                         ->required()
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
@@ -82,6 +83,7 @@ class PaiementResource extends Resource
                     TextInput::make('motif')
                         ->required()
                         ->placeholder("Ex: Frais Académique")
+                        ->default("Frais Académique")
                         ->maxLength(255)->columnSpan(2),
                         Select::make('devise')
                             ->label("Devise")
@@ -107,6 +109,7 @@ class PaiementResource extends Resource
                         ->required()->disk("public")->directory('bordereaux'),
                         DateTimePicker::make('datepaie')
                         ->label("Date de Paiment")
+                        ->default(now())
                         ->required(),
                         TextInput::make("Etudiant")
                         ->label('Etudiant Séléctionné')
