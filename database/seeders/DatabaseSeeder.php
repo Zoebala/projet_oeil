@@ -93,6 +93,39 @@ class DatabaseSeeder extends Seeder
                 "guard_name"=>"web"
             ],
             [
+                "name"=>"Update Annees",
+                "guard_name"=>"web"
+            ],
+            [
+                "name"=>"Update Sections",
+                "guard_name"=>"web"
+            ],
+            [
+                "name"=>"Update Departements",
+                "guard_name"=>"web"
+            ],
+            [
+                "name"=>"Update Classes",
+                "guard_name"=>"web"
+            ],
+            [
+                "name"=>"Update Etudiants",
+                "guard_name"=>"web"
+            ],
+            [
+                "name"=>"Update Frais",
+                "guard_name"=>"web"
+            ],
+            [
+                "name"=>"Update Inscriptions",
+                "guard_name"=>"web"
+            ],
+            [
+                "name"=>"Update Paiements",
+                "guard_name"=>"web"
+            ],
+
+            [
                 "name"=>"Delete Annees",
                 "guard_name"=>"web"
             ],
