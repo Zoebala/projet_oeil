@@ -31,7 +31,9 @@ class ListEtudiants extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+            ->label("Ajouter un étudiant")
+            ->icon("heroicon-o-user-plus"),
             ImportAction::make("Importer")
             ->label("Importer")
             ->icon("heroicon-o-users")
