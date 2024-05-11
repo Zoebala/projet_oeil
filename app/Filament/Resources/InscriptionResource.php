@@ -7,6 +7,7 @@ use Filament\Tables;
 use App\Models\Annee;
 use App\Models\Classe;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use App\Models\Etudiant;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -18,6 +19,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -48,44 +50,20 @@ class InscriptionResource extends Resource
         return $form
             ->schema([
 
-                Section::make("")
+                Section::make("Inscrire l'étudiant")
+                ->icon("heroicon-o-clipboard-document-list")
                 ->schema([
                     Select::make('annee_id')
                         ->label("Année Académique")
-                        ->unique(ignoreRecord:true,table: Annee::class)
                         ->live()
                         ->options(function(){
                             return Annee::query()->pluck("lib","id");
                         })
-                        ->disabled(function(Get $get, Set $set){
-
-                            if(filled($get("etudiant_id")) && filled($get("annee_id")) && $get("classe_id") && Etudiant::join("inscriptions","inscriptions.etudiant_id","etudiants.id")
-                                    ->join("annees","annees.id","inscriptions.annee_id")
-                                    ->join("classes","classes.id","inscriptions.classe_id")
-                                    ->Where("inscriptions.etudiant_id",$get("etudiant_id"))
-                                    ->Where("inscriptions.annee_id",$get("annee_id"))
-                                    ->Where("inscriptions.classe_id",$get("classe_id"))
-                                    ->exists()){
-                                        $set("annee_id",null);
-                                        $set("classe_id",null);
-                                        $set("etudiant_id",null);
-                                        Notification::make()
-                                        ->title("cette inscription existe déjà!")
-                                        // ->successRedirectUrl("presences.list")
-                                        ->danger()
-                                        ->send();
-
-                                        return true;
-
-                                }
-
-                        })
+                        
                         ->required()
                         ->searchable(),
                     Select::make('classe_id')
                         ->label("classe")
-
-                        ->unique(ignoreRecord:true,table: Classe::class)
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
                         })
@@ -95,9 +73,7 @@ class InscriptionResource extends Resource
                         ->required(),
                     Select::make('etudiant_id')
                         ->label("Etudiant")
-                        //->unique(ignoreRecord:true,table: Etudiant::class)
                         ->live()
-
                         ->options(function(Get $get){
                             return Etudiant::query()->whereClasse_id($get("classe_id"))->pluck("nom","id");
                         })
@@ -106,22 +82,22 @@ class InscriptionResource extends Resource
                         ->required(),
                     Toggle::make('actif')
                         ->required(),
-                        TextInput::make("Etudiant")
-                        ->label('Etudiant Séléctionné')
-                        ->placeholder(function(Get $get): string
-                        {
-                            // dd($get("etudiant_id"));
-                            if($get("etudiant_id") <> Null){
-                                $Etudiant=Etudiant::query()->whereId($get("etudiant_id"))->get(["nom","postnom","prenom","genre","matricule"]);
+                    TextInput::make("Etudiant")
+                    ->label('Etudiant Séléctionné')
+                    ->placeholder(function(Get $get): string
+                    {
+                        // dd($get("etudiant_id"));
+                        if($get("etudiant_id") <> Null){
+                            $Etudiant=Etudiant::query()->whereId($get("etudiant_id"))->get(["nom","postnom","prenom","genre","matricule"]);
 
-                                return $Etudiant[0]->nom." ".$Etudiant[0]->postnom." ".$Etudiant[0]->prenom." | Genre : ".$Etudiant[0]->genre." | Matricule : ".$Etudiant[0]->matricule;
-                            }else{
-                                return "";
-                            }
-                        })
-                        ->visible(fn(Get $get):bool => filled($get("etudiant_id")))
-                        ->disabled(fn(Get $get):bool => filled($get("etudiant_id")))
-                        ->columnSpan(2)
+                            return $Etudiant[0]->nom." ".$Etudiant[0]->postnom." ".$Etudiant[0]->prenom." | Genre : ".$Etudiant[0]->genre." | Matricule : ".$Etudiant[0]->matricule;
+                        }else{
+                            return "";
+                        }
+                    })
+                    ->visible(fn(Get $get):bool => filled($get("etudiant_id")))
+                    ->disabled(fn(Get $get):bool => filled($get("etudiant_id")))
+                    ->columnSpan(2)
 
                 ])->columns(3),
             ]);

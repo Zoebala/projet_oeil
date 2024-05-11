@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Annee;
 use App\Models\Frais;
 use App\Models\Classe;
 use Filament\Forms\Form;
@@ -46,10 +47,11 @@ class FraisResource extends Resource
                     Select::make('annee_id')
                     ->label("Annee Académique")
                     ->options(function(){
-                        return Frais::all()->pluck('lib',"id");
+                        return Annee::all()->pluck('lib',"id");
                     })
                     ->required(),
                     Select::make('classe_id')
+                    ->label("classe")
                     ->label("classe")
                     ->required()
                     ->options(function(){
@@ -57,10 +59,12 @@ class FraisResource extends Resource
                     }),
                     TextInput::make('motif')
                         ->required()
+                        ->placeholder("Ex: Frais Académique")
                         ->maxLength(255),
                     TextInput::make('montant')
                         ->required()
                         ->placeholder("Ex: 500000")
+                        ->suffix("$")
                         ->numeric(),
                     TextInput::make('nombre_tranche')
                         ->required()

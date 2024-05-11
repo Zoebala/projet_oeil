@@ -29,6 +29,7 @@ class SectionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
     protected static ?string $navigationLabel = "Sections/Facultés";
+    protected static ?string $modelLabel = "Sections/Facultés";
 
     protected static ?string $navigationGroup ="COGE Management";
     protected static ?int $navigationSort = 2;
