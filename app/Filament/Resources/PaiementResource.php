@@ -21,6 +21,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\PaiementResource\Pages;
@@ -37,7 +38,7 @@ class PaiementResource extends Resource
     protected static ?int $navigationSort = 8;
     public static function getNavigationBadge():string
     {
-        return static::getModel()::count();
+        return static::getModel()::Where("annee_id",session("Annee_id") ?? (date("Y")-1) )->count();
     }
     public static function getNavigationBadgeColor():string
     {
@@ -325,6 +326,10 @@ class PaiementResource extends Resource
             ])
             ->filters([
                 //
+                
+                SelectFilter::make("Annee")
+                ->label("Année Acadamique")
+                ->relationship("annee","lib")
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

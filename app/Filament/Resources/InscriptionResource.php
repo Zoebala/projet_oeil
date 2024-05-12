@@ -21,6 +21,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -38,7 +39,7 @@ class InscriptionResource extends Resource
     protected static ?int $navigationSort = 7;
     public static function getNavigationBadge():string
     {
-        return static::getModel()::count();
+        return static::getModel()::Where("annee_id",session("Annee_id") ?? (date("Y")-1) )->count();
     }
     public static function getNavigationBadgeColor():string
     {
@@ -59,7 +60,7 @@ class InscriptionResource extends Resource
                         ->options(function(){
                             return Annee::query()->pluck("lib","id");
                         })
-                        
+
                         ->required()
                         ->searchable(),
                     Select::make('classe_id')
@@ -138,6 +139,9 @@ class InscriptionResource extends Resource
             ])
             ->filters([
                 //
+                SelectFilter::make("Annee")
+                ->label("Année Acadamique")
+                ->relationship("annee","lib")
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
