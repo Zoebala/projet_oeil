@@ -39,7 +39,7 @@ class InscriptionResource extends Resource
     protected static ?int $navigationSort = 7;
     public static function getNavigationBadge():string
     {
-        return static::getModel()::Where("annee_id",session("Annee_id") ?? (date("Y")-1) )->count();
+        return static::getModel()::Where("annee_id",session("Annee_id") ?? 1 )->count();
     }
     public static function getNavigationBadgeColor():string
     {

@@ -38,7 +38,7 @@ class PaiementResource extends Resource
     protected static ?int $navigationSort = 8;
     public static function getNavigationBadge():string
     {
-        return static::getModel()::Where("annee_id",session("Annee_id") ?? (date("Y")-1) )->count();
+        return static::getModel()::Where("annee_id",session("Annee_id") ?? 1 )->count();
     }
     public static function getNavigationBadgeColor():string
     {
@@ -326,7 +326,7 @@ class PaiementResource extends Resource
             ])
             ->filters([
                 //
-                
+
                 SelectFilter::make("Annee")
                 ->label("Année Acadamique")
                 ->relationship("annee","lib")
