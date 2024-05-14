@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\Annee;
 use App\Models\Classe;
+use Filament\Forms\Get;
 use App\Models\Etudiant;
 use Filament\Pages\Page;
 use Filament\Actions\Action;
@@ -11,6 +12,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Actions\ActionGroup;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Concerns\HasActions;
 use Illuminate\Database\Eloquent\Collection;
@@ -254,6 +256,49 @@ class Etats extends Page
                     ->openUrlInNewTab()
                     ->tooltip("Liste des étudiants en ordre avec la première tranche")
                     ->color("success"),
+                Action::make("Liste_étudiants_par_promotion")
+                    ->form([
+                        Select::make("annee_id")
+                            ->label("Année Académique")
+                            ->options(Annee::query()->pluck("lib","id"))
+                            ->required(fn(Get $get):bool => !($get("etat")=="true"))
+                            ->disabled(fn(Get $get):bool => $get("etat")=="true")
+                            ->searchable(),
+                        Select::make("classe_id")
+                            ->label("Promotion")
+                            ->required()
+                            ->options(Classe::query()->pluck("lib","id"))
+                            ->searchable(),
+                         Toggle::make("etat")
+                            ->live()
+                            ->label("Etudiants non inscrits"),
+
+                    ])
+                    ->button()
+                    ->icon("heroicon-o-clipboard-document-list")
+                    ->modalWidth(MaxWidth::Small)
+                    ->modalIcon("heroicon-o-users")
+                    ->action(function(array $data){
+
+                        $etat=$data["etat"];
+
+                        if(!$etat){
+                            $annee_id=$data["annee_id"];
+                            $classe_id=$data["classe_id"];
+
+                            return redirect()->route("etudiant_promotion",compact("annee_id","classe_id"));
+                        }else{
+                            $classe_id=$data["classe_id"];
+                            return redirect()->route("etudiant_promotion_non_inscrits",compact("classe_id"));
+
+                        }
+
+
+
+                    })
+                    ->openUrlInNewTab()
+                    ->tooltip("Liste_étudiants_par_promotion")
+                    ->color("warning"),
 
                 // Action::make("Listes Départements"),
             ])->label("_________________________________________Génération des Etats de Sorties_______________________________________________")
