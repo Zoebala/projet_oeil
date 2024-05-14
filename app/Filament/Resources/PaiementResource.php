@@ -19,6 +19,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Filters\SelectFilter;
@@ -298,6 +299,7 @@ class PaiementResource extends Resource
                 Tables\Columns\TextColumn::make('frais.montant')
                     ->label("Frais")
                     ->suffix(" $")
+                    ->toggleable(isToggledHiddenByDefault: false)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('montant')
                     ->numeric()
@@ -307,10 +309,12 @@ class PaiementResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('motif')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('datepaie')
                     ->label("Date de Paiement")
                     ->dateTime()
+                    ->toggleable(isToggledHiddenByDefault: false)
                     ->date("d/m/Y H:i:s")
                     ->sortable(),
                 ImageColumn::make('bordereau')
@@ -332,8 +336,12 @@ class PaiementResource extends Resource
                 ->relationship("annee","lib")
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])->label("Actions")
+                ->button(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

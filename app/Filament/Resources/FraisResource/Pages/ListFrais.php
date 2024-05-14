@@ -37,7 +37,8 @@ class ListFrais extends ListRecords
             })->badge(Frais::query()
             ->where("annee_id",session("Annee_id") ?? 1)->count())
             ->icon("heroicon-o-calendar-days"),
-            'Toute'=>Tab::make(),
+            'Toutes'=>Tab::make()
+            ->badge(Frais::query()->count()),
 
         ];
     }
