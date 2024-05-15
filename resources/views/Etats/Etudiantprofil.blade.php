@@ -39,7 +39,7 @@
                             </td>
                             <td style="width: 50%;">
                                 <h3 style="text-decoration:underline;" class="text-center">
-                                    Photo de l'étudiant <br>
+                                    Photo de l'étudiant(e) <br>
 
                                 </h3>
                                 <div class="text-center">
@@ -63,7 +63,7 @@
 
                                                  <img src="{{'storage/'.$file }}" alt="photo de profil" class="rounded img-fluid" width="100px">
 
-                                          
+
                                         @endforeach
                                     @else
                                          <p class="fst-italic">Pas d'éléments de dossier</p>
