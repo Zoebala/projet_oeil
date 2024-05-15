@@ -28,6 +28,7 @@ class Etat extends Component implements HasForms,HasTable
 {
     use InteractsWithForms,InteractsWithTable;
 
+
     public function render()
     {
         return view('livewire.etat');
