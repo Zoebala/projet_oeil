@@ -27,6 +27,7 @@ class FraisResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
     protected static ?string $navigationGroup ="COGE Management";
     protected static ?int $navigationSort = 6;
+    protected static ?string $pollingInterval = '5s';
     public static function getNavigationBadge():string
     {
         return static::getModel()::Where("annee_id",session("Annee_id") ?? 1)->count();

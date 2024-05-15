@@ -85,6 +85,8 @@ class EtudiantResource extends Resource
                         ->schema([
                             Select::make('classe_id')
                             ->label("Classe")
+                            ->preload()
+                            ->searchable()
                             ->required()
                             ->options(function(){
                                 return Classe::query()->pluck("lib","id");
@@ -343,15 +345,18 @@ class EtudiantResource extends Resource
                     Tables\Actions\Action::make("Inscrire")
                     ->icon("heroicon-o-clipboard-document-list")
                     ->form([
+
                         Select::make("annee_id")
                         ->label("Année Académique")
                         ->searchable()
+                        ->preload()
                         ->options(function(){
                             return Annee::query()->pluck("lib","id");
                         })->required(),
                         Select::make("classe_id")
                         ->label("Classe")
                         ->searchable()
+                        ->preload()
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
                         })->required(),

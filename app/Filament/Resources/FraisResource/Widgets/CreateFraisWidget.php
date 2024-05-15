@@ -20,6 +20,7 @@ class CreateFraisWidget extends Widget  implements HasForms
     protected static string $view = 'filament.resources.frais-resource.widgets.create-frais-widget';
 
     protected int | string | array $columnSpan = 'full';
+    protected static ?string $pollingInterval = '5s';
 
     public ?array $data = [];
 

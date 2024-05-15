@@ -1,6 +1,10 @@
 @extends("layouts.master")
 @section("contenu")
-
+<style>
+    td,th{
+        border:none;
+    }
+</style>
 
         <div class="tableau">
             <hr style="border:1px dashed black">

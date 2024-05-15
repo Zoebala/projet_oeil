@@ -25,6 +25,7 @@ class Etats extends Page
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static string $view = 'filament.pages.etats';
+    protected static ?string $pollingInterval = '5s';
 
     public static function canAccess():bool
     {

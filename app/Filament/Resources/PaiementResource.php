@@ -33,6 +33,7 @@ use App\Filament\Resources\PaiementResource\Widgets\CreatePaiementWidget;
 class PaiementResource extends Resource
 {
     protected static ?string $model = Paiement::class;
+    protected static ?string $pollingInterval = '5s';
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
     protected static ?string $navigationGroup ="COGE Management";

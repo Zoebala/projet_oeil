@@ -23,6 +23,7 @@ class CreatePaiementWidget extends Widget   implements HasForms
 {
     use InteractsWithForms;
     protected static string $view = 'filament.resources.paiement-resource.widgets.create-paiement-widget';
+    protected static ?string $pollingInterval = '5s';
 
     protected int | string | array $columnSpan = 'full';
 
