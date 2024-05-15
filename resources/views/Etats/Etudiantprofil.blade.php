@@ -16,7 +16,7 @@
 
 
                         <tr>
-                            <td>
+                            <td style="width: 50%;">
                                Matricule : {{ $queries[0]->matricule}} <br>
                                Nom : {{ $queries[0]->nom}} <br>
                                Post Nom : {{ $queries[0]->postnom}} <br>
@@ -37,7 +37,7 @@
                                Téléphone Tutaire : {{ $queries[0]->teltutaire}} <br>
                                Nationalité : {{ $queries[0]->nationalite}}
                             </td>
-                            <td>
+                            <td style="width: 50%;">
                                 <h3 style="text-decoration:underline;" class="text-center">
                                     Photo de l'étudiant <br>
 
@@ -61,7 +61,9 @@
 
                                         @foreach ($queries[0]->files as $file)
 
-                                            <img src="{{'storage/'.$file }}" alt="photo de profil" class="rounded img-fluid" width="100px">
+                                                 <img src="{{'storage/'.$file }}" alt="photo de profil" class="rounded img-fluid" width="100px">
+
+                                          
                                         @endforeach
                                     @else
                                          <p class="fst-italic">Pas d'éléments de dossier</p>
