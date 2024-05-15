@@ -355,7 +355,7 @@ class EtudiantResource extends Resource
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
                         })->required(),
-                       
+
 
                     ])->modalWidth(MaxWidth::Medium)
                     ->modalIcon("heroicon-o-clipboard-document-list")
@@ -395,11 +395,11 @@ class EtudiantResource extends Resource
                         }
 
                     }),
-                // Tables\Actions\Action::make("Generer")
-                //     ->label("Génrérer Promotion")
-                //     ->icon("heroicon-o-user")
-                //     ->url(fn(Etudiant $Student) =>route("etudiant.generate_promotion",$Student))
-                //     ->openUrlInNewTab(),
+                Tables\Actions\Action::make("Generer")
+                    ->label("Mon Profil")
+                    ->icon("heroicon-o-user")
+                    ->url(fn(Etudiant $Student)=>route("etudiant.profil",$Student))
+                    ->openUrlInNewTab(),
 
                 ])->button()
                 // ->color('primary')

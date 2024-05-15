@@ -7,6 +7,7 @@ use App\Http\Controllers\FraisController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\ElementDossierController;
+use App\Http\Controllers\EtudiantprofilController;
 use App\Http\Controllers\FraispromotionController;
 use App\Http\Controllers\EtudianttrancheController;
 use App\Http\Controllers\EtudiantparpromotionController;
@@ -39,6 +40,7 @@ Route::get("etudiant_tranche/{annee_id}/{classe_id}/{etat}",[EtudianttrancheCont
 Route::get("element_dossier/{annee_id}/{classe_id}",[ElementDossierController::class,"generate_pdf"])->name("element_dossier");
 Route::get("etudiant_promotion/{annee_id}/{classe_id}",[EtudiantparpromotionController::class,"generate_pdf"])->name("etudiant_promotion");
 Route::get("etudiant_promotion_non_inscrits/{classe_id}",[EtudiantparpromotionController::class,"generate_pdf1"])->name("etudiant_promotion_non_inscrits");
+Route::get("etudiant.profil/{etudiant}",[EtudiantprofilController::class,"generate_pdf"])->name("etudiant.profil");
 
 
 

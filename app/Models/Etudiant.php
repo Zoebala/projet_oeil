@@ -19,7 +19,7 @@ class Etudiant extends Model
     protected $guarded=[];
 
     protected $casts=[
-        "files"=>"json",
+        "files"=>"array",
     ];
 
     public function classe()
