@@ -11,7 +11,7 @@
                 <table >
                     <thead>
                         <th>N°</th>
-                        <th>Promotion</th>
+                        <th width="100px">Promotion</th>
                         <th>Montant_a_Payer</th>
                         <th>Effectif</th>
                         <th>Montant_attendu_Par_promotion</th>
@@ -25,7 +25,7 @@
                             <tr>
                                 <td>{{$loop->index+1}}</td>
 
-                                <td>{{$query->Promotion}}</td>
+                                <td width="100px">{{$query->Promotion}}</td>
                                 {{-- <td>{{$query->departement}}</td> --}}
                                 <td>{{$query->Montantapayer. " FC"}}</td>
                                 <td>{{$query->Effectif}}</td>

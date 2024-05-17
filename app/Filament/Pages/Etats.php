@@ -63,6 +63,49 @@ class Etats extends Page
                 ->button()
                 ->icon("heroicon-o-clipboard-document-list")
                 ->color("success"),
+                Action::make("Liste_étudiants_par_promotion")
+                    ->form([
+                        Select::make("annee_id")
+                            ->label("Année Académique")
+                            ->options(Annee::query()->pluck("lib","id"))
+                            ->required(fn(Get $get):bool => !($get("etat")=="true"))
+                            ->disabled(fn(Get $get):bool => $get("etat")=="true")
+                            ->searchable(),
+                        Select::make("classe_id")
+                            ->label("Promotion")
+                            ->required()
+                            ->options(Classe::query()->pluck("lib","id"))
+                            ->searchable(),
+                         Toggle::make("etat")
+                            ->live()
+                            ->label("Etudiants non inscrits"),
+
+                    ])
+                    ->button()
+                    ->icon("heroicon-o-clipboard-document-list")
+                    ->modalWidth(MaxWidth::Small)
+                    ->modalIcon("heroicon-o-users")
+                    ->action(function(array $data){
+
+                        $etat=$data["etat"];
+
+                        if(!$etat){
+                            $annee_id=$data["annee_id"];
+                            $classe_id=$data["classe_id"];
+
+                            return redirect()->route("etudiant_promotion",compact("annee_id","classe_id"));
+                        }else{
+                            $classe_id=$data["classe_id"];
+                            return redirect()->route("etudiant_promotion_non_inscrits",compact("classe_id"));
+
+                        }
+
+
+
+                    })
+                    ->openUrlInNewTab()
+                    ->tooltip("Liste_étudiants_par_promotion")
+                    ->color("warning"),
                 Action::make("Element_dossier")
                     ->label("Liste des étudiant n'ayant pas leurs éléments de dossiers")
                     ->form([
@@ -82,7 +125,7 @@ class Etats extends Page
                     ->icon("heroicon-o-clipboard-document-list")
                     ->modalWidth(MaxWidth::Medium)
                     ->modalIcon("heroicon-o-users")
-                    ->color("warning")
+                    ->color("success")
                     ->action(function(array $data){
 
                         $annee_id=$data["annee_id"];
@@ -93,37 +136,38 @@ class Etats extends Page
                     })
                     ->openUrlInNewTab()
                     ->tooltip("Liste des étudiant n'ayant pas leurs éléments de dossiers"),
-                Action::make("Etudiants Inscrits")
-                    ->label("Listes des étudiants Inscrits")
-                    ->form([
-                        Select::make("annee_id")
-                            ->label("Année Académique")
-                            ->options(Annee::query()->pluck("lib","id"))
-                            ->required()
-                            ->searchable(),
-                        Select::make("classe_id")
-                            ->label("Promotion")
-                            ->required()
-                            ->options(Classe::query()->pluck("lib","id"))
-                            ->searchable(),
 
-                    ])
-                    ->button()
-                    ->icon("heroicon-o-clipboard-document-list")
-                    ->modalWidth(MaxWidth::Medium)
-                    ->modalIcon("heroicon-o-users")
-                    ->action(function(array $data){
+                // Action::make("Etudiants Inscrits")
+                //     ->label("Listes des étudiants Inscrits")
+                //     ->form([
+                //         Select::make("annee_id")
+                //             ->label("Année Académique")
+                //             ->options(Annee::query()->pluck("lib","id"))
+                //             ->required()
+                //             ->searchable(),
+                //         Select::make("classe_id")
+                //             ->label("Promotion")
+                //             ->required()
+                //             ->options(Classe::query()->pluck("lib","id"))
+                //             ->searchable(),
 
-                        $annee_id=$data["annee_id"];
-                        $classe_id=$data["classe_id"];
+                //     ])
+                //     ->button()
+                //     ->icon("heroicon-o-clipboard-document-list")
+                //     ->modalWidth(MaxWidth::Medium)
+                //     ->modalIcon("heroicon-o-users")
+                //     ->action(function(array $data){
+
+                //         $annee_id=$data["annee_id"];
+                //         $classe_id=$data["classe_id"];
 
 
-                        return redirect()->route("etudiant.generate_promotion",compact("annee_id","classe_id"));
-                    })
-                    ->openUrlInNewTab()
-                    ->button()
-                    ->icon("heroicon-o-clipboard-document-list")
-                    ->color("success"),
+                //         return redirect()->route("etudiant.generate_promotion",compact("annee_id","classe_id"));
+                //     })
+                //     ->openUrlInNewTab()
+                //     ->button()
+                //     ->icon("heroicon-o-clipboard-document-list")
+                //     ->color("success"),
                 Action::make("étudiants ayant payé")
                     ->label("Liste des étudiants ayant payé")
                     ->form([
@@ -257,49 +301,7 @@ class Etats extends Page
                     ->openUrlInNewTab()
                     ->tooltip("Liste des étudiants en ordre avec la première tranche")
                     ->color("success"),
-                Action::make("Liste_étudiants_par_promotion")
-                    ->form([
-                        Select::make("annee_id")
-                            ->label("Année Académique")
-                            ->options(Annee::query()->pluck("lib","id"))
-                            ->required(fn(Get $get):bool => !($get("etat")=="true"))
-                            ->disabled(fn(Get $get):bool => $get("etat")=="true")
-                            ->searchable(),
-                        Select::make("classe_id")
-                            ->label("Promotion")
-                            ->required()
-                            ->options(Classe::query()->pluck("lib","id"))
-                            ->searchable(),
-                         Toggle::make("etat")
-                            ->live()
-                            ->label("Etudiants non inscrits"),
 
-                    ])
-                    ->button()
-                    ->icon("heroicon-o-clipboard-document-list")
-                    ->modalWidth(MaxWidth::Small)
-                    ->modalIcon("heroicon-o-users")
-                    ->action(function(array $data){
-
-                        $etat=$data["etat"];
-
-                        if(!$etat){
-                            $annee_id=$data["annee_id"];
-                            $classe_id=$data["classe_id"];
-
-                            return redirect()->route("etudiant_promotion",compact("annee_id","classe_id"));
-                        }else{
-                            $classe_id=$data["classe_id"];
-                            return redirect()->route("etudiant_promotion_non_inscrits",compact("classe_id"));
-
-                        }
-
-
-
-                    })
-                    ->openUrlInNewTab()
-                    ->tooltip("Liste_étudiants_par_promotion")
-                    ->color("warning"),
 
                 // Action::make("Listes Départements"),
             ])->label("_________________________________________Génération des Etats de Sorties_______________________________________________")
