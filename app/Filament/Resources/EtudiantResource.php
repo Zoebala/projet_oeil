@@ -15,6 +15,7 @@ use Filament\Support\Enums\MaxWidth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -242,6 +243,7 @@ class EtudiantResource extends Resource
             ->columns([
                     ToggleColumn::make('inscriptions.actif')
                     ->label("Inscrit ?")
+                    // ->default(false)
                     ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('classe.lib')
                     ->label("Classe")
@@ -395,6 +397,43 @@ class EtudiantResource extends Resource
                                         ->title("l'étudiant(e) $Etudiant->nom $Etudiant->postnom $Etudiant->prenom a déjà été inscrit!")
                                         // ->successRedirectUrl("presences.list")
                                         ->danger()
+                                        ->send();
+
+                        }
+
+                    }),
+                    Tables\Actions\Action::make("activer")
+                    ->icon("heroicon-o-clipboard-document-list")
+                    ->label("Activer/Désactiver")
+                    ->Action(function(Etudiant $Etudiant){
+
+
+                        //on vérifie si l'étudiant n'est pas déjà activé
+                        if(Etudiant::join("inscriptions","inscriptions.etudiant_id","etudiants.id")
+                                    ->Where("inscriptions.etudiant_id",$Etudiant->id)
+                                    ->Where("inscriptions.classe_id",$Etudiant->classe_id)
+                                    ->where("actif",true)
+                                    ->exists()){
+
+                                Inscription::where("etudiant_id",$Etudiant->id)->update([
+                                    "actif"=>false,
+
+                                ]);
+
+                                Notification::make()
+                                ->title("L'étudiant(e) $Etudiant->nom $Etudiant->postnom $Etudiant->prenom a  été désactivé(e) avec succès!")
+                                ->danger()
+                                ->send();
+                        }else{
+
+
+                                Inscription::where("etudiant_id",$Etudiant->id)->update([
+                                    "actif"=>true,
+
+                                ]);
+                                Notification::make()
+                                        ->title("L'étudiant(e) $Etudiant->nom $Etudiant->postnom $Etudiant->prenom a été activé(e) avec succès!")
+                                        ->success()
                                         ->send();
 
                         }

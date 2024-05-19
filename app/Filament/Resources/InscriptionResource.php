@@ -39,7 +39,9 @@ class InscriptionResource extends Resource
     protected static ?int $navigationSort = 7;
     public static function getNavigationBadge():string
     {
-        return static::getModel()::Where("annee_id",session("Annee_id") ?? 1 )->count();
+        return static::getModel()::Where("annee_id",session("Annee_id") ?? 1 )
+                                ->where("actif",true)
+                                ->count();
     }
     public static function getNavigationBadgeColor():string
     {
@@ -76,7 +78,10 @@ class InscriptionResource extends Resource
                         ->label("Etudiant")
                         ->live()
                         ->options(function(Get $get){
-                            return Etudiant::query()->whereClasse_id($get("classe_id"))->pluck("nom","id");
+                            return Etudiant::join('inscriptions',"inscriptions.etudiant_id","etudiants.id")
+                                            ->where("etudiants.classe_id",$get("classe_id"))
+                                            ->where("actif",true)
+                                            ->pluck("nom","etudiants.id");
                         })
                         ->required()
                         ->searchable()
@@ -108,7 +113,26 @@ class InscriptionResource extends Resource
     {
         return $table
             ->columns([
-                ToggleColumn::make('actif'),
+                ToggleColumn::make('actif')
+                ->afterStateUpdated(function ($record, $state) {
+                    // Runs after the state is saved to the database.
+                    // dd($state,$record);
+                    $Etudiant=Etudiant::whereId($record->etudiant_id)->first();
+                    // dd($Etudiant);
+                    if($state==true){
+
+                        Notification::make()
+                                ->title("L'étudiant(e) $Etudiant->nom $Etudiant->postnom $Etudiant->prenom a  été activé(e) avec succès!")
+                                ->success()
+                                ->send();
+                    }else{
+                        Notification::make()
+                                ->title("L'étudiant(e) $Etudiant->nom $Etudiant->postnom $Etudiant->prenom a  été desactivé(e) avec succès!")
+                                ->danger()
+                                ->send();
+
+                    }
+                }),
                 TextColumn::make('annee.lib')
                     ->label("Année Académique")
                     ->searchable()
