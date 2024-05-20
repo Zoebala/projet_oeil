@@ -15,7 +15,9 @@ class ListRoles extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+            ->label("Ajouter un Rôle")
+            ->icon("heroicon-o-finger-print"),
         ];
     }
     protected function getHeaderWidgets(): array

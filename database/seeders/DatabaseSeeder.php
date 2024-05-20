@@ -57,6 +57,11 @@ class DatabaseSeeder extends Seeder
                 "guard_name"=>"web"
 
             ],
+            [
+                "name"=>"SECTION",
+                "guard_name"=>"web"
+
+            ],
 
         ]);
     /*----------------------------------------------------------------
@@ -139,6 +144,10 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 "name"=>"Delete Departements",
+                "guard_name"=>"web"
+            ],
+            [
+                "name"=>"Delete Classes",
                 "guard_name"=>"web"
             ],
             [
@@ -290,8 +299,8 @@ class DatabaseSeeder extends Seeder
                 "ViewAny Inscriptions",
                 "ViewAny Paiements",
         ]);
-        $COMGER=Role::findByName("COMGER");
-        $COMGER->givePermissionTo([
+        $SGACAD=Role::findByName("SGACAD");
+        $SGACAD->givePermissionTo([
                 "ViewAny Etats",
                 "ViewAny Annees",
                 "ViewAny Sections",
@@ -301,6 +310,87 @@ class DatabaseSeeder extends Seeder
                 "ViewAny Frais",
                 "ViewAny Inscriptions",
                 "ViewAny Paiements",
+        ]);
+        $SGADMN=Role::findByName("SGADMN");
+        $SGADMN->givePermissionTo([
+                "ViewAny Etats",
+                "ViewAny Annees",
+                "ViewAny Sections",
+                "ViewAny Departements",
+                "ViewAny Classes",
+                "ViewAny Etudiants",
+                "ViewAny Frais",
+                "ViewAny Inscriptions",
+                "ViewAny Paiements",
+        ]);
+        $ADMIN_BUDGET=Role::findByName("ADMIN_BUDGET");
+        $ADMIN_BUDGET->givePermissionTo([
+                "ViewAny Etats",
+                "ViewAny Annees",
+                "ViewAny Sections",
+                "ViewAny Departements",
+                "ViewAny Classes",
+                "ViewAny Etudiants",
+                "ViewAny Frais",
+                "ViewAny Inscriptions",
+                "ViewAny Paiements",
+        ]);
+        $SACAD=Role::findByName("SACAD");
+        $SACAD->givePermissionTo([
+                "ViewAny Etats",
+                "ViewAny Annees",
+                "ViewAny Sections",
+                "ViewAny Departements",
+                "ViewAny Classes",
+                "ViewAny Etudiants",
+                "ViewAny Inscriptions",
+                "Create Annees",
+                "Create Sections",
+                "Create Departements",
+                "Create Classes",
+                "Create Etudiants",
+                "Create Inscriptions",
+                "Update Annees",
+                "Update Sections",
+                "Update Departements",
+                "Update Classes",
+                "Update Etudiants",
+                "Update Inscriptions",
+                "Delete Annees",
+                "Delete Sections",
+                "Delete Departements",
+                "Delete Classes",
+                "Delete Etudiants",
+                "Delete Inscriptions",
+                "DeleteAny Annees",
+                "DeleteAny Sections",
+                "DeleteAny Departements",
+                "DeleteAny Classes",
+                "DeleteAny Etudiants",
+                "DeleteAny Inscriptions",
+        ]);
+        $SECTION=Role::findByName("SECTION");
+        $SECTION->givePermissionTo([
+                "ViewAny Etats",
+                "ViewAny Annees",
+                "ViewAny Departements",
+                "ViewAny Classes",
+                "ViewAny Etudiants",
+        ]);
+        $COMGER=Role::findByName("COMGER");
+        $COMGER->givePermissionTo([
+                "ViewAny Etats",
+                "ViewAny Annees",
+                "ViewAny Frais",
+                "ViewAny Paiements",
+                "Create Frais",
+                "Create Paiements",
+                "Update Frais",
+                "Update Paiements",
+                "Delete Frais",
+                "Delete Paiements",
+                "DeleteAny Frais",
+                "DeleteAny Paiements",
         ]);
      }
 

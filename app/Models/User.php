@@ -38,10 +38,12 @@ class User extends Authenticatable
     ];
 
 
-    // public function canAccessPanel(Panel $panel):bool
-    // {
-    //     return $this->hasRole(["Admin","DG"]);
-    // }
+    public function canAccessPanel(Panel $panel):bool
+    {
+        return $this->hasRole([
+            "Admin","DG","SGADMN","SGACAD","COMGER","ADMIN_BUDGET","SACAD","SECTION",
+        ]);
+    }
 
     /**
      * The attributes that should be cast.
