@@ -110,6 +110,7 @@ class AnneeResource extends Resource
                 ->form([
                     Select::make("annee")
                     ->label("Choix de l'année")
+                    ->searchable()
                     ->required()
                     ->live()
                     ->afterStateUpdated(function($state,Set $set){
