@@ -224,6 +224,7 @@ class EtudiantResource extends Resource
                         ->multiple()
                         ->openable()
                         ->downloadable()
+
                         ->maxSize("2048")
                         ->disk("public")->directory("dossiers"),
                         // ->visibleOn("edit"),
@@ -245,6 +246,7 @@ class EtudiantResource extends Resource
                     IconColumn::make('inscriptions.actif')
                     ->boolean()
                     ->label("Inscrit ?")
+                    ->placeholder("Non Inscrit(e)")
                     // ->default(false)
                     ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('classe.lib')
@@ -344,6 +346,7 @@ class EtudiantResource extends Resource
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\Action::make("Inscrire")
                     ->icon("heroicon-o-clipboard-document-list")
+
                     ->form([
 
                         Select::make("annee_id")
