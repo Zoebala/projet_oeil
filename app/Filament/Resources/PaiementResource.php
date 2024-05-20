@@ -249,7 +249,10 @@ class PaiementResource extends Resource
                 ->description('Uploader le bordereau comme preuve de paiement')
                 ->schema([
                     FileUpload::make('bordereau')
-                        ->required()->disk("public")->directory('bordereaux'),
+                        ->required()
+                        ->openable()
+                        ->downloadable()
+                        ->disk("public")->directory('bordereaux'),
                         DateTimePicker::make('datepaie')
                         ->label("Date de Paiment")
                         ->default(now())
@@ -283,35 +286,43 @@ class PaiementResource extends Resource
                 Tables\Columns\TextColumn::make('annee.lib')
                     ->label("Année Académique")
                     ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('classe.lib')
                     ->label("Classe")
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('etudiant.nom')
-                    ->label("Nom")
+                    ->label("Nom Complet")
+                    ->getStateUsing(function($record){
+
+                        $Etud=Etudiant::whereId($record->etudiant_id)->first();
+                        return $Etud->nom." ".$Etud->postnom." ".$Etud->prenom;
+
+                    })
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('etudiant.postnom')
-                    ->label("Post Nom")
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('etudiant.prenom')
-                    ->label("Prénom")
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('frais.montant')
-                    ->label("Frais")
-                    ->suffix(" $")
-                    ->toggleable(isToggledHiddenByDefault: false)
-                    ->sortable(),
+
+                // Tables\Columns\TextColumn::make('frais.montant')
+                //     ->label("Frais")
+                //     ->suffix(" $")
+                //     ->toggleable(isToggledHiddenByDefault: false)
+                //     ->sortable(),
                 Tables\Columns\TextColumn::make('montant')
-                    ->numeric()
+                    ->getStateUsing(function($record){
+                        $F=Frais::where("id",$record->frais_id)
+                        ->where("annee_id",$record->annee_id)
+                        ->first();
+
+
+                        return $record->montant." FC / ".$F->montant*$F->taux." FC";
+                    })
+                    ->label("Montant Payé")
                     ->sortable(),
-                Tables\Columns\TextColumn::make('devise')
-                    ->label("Devise")
-                    ->searchable()
-                    ->sortable(),
+                // Tables\Columns\TextColumn::make('devise')
+                //     ->label("Devise")
+                //     ->searchable()
+                //     ->sortable(),
                 Tables\Columns\TextColumn::make('motif')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -319,7 +330,7 @@ class PaiementResource extends Resource
                     ->label("Date de Paiement")
                     ->dateTime()
                     ->toggleable(isToggledHiddenByDefault: false)
-                    ->date("d/m/Y H:i:s")
+                    ->date("d/m/Y à H:i:s")
                     ->sortable(),
                 ImageColumn::make('bordereau')
                     ->searchable(),
