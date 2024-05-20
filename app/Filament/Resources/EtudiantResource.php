@@ -245,7 +245,7 @@ class EtudiantResource extends Resource
             ->columns([
                     IconColumn::make('inscriptions.actif')
                     ->boolean()
-                    ->label("Inscrit ?")
+                    ->label("Inscription Active ?")
                     ->placeholder("Non Inscrit(e)")
                     // ->default(false)
                     ->toggleable(isToggledHiddenByDefault: false),
