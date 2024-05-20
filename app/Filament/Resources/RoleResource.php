@@ -74,6 +74,9 @@ class RoleResource extends Resource
                 ->sortable(),
                 TextColumn::make("permissions.name")
                 ->label("Permissions")
+                ->formatStateUsing(function($state){
+                    return substr($state,0,85)."...";
+                })
                 ->searchable()
                 ->sortable(),
                 // TextColumn::make("created_at")

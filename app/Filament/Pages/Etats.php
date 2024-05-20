@@ -27,12 +27,12 @@ class Etats extends Page
     protected static string $view = 'filament.pages.etats';
     protected static ?string $pollingInterval = '5s';
 
-    public static function canAccess():bool
-    {
-        return Auth()->user()->hasRole('Admin');
+    // public static function canAccess():bool
+    // {
+    //     return Auth()->user()->hasRole('Admin');
 
 
-    }
+    // }
 
     protected function getHeaderActions(): array
     {
