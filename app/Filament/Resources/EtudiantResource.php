@@ -257,28 +257,24 @@ class EtudiantResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('nom')
-                    ->label("Nom")
+                    ->label("Nom Complet")
+                    ->getStateUsing(fn($record)=> $record->nom." ".$record->postnom." ".$record->prenom)
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('postnom')
-                    ->label("Postnom")
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('prenom')
-                    ->label("Prenom")
-                    ->sortable()
-                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('genre')
                     ->label("Genre")
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('photo')
                     ->label("Photo")
+                    ->placeholder("Pas de Profil")
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\ImageColumn::make('files')
                     ->label("Mes éléments de dossier")
+                    ->placeholder("N'a pas d'éléménts dossier")
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
@@ -426,7 +422,11 @@ class EtudiantResource extends Resource
                                 ->title("L'étudiant(e) $Etudiant->nom $Etudiant->postnom $Etudiant->prenom a  été désactivé(e) avec succès!")
                                 ->danger()
                                 ->send();
-                        }else{
+                        }elseif(Etudiant::join("inscriptions","inscriptions.etudiant_id","etudiants.id")
+                            ->Where("inscriptions.etudiant_id",$Etudiant->id)
+                            ->Where("inscriptions.classe_id",$Etudiant->classe_id)
+                            ->where("actif",false)
+                            ->exists()){
 
 
                                 Inscription::where("etudiant_id",$Etudiant->id)->update([
@@ -437,6 +437,12 @@ class EtudiantResource extends Resource
                                         ->title("L'étudiant(e) $Etudiant->nom $Etudiant->postnom $Etudiant->prenom a été activé(e) avec succès!")
                                         ->success()
                                         ->send();
+
+                        }else{
+                            Notification::make()
+                                    ->title("L'étudiant(e) $Etudiant->nom $Etudiant->postnom $Etudiant->prenom doit d'abord se faire inscrire!")
+                                    ->danger()
+                                    ->send();
 
                         }
 
