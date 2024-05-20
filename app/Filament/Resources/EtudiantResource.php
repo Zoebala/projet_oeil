@@ -15,6 +15,7 @@ use Filament\Support\Enums\MaxWidth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
@@ -241,7 +242,8 @@ class EtudiantResource extends Resource
     {
         return $table
             ->columns([
-                    ToggleColumn::make('inscriptions.actif')
+                    IconColumn::make('inscriptions.actif')
+                    ->boolean()
                     ->label("Inscrit ?")
                     // ->default(false)
                     ->toggleable(isToggledHiddenByDefault: false),
