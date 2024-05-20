@@ -77,8 +77,8 @@ class RoleResource extends Resource
                 ->formatStateUsing(function($state){
                     return substr($state,0,85)."...";
                 })
-                ->searchable()
-                ->sortable(),
+                ->searchable(),
+                // ->sortable(),
                 // TextColumn::make("created_at")
                 // ->label("Créé le")
                 // ->datetime("d/m/Y à H:i:s")

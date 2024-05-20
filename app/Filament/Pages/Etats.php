@@ -39,6 +39,7 @@ class Etats extends Page
         return [
             ActionGroup::make([
                 Action::make("budget Annuel")
+                ->hidden(fn():bool => !Auth()->user()->hasRole(["COMGER","Admin","SGACAD","SACAD"]))
                 ->form([
                     Select::make("annee_id")
                         ->label("Année Académique")
@@ -82,6 +83,7 @@ class Etats extends Page
 
                     ])
                     ->button()
+                    ->hidden(fn():bool => !Auth()->user()->hasRole(["COMGER","Admin","SGACAD","SGACA","SECTION"]))
                     ->icon("heroicon-o-clipboard-document-list")
                     ->modalWidth(MaxWidth::Small)
                     ->modalIcon("heroicon-o-users")
@@ -123,6 +125,7 @@ class Etats extends Page
                     ])
                     ->button()
                     ->icon("heroicon-o-clipboard-document-list")
+                    ->hidden(fn():bool => !Auth()->user()->hasRole(["Admin","SGACAD","SACAD"]))
                     ->modalWidth(MaxWidth::Medium)
                     ->modalIcon("heroicon-o-users")
                     ->color("success")
@@ -222,6 +225,7 @@ class Etats extends Page
                     ->icon("heroicon-o-clipboard-document-list")
                     ->modalWidth(MaxWidth::Medium)
                     ->modalIcon("heroicon-o-users")
+                     ->hidden(fn():bool => !Auth()->user()->hasRole(["COMGER","Admin","SGACAD","SACAD","ADMIN_BUDGET","SGADMN"]))
                     ->action(function(array $data){
 
                         $annee_id=$data["annee_id"];
@@ -286,6 +290,8 @@ class Etats extends Page
 
                     ])
                     ->button()
+
+                    ->hidden(fn():bool => !Auth()->user()->hasRole(["COMGER","Admin","ADMIN_BUDGET","SGADMN"]))
                     ->icon("heroicon-o-clipboard-document-list")
                     ->modalWidth(MaxWidth::Small)
                     ->modalIcon("heroicon-o-users")

@@ -20,8 +20,8 @@
    {{-- {{$this->table}} --}}
 
    <div>
-     
-        <img src="{{asset('images/facade_isp.jpg')}}" alt="etat de sortie" class="rounded img-fluid" width="100%">
+
+        {{-- <img src="{{asset('images/facade_isp.jpg')}}" alt="etat de sortie" class="rounded img-fluid" width="100%"> --}}
       {{-- {{$this->getHeaderActions}} --}}
    </div>
 </div>
