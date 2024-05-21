@@ -47,8 +47,8 @@
     <header>
         <div>
             <div>
-                <img src="{{'images/drapeau.png'}}" alt="drapeau" width="100" class="img-fluid" style="margin-left:5%;">
-                <img src="{{'images/isp.png'}}" alt="drapeau" width="100" class="img-fluid" style="margin-left:60%;">
+                <img src="{{'images/drapeau.png'}}" alt="drapeau" width="100px" height="100px" class="img-fluid" style="margin-left:5%;">
+                <img src="{{'images/icone.jpg'}}" alt="icone" width="100px" height="100px" class="rounded img-fluid" style="margin-left:60%;">
             </div>
             <div class="text-center">
 
