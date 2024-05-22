@@ -17,7 +17,9 @@ class ListClasses extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            // Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+            ->label("Ajouter une classe")
+            ->icon("heroicon-o-building-office-2"),
             ImportAction::make("Importer")
             ->label("Importer")
             ->icon("heroicon-o-users")
@@ -32,14 +34,14 @@ class ListClasses extends ListRecords
 
 
 
-            ]),
+            ])->visible(fn():bool => Auth()->user()->hasRole(["Admin","SACAD"])),
         ];
     }
 
     protected function getHeaderWidgets(): array
     {
         return [
-            CreateClasseWidget::class,
+            // CreateClasseWidget::class,
         ];
 
 
