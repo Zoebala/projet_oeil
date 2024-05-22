@@ -52,7 +52,7 @@ class FraisPolicy
         //
         return $user->hasPermissionTo("Delete Frais");
     }
-    public function deleteAny(User $user, Frais $frais): bool
+    public function deleteAny(User $user): bool
     {
         //
         return $user->hasPermissionTo("DeleteAny Frais");

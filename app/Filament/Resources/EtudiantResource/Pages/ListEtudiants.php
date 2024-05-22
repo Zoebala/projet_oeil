@@ -60,7 +60,7 @@ class ListEtudiants extends ListRecords
                     ->required()
                     ->label('Classe'),
 
-            ]),
+            ])->visible(fn():bool => Auth()->user()->hasRole(["Admin","SACAD"])),
 
 
 

@@ -19,7 +19,9 @@ class ListFrais extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            // Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+            ->label("Définir les Frais")
+            ->icon("heroicon-o-banknotes"),
         ];
     }
 
@@ -46,7 +48,7 @@ class ListFrais extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            CreateFraisWidget::class,
+            // CreateFraisWidget::class,
         ];
     }
 

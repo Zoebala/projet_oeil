@@ -458,7 +458,8 @@ class EtudiantResource extends Resource
 
                 ])->button()
                 // ->color('primary')
-                ->label("Actions"),
+                ->label("Actions")
+                ->visible(fn():bool => Auth()->user()->hasRole(["Admin","SACAD"])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -599,7 +600,7 @@ class EtudiantResource extends Resource
                     //     return route("etudiant.generate_promotion",$Etudiants);
                     // })
                     // ->openUrlInNewTab(),
-                ]),
+                ])->visible(fn():bool => Auth()->user()->hasRole(["Admin","SACAD"])),
             ]);
             // ->headerActions([
             //     Tables\Actions\CreateAction::make(),
