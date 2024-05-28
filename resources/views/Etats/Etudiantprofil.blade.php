@@ -35,7 +35,7 @@
                                Adresse Ecole : {{ $queries[0]->adresseEcole }} <br>
                                Dénomination Ecole : {{ $queries[0]->ecole }} <br>
                                Option faite au sécondaire : {{ $queries[0]->optionSecondaire }} <br>
-                               Pourcentage examen d'état : {{ $queries[0]->pourcentage." %" }} <br>
+                               Pourcentage examen d'état : @if($queries[0]->pourcentage){{ $queries[0]->pourcentage." %" }}@else{{ '' }}@endif <br>
                                Nom du père : {{ $queries[0]->nompere}} <br>
                                Nom de la mère : {{ $queries[0]->nommere}} <br>
                                Téléphone Tutaire : {{ $queries[0]->teltutaire}} <br>

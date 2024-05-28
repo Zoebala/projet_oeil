@@ -21,49 +21,49 @@ class DatabaseSeeder extends Seeder
     /*----------------------------------------------------------------
                 Définition des rôles
      -----------------------------------------------------------------*/
-        // DB::table("roles")->insert([
-        //     [
-        //         "name"=>"Admin",
-        //         "guard_name"=>"web"
+        DB::table("roles")->insert([
+            [
+                "name"=>"Admin",
+                "guard_name"=>"web"
 
-        //     ],
-        //     [
-        //         "name"=>"DG",
-        //         "guard_name"=>"web"
+            ],
+            [
+                "name"=>"DG",
+                "guard_name"=>"web"
 
-        //     ],
-        //     [
-        //         "name"=>"SGADMN",
-        //         "guard_name"=>"web"
+            ],
+            [
+                "name"=>"SGADMN",
+                "guard_name"=>"web"
 
-        //     ],
-        //     [
-        //         "name"=>"SGACAD",
-        //         "guard_name"=>"web"
+            ],
+            [
+                "name"=>"SGACAD",
+                "guard_name"=>"web"
 
-        //     ],
-        //     [
-        //         "name"=>"COMGER",
-        //         "guard_name"=>"web"
+            ],
+            [
+                "name"=>"COMGER",
+                "guard_name"=>"web"
 
-        //     ],
-        //     [
-        //         "name"=>"ADMIN_BUDGET",
-        //         "guard_name"=>"web"
+            ],
+            [
+                "name"=>"ADMIN_BUDGET",
+                "guard_name"=>"web"
 
-        //     ],
-        //     [
-        //         "name"=>"SACAD",
-        //         "guard_name"=>"web"
+            ],
+            [
+                "name"=>"SACAD",
+                "guard_name"=>"web"
 
-        //     ],
-        //     [
-        //         "name"=>"SECTION",
-        //         "guard_name"=>"web"
+            ],
+            [
+                "name"=>"SECTION",
+                "guard_name"=>"web"
 
-        //     ],
+            ],
 
-        // ]);
+        ]);
     /*----------------------------------------------------------------
                 Définition des permissions
      -----------------------------------------------------------------*/
@@ -277,10 +277,11 @@ class DatabaseSeeder extends Seeder
     /*----------------------------------------------------------------
                 Création de l'Administrateur
      -----------------------------------------------------------------*/
-        $user=User::factory()->create([
+        User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
         ]);
+        $user=User::whereId(1)->first();
         $user->assignRole("Admin");
 
     /*----------------------------------------------------------------
