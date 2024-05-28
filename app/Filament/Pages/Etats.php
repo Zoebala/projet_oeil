@@ -63,7 +63,7 @@ class Etats extends Page
                 ->tooltip("budget")
                 ->button()
                 ->icon("heroicon-o-clipboard-document-list")
-                ->color("success"),
+                ->color("warning"),
                 Action::make("Liste_étudiants_par_promotion")
                     ->form([
                         Select::make("annee_id")
@@ -128,7 +128,7 @@ class Etats extends Page
                     ->hidden(fn():bool => !Auth()->user()->hasRole(["Admin","SGACAD","SACAD"]))
                     ->modalWidth(MaxWidth::Medium)
                     ->modalIcon("heroicon-o-users")
-                    ->color("success")
+                    ->color("warning")
                     ->action(function(array $data){
 
                         $annee_id=$data["annee_id"];
@@ -238,7 +238,7 @@ class Etats extends Page
                     ->tooltip("Liste de tous les frais payés")
                     ->button()
                     ->icon("heroicon-o-clipboard-document-list")
-                    ->color("success"),
+                    ->color("warning"),
                 Action::make("Liste des frais payés par promotion")
                     ->form([
                         Select::make("annee_id")
@@ -306,7 +306,7 @@ class Etats extends Page
                     })
                     ->openUrlInNewTab()
                     ->tooltip("Liste des étudiants en ordre avec la première tranche")
-                    ->color("success"),
+                    ->color("warning"),
 
 
                 // Action::make("Listes Départements"),
