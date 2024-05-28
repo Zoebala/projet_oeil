@@ -50,6 +50,11 @@ class CreatePaiementWidget extends Widget   implements HasForms
                     Select::make('classe_id')
                         ->label("Classe")
                         ->required()
+                        ->afterStateUpdated(function($state, Set $set,){
+                            if($state==null){
+                                $set("etudiant_id",null);
+                            }
+                        })
                         ->searchable()
                         ->live()
                         ->options(function(){

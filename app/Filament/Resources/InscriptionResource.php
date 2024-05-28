@@ -71,6 +71,11 @@ class InscriptionResource extends Resource
                             return Classe::query()->pluck("lib","id");
                         })
                         ->required()
+                        ->afterStateUpdated(function($state, Set $set,){
+                            if($state==null){
+                                $set("etudiant_id",null);
+                            }
+                        })
                         ->live()
                         ->searchable()
                         ->required(),
@@ -132,7 +137,7 @@ class InscriptionResource extends Resource
                                 ->send();
 
                     }
-                }),
+                })->disabled(fn():bool => !Auth()->user()->hasRole(["Admin","SACAD"])),
                 TextColumn::make('annee.lib')
                     ->label("Année Académique")
                     ->searchable()
@@ -151,6 +156,7 @@ class InscriptionResource extends Resource
                 TextColumn::make('etudiant.prenom')
                     ->label("Prénnom")
                     ->searchable()
+                    ->placeholder("Pas de prénom")
                     ->sortable(),
                TextColumn::make('created_at')
                     ->dateTime()

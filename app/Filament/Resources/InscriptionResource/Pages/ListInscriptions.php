@@ -19,7 +19,9 @@ class ListInscriptions extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            // Actions\CreateAction::make(),
+            // Actions\CreateAction::make()
+            // ->label("Nouvelle Inscription")
+            // ->icon("heroicon-o-clipboard-document-list"),
 
         ];
     }

@@ -66,6 +66,9 @@ class CreateInscriptionWidget extends Widget implements HasForms
                                         return true;
 
                                 }
+                            if(!Auth()->user()->hasRole(["Admin","SACAD"])){
+                                return true;
+                            }
 
                         })
                         ->required()
@@ -76,8 +79,18 @@ class CreateInscriptionWidget extends Widget implements HasForms
                             return Classe::query()->pluck("lib","id");
                         })
                         ->required()
+                        ->afterStateUpdated(function($state, Set $set,){
+                            if($state==null){
+                                $set("etudiant_id",null);
+                            }
+                        })
                         ->live()
                         ->searchable()
+                        ->disabled(function(){
+                            if(!Auth()->user()->hasRole(["Admin","SACAD"])){
+                                return true;
+                            }
+                        })
                         ->required(),
                     Select::make('etudiant_id')
                         ->label("Etudiant")
@@ -87,6 +100,11 @@ class CreateInscriptionWidget extends Widget implements HasForms
                         })
                         ->required()
                         ->searchable()
+                        ->disabled(function(){
+                            if(!Auth()->user()->hasRole(["Admin","SACAD"])){
+                                return true;
+                            }
+                        })
                         ->required(),
                     Toggle::make('actif')
                         ->required(),

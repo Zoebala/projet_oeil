@@ -89,7 +89,8 @@ class FraisResource extends Resource
                 Tables\Columns\TextColumn::make('annee.lib')
                 ->label("Annee")
                 ->numeric()
-                ->sortable(),
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true),
             Tables\Columns\TextColumn::make('classe.lib')
                 ->label("Classe")
                 ->numeric()
