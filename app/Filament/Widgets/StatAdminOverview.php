@@ -17,7 +17,7 @@ class StatAdminOverview extends BaseWidget
     {
         return [
             //
-            Stat::make("Sections", Section::count())
+            Stat::make("Sections/Facultés", Section::count())
             ->description("Nos Sections")
             ->color("warning")
             ->chart([34,2,5,23])
