@@ -43,7 +43,7 @@ class CreateInscriptionWidget extends Widget implements HasForms
                         ->label("Année Académique")
                         ->live()
                         ->options(function(){
-                            return Annee::query()->pluck("lib","id");
+                            return Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id");
                         })
                         ->disabled(function(Get $get, Set $set){
 

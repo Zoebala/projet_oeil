@@ -49,7 +49,7 @@ class FraisResource extends Resource
                     Select::make('annee_id')
                     ->label("Annee Académique")
                     ->options(function(){
-                        return Annee::all()->pluck('lib',"id");
+                        return Annee::whereId(session("Annee_id") ?? 1)->pluck('lib',"id");
                     })
                     ->required(),
                     Select::make('classe_id')

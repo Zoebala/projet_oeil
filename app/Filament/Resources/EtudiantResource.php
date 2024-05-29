@@ -346,7 +346,6 @@ class EtudiantResource extends Resource
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\Action::make("Inscrire")
                     ->icon("heroicon-o-clipboard-document-list")
-
                     ->form([
 
                         Select::make("annee_id")
@@ -354,7 +353,7 @@ class EtudiantResource extends Resource
                         ->searchable()
                         ->preload()
                         ->options(function(){
-                            return Annee::query()->pluck("lib","id");
+                            return Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id");
                         })->required(),
                         Select::make("classe_id")
                         ->label("Classe")
@@ -449,14 +448,16 @@ class EtudiantResource extends Resource
 
                         }
 
-                    }),
-                Tables\Actions\Action::make("Generer")
-                    ->label("Mon Profil")
-                    ->icon("heroicon-o-user")
-                    ->url(fn(Etudiant $Student)=>route("etudiant.profil",$Student))
-                    ->openUrlInNewTab(),
+                    })->requiresConfirmation(),
+                     Tables\Actions\Action::make("Generer")
+                        ->requiresConfirmation()
+                        ->label("Mon Profil")
+                        ->icon("heroicon-o-user")
+                        ->url(fn(Etudiant $Student)=>route("etudiant.profil",$Student))
+                        ->openUrlInNewTab(),
 
                 ])->button()
+
                 // ->color('primary')
                 ->label("Actions")
                 ->visible(fn():bool => Auth()->user()->hasRole(["Admin","SACAD"])),
@@ -472,7 +473,7 @@ class EtudiantResource extends Resource
                         Select::make("annee_id")
                         ->label("Année Académique")
                         ->options(function(){
-                            return Annee::query()->pluck("lib","id");
+                            return Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id");
                         })->required(),
                         Select::make("classe_id")
                         ->label("Classe")
@@ -511,7 +512,8 @@ class EtudiantResource extends Resource
                         ->label("Année Académique")
                         ->searchable()
                         ->options(function(){
-                            return Annee::query()->pluck("lib","id");
+                            return Annee::whereId(session("Annee_id") ?? 1)
+                                        ->pluck("lib","id");
                         })->required(),
                         Select::make("classe_id")
                         ->label("Classe")
@@ -524,53 +526,64 @@ class EtudiantResource extends Resource
                     ->modalIcon("heroicon-o-clipboard-document-list")
                     ->Action(function(Collection $Etudiants,array $data){
 
+                        //On vérifie l'année de travail
+                        if(session("Annee_id")){
 
-                        $cpt=1;
-                        foreach($Etudiants as $Etudiant){
 
-                            //gestion des étudiants n'ayant pas encore été inscrits
-                            if(!Etudiant::join("inscriptions","inscriptions.etudiant_id","etudiants.id")
-                                    ->join("annees","annees.id","inscriptions.annee_id")
-                                    ->join("classes","classes.id","inscriptions.classe_id")
-                                    ->Where("inscriptions.etudiant_id",$Etudiant->id)
-                                    ->Where("inscriptions.annee_id",$data['annee_id'])
-                                    ->Where("inscriptions.classe_id",$data['classe_id'])
-                                    ->exists()){
+                                $cpt=1;
+                                foreach($Etudiants as $Etudiant){
 
-                                        Inscription::create([
-                                            "actif"=>true,
-                                            "annee_id"=>$data['annee_id'],
-                                            "classe_id"=>$data['classe_id'],
-                                            "etudiant_id"=>$Etudiant->id,
-                                        ]);
-                            }else{
-                                $Etudiants=Etudiant::join("inscriptions","inscriptions.etudiant_id","etudiants.id")
-                                ->join("annees","annees.id","inscriptions.annee_id")
-                                ->join("classes","classes.id","inscriptions.classe_id")
-                                ->Where("inscriptions.etudiant_id",$Etudiant->id)
-                                ->Where("inscriptions.annee_id",$data['annee_id'])
-                                ->Where("inscriptions.classe_id",$data['classe_id'])
-                                ->get(["nom","postnom","prenom"]);
+                                    //gestion des étudiants n'ayant pas encore été inscrits
+                                    if(!Etudiant::join("inscriptions","inscriptions.etudiant_id","etudiants.id")
+                                            ->join("annees","annees.id","inscriptions.annee_id")
+                                            ->join("classes","classes.id","inscriptions.classe_id")
+                                            ->Where("inscriptions.etudiant_id",$Etudiant->id)
+                                            ->Where("inscriptions.annee_id",$data['annee_id'])
+                                            ->Where("inscriptions.classe_id",$data['classe_id'])
+                                            ->exists()){
 
-                                Notification::make()
-                                ->title("l'étudiant(e) $Etudiant->nom $Etudiant->postnom $Etudiant->prenom a déjà été inscrit!")
-                                // ->successRedirectUrl("presences.list")
+                                                Inscription::create([
+                                                    "actif"=>true,
+                                                    "annee_id"=>$data['annee_id'],
+                                                    "classe_id"=>$data['classe_id'],
+                                                    "etudiant_id"=>$Etudiant->id,
+                                                ]);
+                                    }else{
+                                        $Etudiants=Etudiant::join("inscriptions","inscriptions.etudiant_id","etudiants.id")
+                                        ->join("annees","annees.id","inscriptions.annee_id")
+                                        ->join("classes","classes.id","inscriptions.classe_id")
+                                        ->Where("inscriptions.etudiant_id",$Etudiant->id)
+                                        ->Where("inscriptions.annee_id",$data['annee_id'])
+                                        ->Where("inscriptions.classe_id",$data['classe_id'])
+                                        ->get(["nom","postnom","prenom"]);
+
+                                        Notification::make()
+                                        ->title("l'étudiant(e) $Etudiant->nom $Etudiant->postnom $Etudiant->prenom a déjà été inscrit!")
+                                        // ->successRedirectUrl("presences.list")
+                                        ->danger()
+                                        ->send();
+                                    }
+
+                                    if($cpt==count($Etudiants)){
+
+                                        Notification::make()
+                                        ->title("L'inscription des étudiants a été effetuée avec succès!")
+                                        // ->successRedirectUrl("presences.list")
+                                        ->success()
+                                        ->send();
+                                    }
+                                    $cpt++;
+                                }
+
+
+
+                        }else{
+                            Notification::make()
+                                ->title("Veuillez définir d'abord l'Année de travail Souhaitée!")
+                                    // ->successRedirectUrl("presences.list")
                                 ->danger()
                                 ->send();
-                            }
-
-                            if($cpt==count($Etudiants)){
-
-                                 Notification::make()
-                                 ->title("L'inscription des étudiants a été effetuée avec succès!")
-                                 // ->successRedirectUrl("presences.list")
-                                 ->success()
-                                 ->send();
-                             }
-                             $cpt++;
                         }
-
-
 
                          //message pour les étudiants ayant déjà été inscrits
                         //  foreach($Etudiants as $Etudiant){
@@ -600,7 +613,7 @@ class EtudiantResource extends Resource
                     //     return route("etudiant.generate_promotion",$Etudiants);
                     // })
                     // ->openUrlInNewTab(),
-                ])->visible(fn():bool => Auth()->user()->hasRole(["Admin","SACAD"])),
+                ])->visible(fn():bool => Auth()->user()->hasRole(["Admin","SACAD"])) ,
             ]);
             // ->headerActions([
             //     Tables\Actions\CreateAction::make(),
