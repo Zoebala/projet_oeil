@@ -77,10 +77,12 @@ class PaiementResource extends Resource
                             ->Where("paiements.annee_id",$get("annee_id"))
                             ->Where("paiements.classe_id",$get("classe_id"))
                             ->exists()){
+
                                 //détermination du montant à payer pour une promotion donnée à une année académique donnée
                                 $Frais=Frais::where("classe_id",$get("classe_id"))
                                             ->where("annee_id",$get("annee_id"))
                                             ->first();
+
                                 $MontantTotal=$Frais->montant*$Frais->taux;
 
                                 //détermination du montant déjà payé par l'étudiant
@@ -129,8 +131,11 @@ class PaiementResource extends Resource
                         })
                         ->searchable()
                         ->required()
-                        ->options(function(){
-                            return Classe::query()->pluck("lib","id");
+                        ->options(function(Get $get){
+                            return Classe::
+                                        join("frais","frais.classe_id","classes.id")
+                                        ->where('annee_id',$get('annee_id'))
+                                        ->pluck("classes.lib","classes.id");
                         }),
                         Select::make('etudiant_id')
                         ->label("Etudiant")
@@ -180,6 +185,7 @@ class PaiementResource extends Resource
                                 $Frais=Frais::where("classe_id",$get("classe_id"))
                                             ->where("annee_id",$get("annee_id"))
                                             ->first();
+
                                 $MontantTotal=$Frais->montant*$Frais->taux;
 
                                 //détermination du montant déjà payé par l'étudiant
