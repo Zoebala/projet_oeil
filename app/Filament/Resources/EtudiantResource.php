@@ -243,7 +243,7 @@ class EtudiantResource extends Resource
     {
         return $table
             ->columns([
-                    IconColumn::make('inscriptions.actif')
+                IconColumn::make('inscriptions.actif')
                     ->boolean()
                     ->label("Inscription Active ?")
                     ->placeholder("Non Inscrit(e)")
@@ -485,24 +485,34 @@ class EtudiantResource extends Resource
                     ->modalIcon("heroicon-o-chat-bubble-left")
                     ->Action(function(Collection $records,array $data){
 
-                        foreach($records as $record){
+                        //on vérifie l'année de travail
 
-                            Inscription::whereEtudiant_id($record->id)->update([
-                                "actif"=>true,
-                                // "etudiant_id"=>$record->id,
-                                "annee_id"=>$data["annee_id"],
-                                "classe_id"=>$data["classe_id"],
+                        if(session("Annee_id")){
 
-                            ]);
-                            Etudiant::whereId($record->id)->update([
-                                "classe_id"=>$data["classe_id"],
-                            ]);
-                         }
-                        Notification::make()
-                        ->title("Le passage de classe a été effetué avec succès!")
-                        // ->successRedirectUrl("presences.list")
-                        ->success()
-                        ->send();
+                            foreach($records as $record){
+
+                                Inscription::whereEtudiant_id($record->id)->update([
+                                    "actif"=>true,
+                                    // "etudiant_id"=>$record->id,
+                                    "annee_id"=>$data["annee_id"],
+                                    "classe_id"=>$data["classe_id"],
+
+                                ]);
+                                Etudiant::whereId($record->id)->update([
+                                    "classe_id"=>$data["classe_id"],
+                                ]);
+                            }
+                            Notification::make()
+                            ->title("Le passage de classe a été effetué avec succès!")
+                            // ->successRedirectUrl("presences.list")
+                            ->success()
+                            ->send();
+                        }else{
+                            Notification::make()
+                                ->title("Veuillez définir d'abord l'Année de travail Souhaitée!")
+                                ->danger()
+                                ->send();
+                        }
                     }),
                     Tables\Actions\BulkAction::make("Inscrire")
                     ->icon("heroicon-o-clipboard-document-list")
