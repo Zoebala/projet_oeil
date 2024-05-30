@@ -1,6 +1,8 @@
 <?php
 
 use App\Livewire\Etat;
+use App\Models\Section;
+use App\Models\Departement;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\FraisController;
@@ -24,7 +26,11 @@ use App\Http\Controllers\EtudiantparpromotionController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+
+    $Departements=Departement::all();
+    $Sections=Section::all();
+
+    return view('welcome',compact('Departements','Sections'));
     // return redirect("/admin");
 });
 //chargement de la page Etat livewire sur filament via sa blade page
