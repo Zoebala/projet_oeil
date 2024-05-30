@@ -25,7 +25,7 @@ class Etats extends Page
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static string $view = 'filament.pages.etats';
-    protected static ?string $pollingInterval = '5s';
+
 
     // public static function canAccess():bool
     // {
@@ -43,7 +43,7 @@ class Etats extends Page
                 ->form([
                     Select::make("annee_id")
                         ->label("Année Académique")
-                        ->options(Annee::query()->pluck("lib","id"))
+                        ->options(Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id"))
                         ->required()
                         ->searchable(),
                 ])
@@ -68,7 +68,7 @@ class Etats extends Page
                     ->form([
                         Select::make("annee_id")
                             ->label("Année Académique")
-                            ->options(Annee::query()->pluck("lib","id"))
+                            ->options(Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id"))
                             ->required(fn(Get $get):bool => !($get("etat")=="true"))
                             ->disabled(fn(Get $get):bool => $get("etat")=="true")
                             ->searchable(),
@@ -113,7 +113,7 @@ class Etats extends Page
                     ->form([
                         Select::make("annee_id")
                             ->label("Année Académique")
-                            ->options(Annee::query()->pluck("lib","id"))
+                            ->options(Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id"))
                             ->required()
                             ->searchable(),
                         Select::make("classe_id")
@@ -176,7 +176,7 @@ class Etats extends Page
                     ->form([
                         Select::make("annee_id")
                             ->label("Année Académique")
-                            ->options(Annee::query()->pluck("lib","id"))
+                            ->options(Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id"))
                             ->required()
                             ->searchable(),
                         Select::make("classe_id")
@@ -217,7 +217,7 @@ class Etats extends Page
                     ->form([
                         Select::make("annee_id")
                             ->label("Année Académique")
-                            ->options(Annee::query()->pluck("lib","id"))
+                            ->options(Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id"))
                             ->required()
                             ->searchable(),
                     ])
@@ -243,7 +243,7 @@ class Etats extends Page
                     ->form([
                         Select::make("annee_id")
                             ->label("Année Académique")
-                            ->options(Annee::query()->pluck("lib","id"))
+                            ->options(Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id"))
                             ->required()
                             ->searchable(),
                         Select::make("classe_id")
@@ -271,7 +271,7 @@ class Etats extends Page
                     ->form([
                         Select::make("annee_id")
                             ->label("Année Académique")
-                            ->options(Annee::query()->pluck("lib","id"))
+                            ->options(Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id"))
                             ->required()
                             ->searchable(),
                         Select::make("classe_id")
