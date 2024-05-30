@@ -24,8 +24,8 @@ use App\Http\Controllers\EtudiantparpromotionController;
 */
 
 Route::get('/', function () {
-    // return view('welcome');
-    return redirect("/admin");
+    return view('welcome');
+    // return redirect("/admin");
 });
 //chargement de la page Etat livewire sur filament via sa blade page
 Route::get("/Etat",Etat::class);
