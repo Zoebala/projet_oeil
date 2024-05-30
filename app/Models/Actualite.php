@@ -10,4 +10,6 @@ class Actualite extends Model
     use HasFactory;
 
     protected $fillable=["objet","photo","description","created_at","updated_at"];
+
+    protected $casts=["created_at"=>'datetime'];
 }

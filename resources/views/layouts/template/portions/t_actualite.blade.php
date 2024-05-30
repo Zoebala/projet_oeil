@@ -3,21 +3,25 @@
 
       <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
         <div class="swiper-wrapper">
+            @foreach ($Actualites as $Actualite)
 
-          <div class="swiper-slide">
-            <div class="testimonial-item">
-              <img src="template/assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-              <h3>Saul Goodman</h3>
-              <h4>Ceo &amp; Founder</h4>
-              <p>
-                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-              </p>
-            </div>
-          </div><!-- End testimonial item -->
+                <div class="swiper-slide">
+                    <div class="testimonial-item">
 
-          <div class="swiper-slide">
+                    <img src="{{asset('storage/'.$Actualite->photo)}}" class="testimonial-img"  alt="logo">
+                    <h3>{{ $Actualite->objet }}</h3>
+                    <h4>Publié le  {{ $Actualite->created_at->format("d/m/Y à H:i:s")  }} </h4>
+                    <p>
+                        <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                            {{ $Actualite->description }}
+                        <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                    </p>
+                    </div>
+                </div>
+            @endforeach
+          <!-- End testimonial item -->
+
+          {{-- <div class="swiper-slide">
             <div class="testimonial-item">
               <img src="template/assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
               <h3>Sara Wilsson</h3>
@@ -28,9 +32,10 @@
                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
               </p>
             </div>
-          </div><!-- End testimonial item -->
+          </div> --}}
+          <!-- End testimonial item -->
 
-          <div class="swiper-slide">
+          {{-- <div class="swiper-slide">
             <div class="testimonial-item">
               <img src="template/assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
               <h3>Jena Karlis</h3>
@@ -41,9 +46,10 @@
                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
               </p>
             </div>
-          </div><!-- End testimonial item -->
+          </div> --}}
+          <!-- End testimonial item -->
 
-          <div class="swiper-slide">
+          {{-- <div class="swiper-slide">
             <div class="testimonial-item">
               <img src="template/assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
               <h3>Matt Brandon</h3>
@@ -54,9 +60,10 @@
                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
               </p>
             </div>
-          </div><!-- End testimonial item -->
+          </div> --}}
+          <!-- End testimonial item -->
 
-          <div class="swiper-slide">
+          {{-- <div class="swiper-slide">
             <div class="testimonial-item">
               <img src="template/assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
               <h3>John Larson</h3>
@@ -67,7 +74,8 @@
                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
               </p>
             </div>
-          </div><!-- End testimonial item -->
+          </div> --}}
+          <!-- End testimonial item -->
 
         </div>
         <div class="swiper-pagination"></div>

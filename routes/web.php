@@ -2,6 +2,7 @@
 
 use App\Livewire\Etat;
 use App\Models\Section;
+use App\Models\Actualite;
 use App\Models\Departement;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
@@ -29,8 +30,10 @@ Route::get('/', function () {
 
     $Departements=Departement::all();
     $Sections=Section::all();
+    $Actualites=Actualite::all();
+   
 
-    return view('welcome',compact('Departements','Sections'));
+    return view('welcome',compact('Departements','Sections',"Actualites"));
     // return redirect("/admin");
 });
 //chargement de la page Etat livewire sur filament via sa blade page
