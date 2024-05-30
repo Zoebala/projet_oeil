@@ -37,7 +37,7 @@ class StatAdminOverview extends BaseWidget
             ->color("warning")
             ->chart([34,2,5,23])
             ->Icon("heroicon-o-users"),
-            Stat::make("Etudiants",Etudiant::leftJoin("inscriptions","inscriptions.etudiant_id","etudiants.id")
+            Stat::make("Etudiant(s)",Etudiant::leftJoin("inscriptions","inscriptions.etudiant_id","etudiants.id")
                                         ->where("actif")
                                         ->select(["inscriptions.etudiant_id","inscriptions.annee_id","inscriptions.classe_id"])
                                         ->groupBy(["inscriptions.etudiant_id","inscriptions.annee_id","inscriptions.classe_id"])
@@ -48,7 +48,7 @@ class StatAdminOverview extends BaseWidget
             ->color("danger")
             ->chart([34,2,5,23])
             ->Icon("heroicon-o-users"),
-            Stat::make("Etudiants", Etudiant::join("paiements","paiements.etudiant_id","=","etudiants.id")
+            Stat::make("Etudiant(s)", Etudiant::join("paiements","paiements.etudiant_id","=","etudiants.id")
                                         ->join("annees","annees.id","=","paiements.annee_id")
                                         ->join("inscriptions","inscriptions.etudiant_id","etudiants.id")
                                         ->Where("annees.debut",session('AnneeDebut') ?? date("Y")-1)
