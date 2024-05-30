@@ -138,7 +138,7 @@ class PaiementResource extends Resource
                                         ->where('annee_id',$get('annee_id'))
                                         ->pluck("classes.lib","classes.id");
                         }),
-                        Select::make('etudiant_id')
+                    Select::make('etudiant_id')
                         ->label("Etudiant")
                         ->live()
                         ->options(function(Get $get){
