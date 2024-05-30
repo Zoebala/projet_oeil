@@ -15,7 +15,9 @@ class ListDepartements extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+            ->label("Ajouter un Département")
+            ->icon("heroicon-o-building-office"),
         ];
     }
 
