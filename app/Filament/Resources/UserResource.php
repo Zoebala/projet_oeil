@@ -97,6 +97,7 @@ class UserResource extends Resource
                 TextColumn::make('id')
                     ->label("Identifiant")
                     ->numeric()
+                    ->hidden(fn():bool => !Auth()->user()->hasRole(["Admin"]))
                     ->sortable(),
                 TextColumn::make('name')
                     ->label("Nom")
