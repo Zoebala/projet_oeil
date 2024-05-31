@@ -51,10 +51,7 @@ class EtudiantPolicy
     {
         return $user->hasPermissionTo("Delete Etudiants");
     }
-    public function Inscrire(User $user, Etudiant $etudiant): bool
-    {
-        return $user->hasPermissionTo("Inscrire Etudiants");
-    }
+   
     public function deleteAny(User $user): bool
     {
         //

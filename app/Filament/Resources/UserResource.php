@@ -28,11 +28,19 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+    
+    protected static ?string $navigationLabel = 'User(s)';
     protected static ?string $navigationGroup ="Paramètres";
     protected static ?int $navigationSort = 1;
     public static function getNavigationBadge():string
     {
-        return static::getModel()::count();
+        if(Auth()->user()->hasRole(["Admin"])){
+            return static::getModel()::count();
+
+        }else{
+
+            return static::getModel()::where("id",Auth()->user()->id)->count();
+        }
     }
     public static function getNavigationBadgeColor():string
     {
@@ -75,6 +83,7 @@ class UserResource extends Resource
                         ->preload()
                         ->multiple()
                         ->relationship("roles","name")
+                        ->hidden(fn():bool => !Auth()->user()->hasRole(["Admin"]))
                         ->required(),
                     //
                 ])->columns(2),
@@ -146,8 +155,14 @@ class UserResource extends Resource
         ];
     }
 
-    // public static function getEloquentQuery(): Builder
-    // {
-    //     return parent::getEloquentQuery()->where("name","!=","Admin");
-    // }
+    public static function getEloquentQuery(): Builder
+    {
+        if(!Auth()->user()->hasRole(["Admin"])){
+
+            return parent::getEloquentQuery()->where("id",Auth()->user()->id);
+        }else{
+            return parent::getEloquentQuery();
+
+        }
+    }
 }

@@ -32,7 +32,7 @@ class UserPolicy
     public function create(User $user): bool
     {
         //
-        $user->hasPermissionTo("Create Users");
+        return $user->hasPermissionTo("Create Users");
     }
 
     /**
@@ -41,7 +41,7 @@ class UserPolicy
     public function update(User $user, User $model): bool
     {
         //
-        $user->hasPermissionTo("Update Users");
+        return $user->hasPermissionTo("Update Users");
     }
 
     /**
