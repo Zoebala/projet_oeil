@@ -13,6 +13,17 @@ class StatAdminOverview extends BaseWidget
 {
 
     protected static bool $isLazy = false;
+    // public static function canView(): bool
+    // {
+    //     // Votre logique de contrôle d'accès ici
+    //     if(Auth()->user()->hasRole(["Admin","COMGER","SGACAD","SGADMN","ADMIN_BUDGET"])){
+
+    //         return true; // ou false selon vos besoins
+    //     }else{
+
+    //         return false;
+    //     }
+    // }
 
 
     protected function getStats(): array
@@ -83,13 +94,13 @@ class StatAdminOverview extends BaseWidget
             ->color("success")
             ->chart([34,2,5,23])
             ->Icon("heroicon-o-users"),
-            // SELECT substring(lib,1,4) AS Annee,SUM(montant) AS Montant FROM annees JOIN paiements ON annees.id=paiements.annee_id GROUP BY lib HAVING Annee=2023
             Stat::make("Total des paiements enregistrés", Etudiant::join("paiements","paiements.etudiant_id","=","etudiants.id")
                                                     ->join("annees","annees.id","=","paiements.annee_id")
                                                     ->join("inscriptions","inscriptions.etudiant_id","etudiants.id")
                                                     ->Where("annees.debut",session('AnneeDebut') ?? date("Y")-1)
                                                     ->whereActif(1)
                                                     ->sum("montant")." FC")
+
             ->description("paiements enregistrés")
             ->color("warning")
             ->chart([34,2,5,23])

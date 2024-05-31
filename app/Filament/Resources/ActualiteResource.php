@@ -28,7 +28,7 @@ class ActualiteResource extends Resource
 
     public static function canAccess():bool
     {
-        if(!Auth()->user()->hasRole(["Admin","SACAD","SGACAD","SGADMN","SECTION","ADMIN_BUDGET","COMGER"])){
+        if(!Auth()->user()->hasRole(["Admin","SACAD","SECTION"])){
             return false;
         }else{
 

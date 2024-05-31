@@ -30,7 +30,7 @@ class Etats extends Page
 
     public static function canAccess():bool
     {
-        if(!Auth()->user()->hasRole(["Admin","SACAD","SGACAD","SGADMN","SECTION","ADMIN_BUDGET","COMGER"])){
+        if(!Auth()->user()->hasRole(["Admin","SACAD","SGACAD","SGADMN","SECTION","ADMIN_BUDGET","COMGER","DG"])){
             return false;
         }else{
 

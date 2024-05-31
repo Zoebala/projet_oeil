@@ -14,7 +14,7 @@ class DepartementPaiement extends ChartWidget
     public static function canView(): bool
     {
         // Votre logique de contrôle d'accès ici
-        if(Auth()->user()->hasRole(["Admin","COMGER","SGACAD","SGADMN","ADMIN_BUDGET"])){
+        if(Auth()->user()->hasRole(["Admin","COMGER","SGACAD","SGADMN","ADMIN_BUDGET","DG"])){
 
             return true; // ou false selon vos besoins
         }else{
