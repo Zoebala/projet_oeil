@@ -11,9 +11,9 @@
             <p>
               A108 Adam Street <br>
               New York, NY 535022<br>
-              United States <br><br>
+              Ville de Muanda <br><br>
               <strong>Phone:</strong> +1 5589 55488 55<br>
-              <strong>Email:</strong> info@example.com<br>
+              <strong>Email:</strong> muandauniversite@example.com<br>
             </p>
           </div>
 
@@ -61,7 +61,7 @@
 
     <div class="container py-4">
       <div class="copyright">
-        &copy; Copyright <strong><span>Université de muadnda</span></strong>. All Rights Reserved
+        &copy; Copyright <strong><span>Université de muadnda</span></strong>. Tous droits reservés.
       </div>
       <div class="credits">
         <!-- All the links in the footer should remain intact. -->

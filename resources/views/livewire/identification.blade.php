@@ -25,7 +25,7 @@
             {{-- <div class="sent-message">Your message has been sent. Thank you!</div> --}}
           </div>
           <div class="text-center"><button type="submit"><i class="bi bi-plus-circle"></i> S'identifier</button></div>
-          <a href="/admin" ><i class="bi bi-login"></i> J'ai déjà un compte</a>
+          <a href="/admin/etudiants" ><i class="bi bi-login"></i> J'ai déjà un compte</a>
         </form>
       </div>
 {{-- </div> --}}

@@ -28,12 +28,17 @@ class Etats extends Page
     protected static string $view = 'filament.pages.etats';
 
 
-    // public static function canAccess():bool
-    // {
-    //     return Auth()->user()->hasRole('Admin');
+    public static function canAccess():bool
+    {
+        if(!Auth()->user()->hasRole(["Admin","SACAD","SGACAD","SGADMN","SECTION","ADMIN_BUDGET","COMGER"])){
+            return false;
+        }else{
+
+            return true;
+        }
 
 
-    // }
+    }
 
     protected function getHeaderActions(): array
     {

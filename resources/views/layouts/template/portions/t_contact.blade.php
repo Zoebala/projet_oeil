@@ -1,4 +1,5 @@
-<section id="contact" class="contact">
+@if(!Auth()->user())
+ <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
 
       <div class="section-title">
@@ -46,3 +47,4 @@
 
     </div>
   </section>
+@endif

@@ -31,9 +31,21 @@ class ListEtudiants extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make("Accueil")
+            ->icon("heroicon-o-home")
+            ->action(function(){
+                return redirect("/");
+            }),
             Actions\CreateAction::make()
-            ->label("Ajouter un étudiant")
-            ->icon("heroicon-o-user-plus"),
+            ->label(function(){
+                if(Auth()->user()->hasRole(["Admin","SACAD"])){
+                    return "Ajouter un étudiant";
+                }else{
+                    return "Posez votre Candidature";
+                }
+            })
+            ->icon("heroicon-o-user-plus")
+            ->hidden(fn():bool => Etudiant::whereUser_id(Auth()->user()->id)->exists()),
             ImportAction::make("Importer")
             ->label("Importer")
             ->icon("heroicon-o-users")

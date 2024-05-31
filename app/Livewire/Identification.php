@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class Identification extends Component
 {
 
-    #[Rule("required|max:15|3")]
+    #[Rule("required|max:15|min:3")]
     public $name;
     #[Rule("required|email|unique:users")]
     public $email;
@@ -25,7 +25,10 @@ class Identification extends Component
             "password" => Hash::make($this->password)
         ]);
 
-        return redirect("/admin");
+        $User=User::whereEmail($this->email)->first();
+        $User->givePermissionTo(["ViewAny Etudiants","Create Etudiants","Update Etudiants"]);
+
+        return redirect("/admin/etudiants");
     }
 
     public function render()

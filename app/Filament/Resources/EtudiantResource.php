@@ -42,6 +42,11 @@ class EtudiantResource extends Resource
     protected static ?int $navigationSort = 5;
     protected static ?string $recordTitleAttribute ="nom";
 
+
+
+
+
+
     public static function getGlobalSearchResultTitle(Model $record):string
     {
         return $record->nom.' '.$record->postnom." ".$record->prenom;
@@ -68,7 +73,13 @@ class EtudiantResource extends Resource
     }
     public static function getNavigationBadge():string
     {
-        return static::getModel()::count();
+        if(Auth()->user()->hasRole(["Admin","SACAD"])){
+
+            return static::getModel()::count();
+        }else{
+
+            return static::getModel()::whereUser_id(Auth()->user()->id)->count();
+        }
     }
     public static function getNavigationBadgeColor():string
     {
@@ -650,7 +661,18 @@ class EtudiantResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            CreateEtudiantWidget::class,
+            // CreateEtudiantWidget::class,
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        if(!Auth()->user()->hasRole(["Admin","SACAD"])){
+
+            return parent::getEloquentQuery()->where("user_id",Auth()->user()->id);
+        }else{
+            return parent::getEloquentQuery();
+
+        }
     }
 }

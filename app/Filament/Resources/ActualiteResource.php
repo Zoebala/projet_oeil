@@ -26,6 +26,18 @@ class ActualiteResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
+    public static function canAccess():bool
+    {
+        if(!Auth()->user()->hasRole(["Admin","SACAD","SGACAD","SGADMN","SECTION","ADMIN_BUDGET","COMGER"])){
+            return false;
+        }else{
+
+            return true;
+        }
+
+
+    }
+
     public static function form(Form $form): Form
     {
         return $form
