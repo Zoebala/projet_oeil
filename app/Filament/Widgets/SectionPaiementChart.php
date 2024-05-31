@@ -12,13 +12,16 @@ class SectionPaiementChart extends ChartWidget
     protected static ?int $sort = 10;
 
     protected static bool $isLazy = false;
-    protected bool $isVisible = false;
-
-
-
-    protected function shouldRender():bool
+    public static function canView(): bool
     {
-        return $this->isVisible;
+        // Votre logique de contrôle d'accès ici
+        if(Auth()->user()->hasRole(["Admin","COMGER","SGACAD","SGADMN","ADMIN_BUDGET"])){
+
+            return true; // ou false selon vos besoins
+        }else{
+
+            return false;
+        }
     }
     protected function getData(): array
     {

@@ -15,6 +15,19 @@ class SectionChart extends ChartWidget
     protected static ?int $sort = 8;
     protected static bool $isLazy = false;
 
+    public static function canView(): bool
+    {
+        // Votre logique de contrôle d'accès ici
+        if(Auth()->user()->hasRole(["Admin","COMGER","SGACAD","SGADMN","ADMIN_BUDGET"])){
+
+            return true; // ou false selon vos besoins
+        }else{
+
+            return false;
+        }
+    }
+
+
 
     protected function getData(): array
     {

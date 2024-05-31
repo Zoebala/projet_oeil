@@ -10,6 +10,17 @@ class DepartementChart extends ChartWidget
 {
     protected static ?string $heading = 'Effectifs des étudiants par Département';
     protected static bool $isLazy = false;
+    public static function canView(): bool
+    {
+        // Votre logique de contrôle d'accès ici
+        if(Auth()->user()->hasRole(["Admin","COMGER","SGACAD","SGADMN","ADMIN_BUDGET"])){
+
+            return true; // ou false selon vos besoins
+        }else{
+
+            return false;
+        }
+    }
 
     protected static ?int $sort = 9;
     protected function getData(): array

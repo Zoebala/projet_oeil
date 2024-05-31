@@ -11,6 +11,17 @@ class DepartementPaiement extends ChartWidget
     protected static ?string $heading = 'Effectif des étudiants ayant payé par Département';
     protected static ?int $sort = 12;
     protected static bool $isLazy = false;
+    public static function canView(): bool
+    {
+        // Votre logique de contrôle d'accès ici
+        if(Auth()->user()->hasRole(["Admin","COMGER","SGACAD","SGADMN","ADMIN_BUDGET"])){
+
+            return true; // ou false selon vos besoins
+        }else{
+
+            return false;
+        }
+    }
 
     protected function getData(): array
     {
