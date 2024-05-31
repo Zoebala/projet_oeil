@@ -22,7 +22,7 @@
   <main id="main">
 
     <!-- ======= Featured Services Section ======= -->
-    
+
     <!-- End Featured Services Section -->
 
     <!-- ======= About Section ======= -->
@@ -63,9 +63,9 @@
 
     <!-- ======= Frequently Asked Questions Section ======= -->
 
-
+    {{-- @include("layouts.template.portions.t_section") --}}
     <!-- End Frequently Asked Questions Section -->
-
+    
     <!-- ======= Contact Section ======= -->
     @include("layouts.template.portions.t_contact")
     <!-- End Contact Section -->

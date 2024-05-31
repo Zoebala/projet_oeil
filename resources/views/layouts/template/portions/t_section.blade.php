@@ -36,5 +36,7 @@
 
       </div>
 
+      @livewire("inscription")
+
     </div>
   </section>

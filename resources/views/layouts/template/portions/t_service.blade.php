@@ -4,7 +4,7 @@
       <div class="section-title">
         <h2>Services</h2>
         <h3>Vérifiez nos <span> Services</span></h3>
-        <p class="fst-italic">L'université de muanda possède en son sein options que voici :</p>
+        <p class="fst-italic">L'université de muanda possède en son sein les départements que voici :</p>
       </div>
 
       <div class="row">

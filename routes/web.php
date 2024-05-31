@@ -6,6 +6,7 @@ use App\Models\Actualite;
 use App\Models\Departement;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\FraisController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\PaiementController;
@@ -30,8 +31,9 @@ Route::get('/', function () {
 
     $Departements=Departement::all();
     $Sections=Section::all();
-    $Actualites=Actualite::all();
-   
+    $Actualites=Actualite::query()->Orderby('id',"desc")->take(5)->get();
+
+
 
     return view('welcome',compact('Departements','Sections',"Actualites"));
     // return redirect("/admin");
@@ -50,6 +52,8 @@ Route::get("element_dossier/{annee_id}/{classe_id}",[ElementDossierController::c
 Route::get("etudiant_promotion/{annee_id}/{classe_id}",[EtudiantparpromotionController::class,"generate_pdf"])->name("etudiant_promotion");
 Route::get("etudiant_promotion_non_inscrits/{classe_id}",[EtudiantparpromotionController::class,"generate_pdf1"])->name("etudiant_promotion_non_inscrits");
 Route::get("etudiant.profil/{etudiant}",[EtudiantprofilController::class,"generate_pdf"])->name("etudiant.profil");
+
+
 
 
 
