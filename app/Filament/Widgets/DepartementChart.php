@@ -9,6 +9,7 @@ use Filament\Widgets\ChartWidget;
 class DepartementChart extends ChartWidget
 {
     protected static ?string $heading = 'Effectifs des étudiants par Département';
+    protected static bool $isLazy = false;
 
     protected static ?int $sort = 9;
     protected function getData(): array

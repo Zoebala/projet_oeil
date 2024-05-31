@@ -13,6 +13,7 @@ class SectionChart extends ChartWidget
 {
     protected static ?string $heading = 'Effectifs des étudiants par Section';
     protected static ?int $sort = 8;
+    protected static bool $isLazy = false;
 
 
     protected function getData(): array

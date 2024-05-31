@@ -11,7 +11,7 @@
       @if(Auth()->user())
         <li><a class="nav-link scrollto" href="/admin/etudiants"> Mon Profil</a></li>
       @else
-        <li><a class="nav-link scrollto" href="/admin">Connexion</a></li>
+        <li><a class="nav-link scrollto" href="admin/login">Connexion</a></li>
       @endif
     </ul>
     <i class="bi bi-list mobile-nav-toggle"></i>

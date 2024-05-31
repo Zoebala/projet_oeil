@@ -11,13 +11,15 @@ class SectionPaiementChart extends ChartWidget
     protected static ?string $heading = 'Effectifs des étudiants ayant payé par Section';
     protected static ?int $sort = 10;
 
-    // public static function canAccess():bool
-    // {
-    //     return false;
+    protected static bool $isLazy = false;
+    protected bool $isVisible = false;
 
 
-    // }
 
+    protected function shouldRender():bool
+    {
+        return $this->isVisible;
+    }
     protected function getData(): array
     {
         $Sections=Section::get("lib");
