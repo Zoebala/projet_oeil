@@ -38,6 +38,9 @@ class PaiementResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
     protected static ?string $navigationGroup ="COGE Management";
     protected static ?int $navigationSort = 8;
+
+    
+
     public static function getNavigationBadge():string
     {
         return static::getModel()::Where("annee_id",session("Annee_id") ?? 1 )->count();

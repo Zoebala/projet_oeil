@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Hash;
 class Identification extends Component
 {
 
-    #Rule[(required|max:15)]
+    #[Rule("required|max:15|3")]
     public $name;
-    #Rule[(required|email|unique:users)]
+    #[Rule("required|email|unique:users")]
     public $email;
-    #Rule[(required)]
+    #[Rule("required|min:8")]
     public $password;
     public function save(){
+        $this->validate();
 
-        
         User::create([
             "name" => $this->name,
             "email" => $this->email,

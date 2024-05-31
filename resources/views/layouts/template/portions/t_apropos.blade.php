@@ -4,7 +4,7 @@
       <div class="section-title">
         <h2>Apropos</h2>
         <h3>Découvrez plus <span>Apropos de nous</span></h3>
-        <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae autem.</p>
+        <p>Voici de manière concise un bref resumé  relatif à l'université de Muanda.</p>
       </div>
 
       <div class="row">

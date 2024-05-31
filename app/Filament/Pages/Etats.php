@@ -22,6 +22,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 class Etats extends Page
 {
 //    use HasActions, InteractsWithForms;
+
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static string $view = 'filament.pages.etats';
