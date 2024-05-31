@@ -28,7 +28,7 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
-    
+
     protected static ?string $navigationLabel = 'User(s)';
     protected static ?string $navigationGroup ="Paramètres";
     protected static ?int $navigationSort = 1;
@@ -52,8 +52,8 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Section::make("Définition des Utilisateurs")
-                ->Icon("heroicon-o-users")
+                Section::make("Définition Utilisateur")
+                ->Icon("heroicon-o-user-plus")
                 ->schema([
 
                     TextInput::make('name')
@@ -99,6 +99,7 @@ class UserResource extends Resource
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('name')
+                    ->label("Nom")
                     ->searchable(),
                 TextColumn::make('email')
                     ->searchable(),

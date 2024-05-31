@@ -26,7 +26,14 @@ class Identification extends Component
         ]);
 
         $User=User::whereEmail($this->email)->first();
-        $User->givePermissionTo(["ViewAny Etudiants","Create Etudiants","Update Etudiants"]);
+        //attribution des permissions à l'utilisateur
+        $User->givePermissionTo([
+            "ViewAny Etudiants",
+            "Create Etudiants",
+            "Update Etudiants",
+            "ViewAny Users",
+            "Update Users"
+        ]);
 
         return redirect("/admin/etudiants");
     }
