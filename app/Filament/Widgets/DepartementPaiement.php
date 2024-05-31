@@ -10,6 +10,7 @@ class DepartementPaiement extends ChartWidget
 {
     protected static ?string $heading = 'Effectif des étudiants ayant payé par Département';
     protected static ?int $sort = 12;
+    protected static bool $isLazy = false;
 
     protected function getData(): array
     {
