@@ -5,7 +5,7 @@
       <li><a class="nav-link scrollto" href="#services">Services</a></li>
       <li><a class="nav-link scrollto " href="#testimonials">Actualités</a></li>
       @if(!Auth()->user())
-        <li><a class="nav-link scrollto" href="#contact">S'identifier</a></li>
+        <li><a class="nav-link scrollto" title="Créez votre compte" href="#contact">S'identifier</a></li>
 
 
         <li><a class="nav-link scrollto" href="admin/login">Connexion</a></li>
