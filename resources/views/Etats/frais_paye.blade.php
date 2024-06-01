@@ -7,7 +7,7 @@
             <hr style="border:1px dashed black">
             {{-- <h3 class="text-center">Departement : {{ $queries[0]->departement }}</h3> --}}
             <h3 class="text-center"> {{$title}}</h3>
-            <div style="margin-right: 150px;">
+            <div style=" width:100%; position: relative;right:40px;">
                 <table >
                     <thead>
                         <th>N°</th>
@@ -30,7 +30,7 @@
                                 <td>{{$loop->index+1}}</td>
                                 <td>{{$query->nom." ".$query->postnom." ".$query->prenom}}</td>
                                 <td>{{$query->genre}}</td>
-                                <td>{{$query->classe}}</td>
+                                <td >{{$query->classe}}</td>
                                 {{-- <td>{{$query->departement}}</td> --}}
                                 <td>{{$query->totalapayer. " FC"}}</td>
                                 <td>{{$query->montantpaye. " FC"}}</td>
