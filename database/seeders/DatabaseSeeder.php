@@ -62,6 +62,11 @@ class DatabaseSeeder extends Seeder
                 "guard_name"=>"web"
 
             ],
+            [
+                "name"=>"CANDIDAT",
+                "guard_name"=>"web"
+
+            ]
 
         ]);
     /*----------------------------------------------------------------
@@ -219,6 +224,10 @@ class DatabaseSeeder extends Seeder
                 "guard_name"=>"web"
             ],
             [
+                "name"=>"ViewAny Users",
+                "guard_name"=>"web"
+            ],
+            [
                 "name"=>"ViewAny Etats",
                 "guard_name"=>"web"
             ],
@@ -314,7 +323,7 @@ class DatabaseSeeder extends Seeder
                 "ViewAny Inscriptions",
                 "ViewAny Paiements",
                 "ViewAny Users",
-                "Update Users",
+                "Update Users"
         ]);
         $SGACAD=Role::findByName("SGACAD");
         $SGACAD->givePermissionTo([
@@ -328,7 +337,7 @@ class DatabaseSeeder extends Seeder
                 "ViewAny Inscriptions",
                 "ViewAny Paiements",
                 "ViewAny Users",
-                "Update Users",
+                "Update Users"
         ]);
         $SGADMN=Role::findByName("SGADMN");
         $SGADMN->givePermissionTo([
@@ -342,7 +351,7 @@ class DatabaseSeeder extends Seeder
                 "ViewAny Inscriptions",
                 "ViewAny Paiements",
                 "ViewAny Users",
-                "Update Users",
+                "Update Users"
         ]);
         $ADMIN_BUDGET=Role::findByName("ADMIN_BUDGET");
         $ADMIN_BUDGET->givePermissionTo([
@@ -356,7 +365,7 @@ class DatabaseSeeder extends Seeder
                 "ViewAny Inscriptions",
                 "ViewAny Paiements",
                 "ViewAny Users",
-                "Update Users",
+                "Update Users"
         ]);
         $SACAD=Role::findByName("SACAD");
         $SACAD->givePermissionTo([
@@ -392,7 +401,7 @@ class DatabaseSeeder extends Seeder
                 "DeleteAny Etudiants",
                 "DeleteAny Inscriptions",
                 "ViewAny Users",
-                "Update Users",
+                "Update Users"
         ]);
         $SECTION=Role::findByName("SECTION");
         $SECTION->givePermissionTo([
@@ -402,7 +411,7 @@ class DatabaseSeeder extends Seeder
                 "ViewAny Classes",
                 "ViewAny Etudiants",
                 "ViewAny Users",
-                "Update Users",
+                "Update Users"
         ]);
         $COMGER=Role::findByName("COMGER");
         $COMGER->givePermissionTo([
@@ -419,7 +428,12 @@ class DatabaseSeeder extends Seeder
                 "DeleteAny Frais",
                 "DeleteAny Paiements",
                 "ViewAny Users",
-                "Update Users",
+                "Update Users"
+        ]);
+        $CANDIDAT=Role::findByName("CANDIDAT");
+        $CANDIDAT->givePermissionTo([
+            "ViewAny Users",
+            "Update Users"
         ]);
      }
 
