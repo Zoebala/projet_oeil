@@ -11,7 +11,7 @@
         @foreach ($Departements as $depart)
             <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
             <div class="icon-box">
-                <div class="icon"><i class="bx bx-book"></i></div>
+                <div class="icon"><i class="bx bx-arch"></i></div>
                 <h4><a href="">{{ $depart->lib }}</a></h4>
                 <p class="text-secondary fst-italic">@if($depart->description ){{ $depart->description}}@else{{ "il n'y a pas une description associée au présent département" }}@endif </p>
             </div>
