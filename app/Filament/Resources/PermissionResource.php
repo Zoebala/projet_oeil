@@ -39,8 +39,6 @@ class PermissionResource extends Resource
     {
         return $form
             ->schema([
-                //
-
                Section::make("Définition des Permissions")
                ->icon("heroicon-o-key")
                ->schema([
