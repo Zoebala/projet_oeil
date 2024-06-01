@@ -49,10 +49,17 @@
         @auth
             <a href="#" class="twitter"><i class="bi bi-twitter"></i> Connecté en tant que </a>
 
-            @if(!$Etudiant)
-                <a href="{{ '/admin/etudiants' }}" class="instagram"><img src="{{ 'images/avatar.png' }}" alt="avatar" width="20" class="img-fluid rounded-circle">  <span class="ms-2 mt-1">{{ $User->name }}</span></a>
+            @if($Etudiant==null)
+                 @if(Auth()->user()->hasRole("CANDIDAT"))
+                    <a href="{{ '/admin/etudiants' }}" class="instagram"><img src="{{ 'images/avatar.png' }}" alt="avatar" width="20" class="img-fluid rounded-circle">  <span class="ms-2 mt-1">{{ $User->name }}</span></a>
+                @else
+                    <a href="{{ '/admin' }}" class="instagram"><img src="{{ 'images/avatar.png' }}" alt="avatar" width="20" class="img-fluid rounded-circle">  <span class="ms-2 mt-1">{{ $User->name }}</span></a>
+
+                @endif
             @else
+
                 <a href="{{ '/admin/etudiants' }}" class="instagram" title="Mon Profil"><img src="{{ 'storage/'.$Etudiant->photo }}" alt="avatar" width="35"  class="img-fluid rounded-circle">  <span class="ms-2 mt-1">{{ $Etudiant->nom}}</span></a>
+
 
             @endif
         @endauth
