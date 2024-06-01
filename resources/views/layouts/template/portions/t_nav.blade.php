@@ -6,12 +6,14 @@
       <li><a class="nav-link scrollto " href="#testimonials">Actualités</a></li>
       @if(!Auth()->user())
         <li><a class="nav-link scrollto" href="#contact">S'identifier</a></li>
+
+
+        <li><a class="nav-link scrollto" href="admin/login">Connexion</a></li>
       @endif
 
       @if(Auth()->user())
-        <li><a class="nav-link scrollto" href="/admin/etudiants"> Mon Profil</a></li>
-      @else
-        <li><a class="nav-link scrollto" href="admin/login">Connexion</a></li>
+        <li class="d-md-none" ><a class="nav-link scrollto" href="/admin/etudiants"> Mon Profil</a></li>
+
       @endif
     </ul>
     <i class="bi bi-list mobile-nav-toggle"></i>

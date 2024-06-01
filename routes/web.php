@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\User;
 use App\Livewire\Etat;
 use App\Models\Section;
+use App\Models\Etudiant;
 use App\Models\Actualite;
 use App\Models\Departement;
 use Illuminate\Support\Facades\Route;
@@ -33,9 +35,15 @@ Route::get('/', function () {
     $Sections=Section::all();
     $Actualites=Actualite::query()->Orderby('id',"desc")->take(5)->get();
 
+    $Etudiant=Etudiant::where("user_id",Auth()->user()->id)->first();
+
+    $User=User::whereId(Auth()->user()->id)->first();
 
 
-    return view('welcome',compact('Departements','Sections',"Actualites"));
+
+
+
+    return view('welcome',compact('Departements','Sections',"Actualites","Etudiant","User"));
     // return redirect("/admin");
 });
 //chargement de la page Etat livewire sur filament via sa blade page

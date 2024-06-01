@@ -38,6 +38,7 @@ class EtudiantResource extends Resource
     protected static ?string $model = Etudiant::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationLabel = 'Etudiant(s)';
     protected static ?string $navigationGroup ="COGE Management";
     protected static ?int $navigationSort = 5;
     protected static ?string $recordTitleAttribute ="nom";

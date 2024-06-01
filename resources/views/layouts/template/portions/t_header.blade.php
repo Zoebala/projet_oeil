@@ -49,10 +49,14 @@
         @auth
             <a href="#" class="twitter"><i class="bi bi-twitter"></i> Connecté...</a>
 
+            @if(!$Etudiant)
+                <a href="{{ '/admin/etudiants' }}" class="instagram"><img src="{{ 'images/avatar.png' }}" alt="avatar" width="20" class="img-fluid rounded-circle">  <span class="ms-2 mt-1">{{ $User->name }}</span></a>
+            @else
+                <a href="{{ '/admin/etudiants' }}" class="instagram" title="Mon Profil"><img src="{{ 'storage/'.$Etudiant->photo }}" alt="avatar" width="35"  class="img-fluid rounded-circle">  <span class="ms-2 mt-1">{{ $Etudiant->nom}}</span></a>
+
+            @endif
         @endauth
-        {{-- <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a> --}}
+        {{--  <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a> --}}
       </div>
     </div>
 </section>

@@ -26,6 +26,7 @@ class FraisResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
     protected static ?string $navigationGroup ="COGE Management";
+    
     protected static ?int $navigationSort = 6;
     protected static ?string $pollingInterval = '5s';
     public static function getNavigationBadge():string
@@ -91,7 +92,7 @@ class FraisResource extends Resource
                 ->numeric()
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true),
-            Tables\Columns\TextColumn::make('classe.lib')
+               Tables\Columns\TextColumn::make('classe.lib')
                 ->label("Classe")
                 ->numeric()
                 ->sortable(),
