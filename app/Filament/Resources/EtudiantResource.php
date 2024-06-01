@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Tables;
 use App\Models\Annee;
 use App\Models\Classe;
+use Filament\Forms\Set;
 use App\Models\Etudiant;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -137,7 +138,22 @@ class EtudiantResource extends Resource
                             DatePicker::make('datenais')
                             ->label("Date de Naissance")
                             ->columnSpanFull()
-                            ->required(),
+                            ->required()
+                            ->live()
+                            ->afterStateUpdated(function($state, Set $set){
+                                $Annee_naissance=(int)date("Y",strtotime($state));
+                                $A_Actuelle=(int)date("Y");
+                                if(($A_Actuelle-$Annee_naissance)<17){
+                                    $set("datenais",null);
+
+                                    Notification::make()
+                                    ->title("La candidature ne concerne pas les  moins de 17 ans")
+                                    ->danger()
+                                    ->duration(5000)
+                                    ->send();
+                                }
+
+                            }),
                             // ->maxLength(255),
                         ])->columnSpan(1)->columns(1),
 
