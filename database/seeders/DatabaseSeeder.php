@@ -433,7 +433,10 @@ class DatabaseSeeder extends Seeder
         $CANDIDAT=Role::findByName("CANDIDAT");
         $CANDIDAT->givePermissionTo([
             "ViewAny Users",
-            "Update Users"
+            "Update Users",
+            "ViewAny Etudiants",
+            "Create Etudiants",
+            "Update Etudiants"
         ]);
      }
 
