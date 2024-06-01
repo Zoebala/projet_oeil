@@ -5,7 +5,7 @@
       <div class="section-title">
         <h2><i class="bi bi-plus-circle"></i> Identification</h2>
         <h3><span>Indentifiez vous ici</span></h3>
-        <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae autem.</p>
+        <p>Veuillez renseigner ici vos identifiants de connexion</p>
       </div>
 
       <div class="row" data-aos="fade-up" data-aos-delay="100">
