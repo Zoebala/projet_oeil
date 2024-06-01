@@ -507,7 +507,9 @@ class EtudiantResource extends Resource
                         ->label("Classe")
                         ->options(function(){
                             return Classe::query()->pluck("lib","id");
-                        })->required(),
+                        })->required()
+                        ->preload()
+                        ->searchable(),
 
                     ])->modalWidth(MaxWidth::Medium)
                     ->modalIcon("heroicon-o-chat-bubble-left")
