@@ -13,7 +13,7 @@
             <div class="icon-box">
                 <div class="icon"><i class="bx bx-book"></i></div>
                 <h4><a href="">{{ $depart->lib }}</a></h4>
-                <p class="text-secondary fst-italic">@if($depart->description ){{ $depart->description}}@else{{ "il n'y pas une description associée au présent département" }}@endif </p>
+                <p class="text-secondary fst-italic">@if($depart->description ){{ $depart->description}}@else{{ "il n'y a pas une description associée au présent département" }}@endif </p>
             </div>
             </div>
 

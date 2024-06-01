@@ -23,7 +23,7 @@
                 <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
                 <div class="icon"><i class="bx bx-world"></i></div>
                 <h4 class="title"><a href="">{{ $section->lib }}</a></h4>
-                <p class="description fst-italic">@if($section->description ){{ $section->description}}@else{{ "il n'y pas une description associée à la présente section" }}@endif </p>
+                <p class="description fst-italic">@if($section->description ){{ $section->description}}@else{{ "il n'y a pas une description associée à la présente section" }}@endif </p>
                 </div>
             </div>
         @endforeach
