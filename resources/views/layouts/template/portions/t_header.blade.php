@@ -47,7 +47,7 @@
       </div>
       <div class="social-links d-none d-md-flex align-items-center">
         @auth
-            <a href="#" class="twitter"><i class="bi bi-twitter"></i> Connecté...</a>
+            <a href="#" class="twitter"><i class="bi bi-twitter"></i> Connecté en tant que </a>
 
             @if(!$Etudiant)
                 <a href="{{ '/admin/etudiants' }}" class="instagram"><img src="{{ 'images/avatar.png' }}" alt="avatar" width="20" class="img-fluid rounded-circle">  <span class="ms-2 mt-1">{{ $User->name }}</span></a>
