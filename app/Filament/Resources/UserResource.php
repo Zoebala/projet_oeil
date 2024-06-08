@@ -33,7 +33,7 @@ class UserResource extends Resource
     protected static ?string $navigationLabel = 'User(s)';
     protected static ?string $navigationGroup ="Paramètres";
     protected static ?int $navigationSort = 1;
-    
+
     public static function getNavigationBadge():string
     {
         if(Auth()->user()->hasRole(["Admin"])){
@@ -107,7 +107,8 @@ class UserResource extends Resource
                     ->searchable(),
                 TextColumn::make('roles.name')
                     ->label("Roles")
-                    ->searchable(),
+                    ->searchable()
+                    ->hidden(fn():bool => !Auth()->user()->hasRole(["Admin"])),
                 TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable()
