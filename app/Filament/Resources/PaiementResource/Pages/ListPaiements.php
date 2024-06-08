@@ -4,6 +4,7 @@ namespace App\Filament\Resources\PaiementResource\Pages;
 
 use App\Models\Annee;
 use Filament\Actions;
+use App\Models\Etudiant;
 use App\Models\Paiement;
 use Livewire\Attributes\On;
 use Filament\Resources\Pages\ListRecords;
@@ -29,20 +30,39 @@ class ListPaiements extends ListRecords
     {
 
         $Annee=Annee::where("id",session("Annee_id") ?? 1)->first();
+        $Etudiant=Etudiant::whereUser_id(Auth()->user()->id)->first();
 
-        return [
-            "$Annee->lib"=>Tab::make()
-            ->modifyQueryUsing(function(Builder $query)
-            {
-               $query->where("annee_id",session("Annee_id") ?? 1);
+        if(Auth()->user()->hasRole("CANDIDAT")){
 
-            })->badge(Paiement::query()
-            ->where("annee_id",session("Annee_id") ?? 1)->count())
-            ->icon("heroicon-o-calendar-days"),
-            'Toutes'=>Tab::make()
-            ->badge(Paiement::query()->count()),
+            return [
+                "$Annee->lib"=>Tab::make()
+                ->modifyQueryUsing(function(Builder $query)
+                {
+                $query->where("annee_id",session("Annee_id") ?? 1);
 
-        ];
+                })->badge(Paiement::query()
+                ->where("Etudiant_id",$Etudiant->id)->where("annee_id",session("Annee_id") ?? 1)->count())
+                ->icon("heroicon-o-calendar-days"),
+                'Tous'=>Tab::make()
+                ->badge(Paiement::where("Etudiant_id",$Etudiant->id)->count()),
+
+            ];
+        }else{
+
+            return [
+                "$Annee->lib"=>Tab::make()
+                ->modifyQueryUsing(function(Builder $query)
+                {
+                $query->where("annee_id",session("Annee_id") ?? 1);
+
+                })->badge(Paiement::query()
+                ->where("annee_id",session("Annee_id") ?? 1)->count())
+                ->icon("heroicon-o-calendar-days"),
+                'Tous'=>Tab::make()
+                ->badge(Paiement::query()->count()),
+
+            ];
+        }
     }
 
     protected function getHeaderWidgets(): array

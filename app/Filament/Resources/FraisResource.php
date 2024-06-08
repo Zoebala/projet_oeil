@@ -7,12 +7,15 @@ use Filament\Tables;
 use App\Models\Annee;
 use App\Models\Frais;
 use App\Models\Classe;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\FraisResource\Pages;
@@ -26,7 +29,7 @@ class FraisResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
     protected static ?string $navigationGroup ="COGE Management";
-    
+
     protected static ?int $navigationSort = 6;
     protected static ?string $pollingInterval = '5s';
     public static function getNavigationBadge():string
@@ -55,11 +58,29 @@ class FraisResource extends Resource
                     ->required(),
                     Select::make('classe_id')
                     ->label("classe")
-                    ->label("classe")
                     ->required()
+                    ->live()
+                    ->afterStateUpdated(function(Get $get, Set $set)
+                    {
+                        if( (filled($get("annee_id")) && filled($get("classe_id")))){
+                            $Frais=Frais::whereAnnee_id($get("annee_id"))->whereClasse_id($get("classe_id"))->exists();
+
+                            if($Frais){
+                                $set("annee_id",null);
+                                $set("classe_id",null);
+                                Notification::make()
+                                ->title("Les Frais Académiques ont déjà été définis pour cette classe")
+                                ->danger()
+                                ->duration(5000)
+                                ->send();
+                            }
+                        }
+                    })
                     ->options(function(){
                         return Classe::all()->pluck('lib',"id");
-                    }),
+                    })
+                    ->preload()
+                    ->searchable(),
                     TextInput::make('motif')
                         ->required()
                         ->placeholder("Ex: Frais Académique")

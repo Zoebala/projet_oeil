@@ -33,16 +33,24 @@ use App\Filament\Resources\PaiementResource\Widgets\CreatePaiementWidget;
 class PaiementResource extends Resource
 {
     protected static ?string $model = Paiement::class;
-    protected static ?string $pollingInterval = '5s';
+
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
     protected static ?string $navigationGroup ="COGE Management";
     protected static ?int $navigationSort = 8;
 
-    
+
+
 
     public static function getNavigationBadge():string
     {
+        if(Auth()->user()->hasRole(["Admin","SACAD","DG","SACAD","SGACAD","SGADMN","SECTION","COMGER"])){
+
+            return static::getModel()::count();
+        }else{
+            $Etudiant=Etudiant::whereUser_id(Auth()->user()->id)->first();
+            return static::getModel()::whereEtudiant_id($Etudiant->id)->count();
+        }
         return static::getModel()::Where("annee_id",session("Annee_id") ?? 1 )->count();
     }
     public static function getNavigationBadgeColor():string
@@ -396,5 +404,19 @@ class PaiementResource extends Resource
         return [
            CreatePaiementWidget::class,
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $Etudiant=Etudiant::where("user_id",Auth()->user()->id)->first();
+        if(!Auth()->user()->hasRole(["Admin","SACAD","DG","SACAD","SGACAD","SGADMN","SECTION","COMGER"])){
+
+            return parent::getEloquentQuery()
+                ->where("etudiant_id",$Etudiant->id)
+                ->where("annee_id",session("Annee_id") ?? 1);
+        }else{
+            return parent::getEloquentQuery();
+
+        }
     }
 }

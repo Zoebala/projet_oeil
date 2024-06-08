@@ -106,7 +106,13 @@ class AnneeResource extends Resource
             ])
             ->HeaderActions([
                 Action::make("annee")
-                ->label("Définition de l'année de travail")
+                ->label(function(){
+                    if(Auth()->user()->hasRole("CANDIDAT"))
+                        return "Choisir une année Académique";
+                    else
+                        return "Définition de l'année de travail";
+                    
+                })
                 ->form([
                     Select::make("annee")
                     ->label("Choix de l'année")

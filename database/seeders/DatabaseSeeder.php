@@ -436,7 +436,9 @@ class DatabaseSeeder extends Seeder
             "Update Users",
             "ViewAny Etudiants",
             "Create Etudiants",
-            "Update Etudiants"
+            "Update Etudiants",
+            "ViewAny Annees",
+            "ViewAny Paiements"
         ]);
      }
 
