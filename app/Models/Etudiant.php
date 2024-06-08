@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Classe;
+use App\Models\Liaison;
 use App\Models\Etudiant;
 use App\Models\Paiement;
 use App\Models\Inscription;
@@ -35,6 +36,11 @@ class Etudiant extends Model
     public function inscriptions()
     {
         return $this->HasMany(Inscription::class);
+    }
+
+    public function liaison():HasMany
+    {
+        return $this->HasMany(Liaison::class);
     }
 
 

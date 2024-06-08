@@ -438,7 +438,10 @@ class DatabaseSeeder extends Seeder
             "Create Etudiants",
             "Update Etudiants",
             "ViewAny Annees",
-            "ViewAny Paiements"
+            "ViewAny Paiements",
+            "ViewAny Liaisons",
+            "Update Liaisons",
+            "Create Liaisons"
         ]);
      }
 

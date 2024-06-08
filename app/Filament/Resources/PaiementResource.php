@@ -46,12 +46,17 @@ class PaiementResource extends Resource
     {
         if(Auth()->user()->hasRole(["Admin","SACAD","DG","SACAD","SGACAD","SGADMN","SECTION","COMGER"])){
 
-            return static::getModel()::count();
+            // return static::getModel()::count();
+            return static::getModel()::Where("annee_id",session("Annee_id") ?? 1 )->count();
         }else{
+
             $Etudiant=Etudiant::whereUser_id(Auth()->user()->id)->first();
+            
+            if($Etudiant==null){
+                return 0;
+            }
             return static::getModel()::whereEtudiant_id($Etudiant->id)->count();
         }
-        return static::getModel()::Where("annee_id",session("Annee_id") ?? 1 )->count();
     }
     public static function getNavigationBadgeColor():string
     {

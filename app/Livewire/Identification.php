@@ -21,10 +21,9 @@ class Identification extends Component
 
         User::create([
             "name" => $this->name,
-            "email" => $this->email,
+            "email" => strtolower($this->email),
             "password" => Hash::make($this->password)
         ]);
-
         $User=User::whereEmail($this->email)->first();
         //attribution des permissions à l'utilisateur
         $User->assignRole("CANDIDAT");

@@ -36,6 +36,12 @@ class ListEtudiants extends ListRecords
             ->action(function(){
                 return redirect("/");
             }),
+            Actions\Action::make("Je suis déjà inscrit(e)")
+            ->icon("heroicon-o-link")
+            ->action(function(){
+                return redirect()->route("filament.admin.resources.liaisons.index");
+            })
+            ->hidden(fn():bool =>Etudiant::whereUser_id(Auth()->user()->id)->exists()),
             Actions\CreateAction::make()
             ->label(function(){
                 if(Auth()->user()->hasRole(["Admin","SACAD"])){

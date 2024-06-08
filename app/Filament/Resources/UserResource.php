@@ -24,6 +24,7 @@ use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\Widgets\CreateUserWidget;
 
+
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
@@ -142,6 +143,7 @@ class UserResource extends Resource
     {
         return [
             //
+
         ];
     }
 
