@@ -3,14 +3,15 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\User;
 use Filament\Tables;
 use App\Models\Classe;
 use App\Models\Liaison;
 use Filament\Forms\Get;
 use App\Models\Etudiant;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
 
+use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
@@ -85,6 +86,13 @@ class LiaisonResource extends Resource
                     ->required()
                     ->preload()
                     ->searchable(),
+                    Select::make("user_id")
+                    ->label("Utilisateur")
+                    ->visible(fn():bool => !Auth()->user()->hasRole("CANDIDAT"))
+                    ->options(function(){
+                       return User::where("id","!=",1)->pluck("name","id");
+                    })->preload()
+                    ->searchable(),
 
                 ])->columns(2)
             ]);
@@ -120,7 +128,7 @@ class LiaisonResource extends Resource
                  ActionGroup::make([
                      Tables\Actions\EditAction::make(),
                      Tables\Actions\DeleteAction::make()
-                     ->visible(Auth()->user()->hasRole('admin')),
+                     ->visible(fn()=> !Auth()->user()->hasRole('CANDIDAT')),
                  ])->button()->label("Actions"),
 
             ])
@@ -149,9 +157,9 @@ class LiaisonResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        if(!Auth()->user()->hasRole(["Admin"])){
+        if(Auth()->user()->hasRole(["CANDIDAT"])){
 
-            return parent::getEloquentQuery()->where("id",Auth()->user()->id);
+            return parent::getEloquentQuery()->where("user_id",Auth()->user()->id);
         }else{
             return parent::getEloquentQuery();
 

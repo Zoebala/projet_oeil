@@ -13,13 +13,19 @@ class CreateLiaison extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data):array
     {
-        //Attribution du user id à l'étudiant(e) concerné(e)
-        Etudiant::whereId($data["etudiant_id"])->update([
-            "user_id"=>Auth()->user()->id,
-        ]);
-        
-        $data["user_id"]=Auth()->user()->id;
 
+        if(Auth()->user()->hasRole("CANDIDAT")){
+            //Attribution du user id à l'étudiant(e) concerné(e)
+            Etudiant::whereId($data["etudiant_id"])->update([
+                "user_id"=>Auth()->user()->id,
+            ]);
+
+            $data["user_id"]=Auth()->user()->id;
+        }
+
+        Etudiant::whereId($data["etudiant_id"])->update([
+            "user_id"=>$data["user_id"],
+        ]);
         return $data;
     }
 

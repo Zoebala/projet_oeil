@@ -17,7 +17,13 @@ class ListLiaisons extends ListRecords
         return [
             Actions\CreateAction::make()
             ->label("S'associer à un étudiant")
-            ->hidden(fn()=> Liaison::whereUser_id(Auth()->user()->id)->exists() || Etudiant::whereUser_id(Auth()->user()->id)->exists()),
+            ->hidden(function(){
+                if(Auth()->user()->hasRole("CANDIDAT")){
+                    return Liaison::whereUser_id(Auth()->user()->id)->exists() || Etudiant::whereUser_id(Auth()->user()->id)->exists();
+                }else{
+                    return false;
+                }
+            }),
         ];
     }
 }
