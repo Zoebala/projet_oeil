@@ -79,6 +79,11 @@ class DatabaseSeeder extends Seeder
 
             ],
             [
+                "name"=>"Create Liaisons",
+                "guard_name"=>"web"
+
+            ],
+            [
                 "name"=>"Create Annees",
                 "guard_name"=>"web"
 
@@ -113,6 +118,10 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 "name"=>"Update Users",
+                "guard_name"=>"web"
+            ],
+            [
+                "name"=>"Update Liaisons",
                 "guard_name"=>"web"
             ],
             [
@@ -153,6 +162,10 @@ class DatabaseSeeder extends Seeder
                 "guard_name"=>"web"
             ],
             [
+                "name"=>"Delete Liaisons",
+                "guard_name"=>"web"
+            ],
+            [
                 "name"=>"Delete Sections",
                 "guard_name"=>"web"
             ],
@@ -183,6 +196,11 @@ class DatabaseSeeder extends Seeder
             [
 
                 "name"=>"View Users",
+                "guard_name"=>"web"
+            ],
+            [
+
+                "name"=>"View Liaisons",
                 "guard_name"=>"web"
             ],
             [
@@ -228,6 +246,10 @@ class DatabaseSeeder extends Seeder
                 "guard_name"=>"web"
             ],
             [
+                "name"=>"ViewAny Liaisons",
+                "guard_name"=>"web"
+            ],
+            [
                 "name"=>"ViewAny Etats",
                 "guard_name"=>"web"
             ],
@@ -265,6 +287,10 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 "name"=>"DeleteAny Annees",
+                "guard_name"=>"web"
+            ],
+            [
+                "name"=>"DeleteAny Liaisons",
                 "guard_name"=>"web"
             ],
             [
