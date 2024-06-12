@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DepartementResource\Pages;
 use App\Filament\Resources\DepartementResource\RelationManagers;
 use App\Filament\Resources\DepartementResource\Widgets\CreateDepartementWidget;
+use App\Filament\Resources\DepartementResource\RelationManagers\ClassesRelationManager;
 
 class DepartementResource extends Resource
 {
@@ -79,7 +80,7 @@ class DepartementResource extends Resource
                     ->label("Id Departement")
                     ->searchable(),
                 TextColumn::make('lib')
-                     
+
                     ->label("Departement")
 
                     ->searchable(),
@@ -113,6 +114,7 @@ class DepartementResource extends Resource
     {
         return [
             //
+            ClassesRelationManager::class,
         ];
     }
 
