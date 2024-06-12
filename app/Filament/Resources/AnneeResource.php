@@ -18,6 +18,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\AnneeResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -95,8 +96,11 @@ class AnneeResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])->button()->label("Actions")
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -111,7 +115,7 @@ class AnneeResource extends Resource
                         return "Choisir une année Académique";
                     else
                         return "Définition de l'année de travail";
-                    
+
                 })
                 ->form([
                     Select::make("annee")
