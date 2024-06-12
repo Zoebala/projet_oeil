@@ -107,6 +107,10 @@ class LiaisonResource extends Resource
                 ->label("Utilisateur")
                 ->searchable()
                 ->sortable(),
+                TextColumn::make("user.email")
+                ->label("Email User")
+                ->searchable()
+                ->sortable(),
                 TextColumn::make("etudiant.nom")
                 ->label("Noms")
                 ->searchable()
