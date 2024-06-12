@@ -21,6 +21,7 @@ use App\Filament\Resources\ClasseResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ClasseResource\RelationManagers;
 use App\Filament\Resources\ClasseResource\Widgets\CreateClasseWidget;
+use App\Filament\Resources\ClasseResource\RelationManagers\EtudiantsRelationManager;
 
 class ClasseResource extends Resource
 {
@@ -116,6 +117,7 @@ class ClasseResource extends Resource
     {
         return [
             //
+            EtudiantsRelationManager::class,
         ];
     }
 
