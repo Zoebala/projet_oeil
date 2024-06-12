@@ -103,8 +103,14 @@ class LiaisonResource extends Resource
         return $table
             ->columns([
                 //
+                TextColumn::make("user.name")
+                ->label("Utilisateur")
+                ->searchable()
+                ->sortable(),
                 TextColumn::make("etudiant.nom")
                 ->label("Noms")
+                ->searchable()
+                ->sortable()
                 ->getStateUsing(function($record){
 
                     $Etudiant=Etudiant::whereId($record->etudiant_id)->first();
@@ -112,6 +118,8 @@ class LiaisonResource extends Resource
                     return $Etudiant->nom." ".$Etudiant->postnom." ".$Etudiant->prenom;
                 }),
                 TextColumn::make("classe")
+                ->searchable()
+                ->sortable()
                 ->getStateUsing(function($record){
                     $Etudiant=Etudiant::whereId($record->etudiant_id)->first();
 
