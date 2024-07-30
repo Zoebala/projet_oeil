@@ -47,7 +47,7 @@ class SectionResource extends Resource
     {
         return $form
             ->schema([
-                wizard::make([
+                Wizard::make([
                     Step::make("Information")
                     ->schema([
 
@@ -115,7 +115,8 @@ class SectionResource extends Resource
                     ->searchable(),
                 TextColumn::make('description')
                     ->label("Description")
-                    ->searchable(),
+                    ->searchable()
+                    ->placeholder("Pas de description"),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

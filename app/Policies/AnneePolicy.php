@@ -50,7 +50,7 @@ class AnneePolicy
     public function delete(User $user, Annee $annee): bool
     {
         //
-        return $user->hasPermissionto('Delete Annees');
+        return $user->hasPermissionTo('Delete Annees');
     }
 
     /**

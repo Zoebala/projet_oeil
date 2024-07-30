@@ -14,4 +14,8 @@ class CreateSection extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
+    protected function getCreatedNotificationTitle(): ? string
+    {
+        return "Section ajoutée avec succès!";
+    }
 }
