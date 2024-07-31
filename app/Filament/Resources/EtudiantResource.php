@@ -277,10 +277,6 @@ class EtudiantResource extends Resource
                     ->placeholder("Non Inscrit(e)")
                     // ->default(false)
                     ->toggleable(isToggledHiddenByDefault: false),
-                Tables\Columns\TextColumn::make('classe.lib')
-                    ->label("Classe")
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('matricule')
                     ->label("Matricule")
                     ->searchable()
