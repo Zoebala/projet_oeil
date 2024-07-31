@@ -98,13 +98,13 @@ class EtudiantResource extends Resource
                     ->schema([
                         Section::make()
                         ->schema([
-                            Select::make('classe_id')
-                            ->label("Classe")
-                            ->preload()
-                            ->searchable()
+                            TextInput::make('classe_id')
+                            ->label("Code Classe")
+                            ->disabled()
+                            ->dehydrated(true)
                             ->required()
-                            ->options(function(){
-                                return Classe::query()->pluck("lib","id");
+                            ->default(function(){
+                                return session("classe_id")[0] ?? 1;
                             }),
                             TextInput::make('matricule')
                                 ->placeholder('Ex: 2023/1')
