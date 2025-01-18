@@ -5,7 +5,7 @@
   <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-      <h1 class="logo"><a href="index.html"><img src="{{ 'images/logomuanda.png' }}" class="img-fluid rounded-circle" alt="logo" width="30px"> Muanda University<span>.</span></a></h1>
+      <h1 class="logo fst-italic"><a href="#"><img src="{{ './images/isp.png' }}" class="img-fluid" alt="logo" width="50px" height="60px"> ISP Mb-Ngungu</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo"><img src="template/assets/img/logo.png" alt=""></a>-->
 
@@ -21,51 +21,14 @@
 
   <main id="main">
 
-    <!-- ======= Featured Services Section ======= -->
 
-    <!-- End Featured Services Section -->
-
-    <!-- ======= About Section ======= -->
+      @include("layouts.template.portions.t_actualite")
     @include("layouts.template.portions.t_apropos")
-    <!-- End About Section -->
-
-    <!-- ======= Skills Section ======= -->
-
-    <!-- End Skills Section -->
-
-    <!-- ======= Counts Section ======= -->
-
-    <!-- End Counts Section -->
-
-    <!-- ======= Clients Section ======= -->
-
-    <!-- End Clients Section -->
-
-    <!-- ======= Services Section ======= -->
     @include("layouts.template.portions.t_service")
     <!-- End Services Section -->
 
     <!-- ======= Testimonials Section ======= -->
-    @include("layouts.template.portions.t_actualite")
-    <!-- End Testimonials Section -->
 
-    <!-- ======= Portfolio Section ======= -->
-
-    <!-- End Portfolio Section -->
-
-    <!-- ======= Team Section ======= -->
-
-    <!-- End Team Section -->
-
-    <!-- ======= Pricing Section ======= -->
-
-    <!-- End Pricing Section -->
-
-    <!-- ======= Frequently Asked Questions Section ======= -->
-
-    {{-- @include("layouts.template.portions.t_section") --}}
-    <!-- End Frequently Asked Questions Section -->
-    
     <!-- ======= Contact Section ======= -->
     @include("layouts.template.portions.t_contact")
     <!-- End Contact Section -->
@@ -91,6 +54,18 @@
 
   <!-- Template Main JS File -->
   <script src="template/assets/js/main.js"></script>
+  <script src="js/typed.js"></script>
+  <script>
+           var typed = new Typed('.typed-words', {
+           strings: ["L'Institut Supérieur Pédagogique","de Mbanza-Ngungu","vous souhaite","la bienvenue","dans sa plateforme en ligne"],
+           typeSpeed: 80,
+           backSpeed: 80,
+           backDelay: 4000,
+           startDelay: 1000,
+           loop: true,
+           showCursor: true
+           });
+   </script>
 
 </body>
 

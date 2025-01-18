@@ -7,13 +7,12 @@
         <div class="row">
 
           <div class="col-lg-3 col-md-6 footer-contact">
-            <h3>Université de Muanda<span>.</span></h3>
+            <h3>{{ config("app.name") }}<span>.</span></h3>
             <p>
               A108 Adam Street <br>
-              New York, NY 535022<br>
-              Ville de Muanda <br><br>
-              <strong>Phone:</strong> +1 5589 55488 55<br>
-              <strong>Email:</strong> muandauniversite@example.com<br>
+              Ville de Mbanza-Ngungu <br><br>
+              <strong>Phone:</strong> +243 89XXXXXX<br>
+              <strong>Email:</strong> ispmbanzangungu@example.com<br>
             </p>
           </div>
 
@@ -61,7 +60,7 @@
 
     <div class="container py-4">
       <div class="copyright">
-        &copy; Copyright <strong><span>Université de muadnda</span></strong>. Tous droits reservés.
+        &copy; Copyright <strong><span>{{ config("app.name") }}</span></strong>. Tous droits reservés.
       </div>
       <div class="credits">
         <!-- All the links in the footer should remain intact. -->
