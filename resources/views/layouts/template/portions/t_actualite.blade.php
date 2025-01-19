@@ -19,7 +19,7 @@
                     </div>
                 </div>
             @empty
-                <p>
+                <p class="text-light text-center">
                     <i class="bx bxs-quote-alt-left quote-icon-left"></i>
                         Aucune actualité publiée pour le moment!
                     <i class="bx bxs-quote-alt-right quote-icon-right"></i>
