@@ -73,26 +73,12 @@ class ListPaiements extends ListRecords
                 ->button()
                 ->icon("heroicon-o-clipboard-document-list"),
                 Action::make("Liste de tous les frais payés")
-                    ->form([
-                        Select::make("annee_id")
-                            ->label("Année Académique")
-                            ->options(Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id"))
-                            ->required()
-                            ->searchable(),
-                    ])
                     ->button()
                     ->icon("heroicon-o-clipboard-document-list")
                     ->modalWidth(MaxWidth::Medium)
                     ->modalIcon("heroicon-o-users")
                      ->hidden(fn():bool => !Auth()->user()->hasRole(["COMGER","Admin","SGACAD","SACAD","ADMIN_BUDGET","SGADMN","DG"]))
-                    ->action(function(array $data){
-
-                        $annee_id=$data["annee_id"];
-
-
-
-                        return redirect()->route("frais.paye",compact("annee_id"));
-                    })
+                    ->action(fn()=> redirect()->route("frais.paye"))
                     ->openUrlInNewTab()
                     ->tooltip("Liste de tous les frais payés")
                     ->button()
@@ -125,7 +111,7 @@ class ListPaiements extends ListRecords
                     ->tooltip("Listes des frais payés par promotion"),
                 Action::make("Liste_étudiants_en_ordre_première_tranche")
                     ->form([
-                     
+
                         Select::make("classe_id")
                             ->label("Promotion")
                             ->required()
@@ -154,7 +140,7 @@ class ListPaiements extends ListRecords
                         $etat=$data["etat"];
 
 
-                        return redirect()->route("etudiant_tranche",compact("annee_id","classe_id","etat"));
+                        return redirect()->route("etudiant_tranche",compact("classe_id","etat"));
                     })
                     ->openUrlInNewTab()
                     ->tooltip("Liste des étudiants en ordre avec la première tranche")

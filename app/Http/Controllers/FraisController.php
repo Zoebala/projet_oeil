@@ -16,7 +16,8 @@ class FraisController extends Controller
     //récupération de l'année en cours
 
         $annee_id=session("Annee_id")[0];
-        dd($annee_id);
+
+        
        $queries=DB::select("SELECT nom,postnom,genre,prenom,cl.lib as classe,D.lib as departement,An.debut as debut,An.lib as annee,
                                 SUM(P.montant) as montantpaye,F.montant, F.taux,(F.montant * F.taux) as 'totalapayer',((F.montant * F.taux)-SUM(P.montant)) as reste
                                 -- SUM(COALESCE(P.montant)) as Total
