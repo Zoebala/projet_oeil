@@ -13,8 +13,9 @@ class PaiementController extends Controller
 {
     //
 
-    public function generate_pdf(int $annee_id,int $classe_id){
+    public function generate_pdf(int $classe_id){
 
+            $annee_id=session("Annee_id")[0];
             $queries=DB::Select("SELECT nom,postnom,prenom,genre,cl.lib as classe, dep.lib as departement,an.debut as debut,SUM(paie.montant) as montant,an.lib as Annee
                                 FROM departements dep
                                 JOIN classes cl ON dep.id = cl.departement_id
@@ -27,6 +28,7 @@ class PaiementController extends Controller
                                 ORDER BY dep.lib asc,etud.nom asc");
 
 
+        // dd($queries);
         // dd($queries[0]->departement);
         if(count($queries) >0){
 
@@ -38,7 +40,7 @@ class PaiementController extends Controller
             // dd($data["Etudiants"]);
 
             $pdf = Pdf::loadView('Etats/paiement',$data);
-            return $pdf->download('Liste_paiement_'.date("d/m/Y H:i:s").'.pdf');
+            return $pdf->stream('Liste_paiement_'.date("d/m/Y H:i:s").'.pdf');
         }else{
             Notification::make()
             ->title('Aucune donnée trouvée!')
@@ -49,8 +51,9 @@ class PaiementController extends Controller
         }
      }
 
-    public function generate_pdf1(int $annee_id,int $classe_id,int $montant){
-        
+    public function generate_pdf1(int $classe_id,int $montant){
+
+        $annee_id=session("Annee_id")[0];
         $queries=DB::Select("SELECT nom,postnom,prenom,genre,cl.lib as classe, dep.lib as departement,an.debut as debut,SUM(paie.montant) as montant,an.lib as Annee
         FROM departements dep
         JOIN classes cl ON dep.id = cl.departement_id
@@ -64,6 +67,7 @@ class PaiementController extends Controller
         ORDER BY dep.lib asc,etud.nom asc");
 
 
+        // dd($queries,'ici');
             if(count($queries) >0){
 
                 $data=[
@@ -74,7 +78,7 @@ class PaiementController extends Controller
                 // dd($data["Etudiants"]);
 
                 $pdf = Pdf::loadView('Etats/paiement',$data);
-                return $pdf->download('Liste_paiement_'.date("d/m/Y H:i:s").'.pdf');
+                return $pdf->stream('Liste_paiement_'.date("d/m/Y H:i:s").'.pdf');
             }else{
                 Notification::make()
                 ->title('Aucune donnée trouvée!')

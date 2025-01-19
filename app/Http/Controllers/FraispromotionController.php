@@ -10,8 +10,11 @@ use Filament\Notifications\Notification;
 class FraispromotionController extends Controller
 {
     //
-    public function generate_pdf(int $annee_id,int $classe_id){
+    public function generate_pdf(int $classe_id){
         // dd($annee_id,$classe_id);
+
+        $annee_id=session("Annee_id")[0];
+        // dd($annee_id);
         $queries=DB::select("SELECT nom,postnom,genre,prenom,cl.lib as classe,D.lib as departement,An.debut as debut,An.lib as Annee,
                                 SUM(P.montant) as montantpaye,F.montant, F.taux,(F.montant * F.taux) as 'totalapayer',((F.montant * F.taux)-SUM(P.montant)) as reste                                FROM Frais F
                                 JOIN paiements P ON P.frais_id=F.id
@@ -34,7 +37,7 @@ class FraispromotionController extends Controller
             ];
 
             $pdf = Pdf::loadView('Etats/frais_promotion',$data);
-            return $pdf->download('Liste_frais_payés_par_promotion_'.date("d/m/Y H:i:s").'.pdf');
+            return $pdf->stream('Liste_frais_payés_par_promotion_'.date("d/m/Y H:i:s").'.pdf');
         }else{
             Notification::make()
             ->title('Aucune donnée trouvée!')

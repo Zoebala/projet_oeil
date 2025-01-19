@@ -12,10 +12,11 @@ class FraisController extends Controller
 {
     //
 
-    public function generate_pdf(int $annee_id){
+    public function generate_pdf(){
     //récupération de l'année en cours
 
-
+        $annee_id=session("Annee_id")[0];
+        dd($annee_id);
        $queries=DB::select("SELECT nom,postnom,genre,prenom,cl.lib as classe,D.lib as departement,An.debut as debut,An.lib as annee,
                                 SUM(P.montant) as montantpaye,F.montant, F.taux,(F.montant * F.taux) as 'totalapayer',((F.montant * F.taux)-SUM(P.montant)) as reste
                                 -- SUM(COALESCE(P.montant)) as Total
@@ -41,7 +42,7 @@ class FraisController extends Controller
 
 
             $pdf = Pdf::loadView('Etats/frais_paye',$data);
-            return $pdf->download('Liste_frais_payés_'.date("d/m/Y H:i:s").'.pdf');
+            return $pdf->stream('Liste_frais_payés_'.date("d/m/Y H:i:s").'.pdf');
         }else{
             Notification::make()
             ->title('Aucune donnée trouvée!')

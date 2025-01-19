@@ -33,15 +33,11 @@ class ListPaiements extends ListRecords
             ->label("Effectuer Paiement")
             ->icon("heroicon-o-banknotes"),
             ActionGroup::make([
-               
+
                 Action::make("étudiants ayant payé")
                 ->label("Liste des étudiants ayant payé")
                 ->form([
-                    Select::make("annee_id")
-                        ->label("Année Académique")
-                        ->options(Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id"))
-                        ->required()
-                        ->searchable(),
+
                     Select::make("classe_id")
                         ->label("Promotion")
                         ->required()
@@ -61,15 +57,15 @@ class ListPaiements extends ListRecords
                 ->modalIcon("heroicon-o-users")
                 ->action(function(array $data){
 
-                    $annee_id=$data["annee_id"];
+
                     $classe_id=$data["classe_id"];
                     $montant=$data["Montant"];
 
                     if(isset($montant)){
 
-                        return redirect()->route("etudiants.paye1",compact("annee_id","classe_id","montant"));
+                        return redirect()->route("etudiants.paye1",compact("classe_id","montant"));
                     }else{
-                        return redirect()->route("etudiants.paye",compact("annee_id","classe_id"));
+                        return redirect()->route("etudiants.paye",compact("classe_id"));
                     }
                 })
                 ->openUrlInNewTab()
@@ -104,11 +100,7 @@ class ListPaiements extends ListRecords
                     ->color("warning"),
                 Action::make("Liste des frais payés par promotion")
                     ->form([
-                        Select::make("annee_id")
-                            ->label("Année Académique")
-                            ->options(Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id"))
-                            ->required()
-                            ->searchable(),
+
                         Select::make("classe_id")
                             ->label("Promotion")
                             ->required()
@@ -116,27 +108,24 @@ class ListPaiements extends ListRecords
                             ->searchable(),
 
                     ])
+                    ->slideOver()
                     ->button()
                     ->icon("heroicon-o-clipboard-document-list")
                     ->modalWidth(MaxWidth::Medium)
                     ->modalIcon("heroicon-o-users")
                     ->action(function(array $data){
 
-                        $annee_id=$data["annee_id"];
+
                         $classe_id=$data["classe_id"];
 
 
-                        return redirect()->route("frais_promotion",compact("annee_id","classe_id"));
+                        return redirect()->route("frais_promotion",compact("classe_id"));
                     })
                     ->openUrlInNewTab()
                     ->tooltip("Listes des frais payés par promotion"),
                 Action::make("Liste_étudiants_en_ordre_première_tranche")
                     ->form([
-                        Select::make("annee_id")
-                            ->label("Année Académique")
-                            ->options(Annee::whereId(session("Annee_id") ?? 1)->pluck("lib","id"))
-                            ->required()
-                            ->searchable(),
+                     
                         Select::make("classe_id")
                             ->label("Promotion")
                             ->required()
@@ -157,9 +146,10 @@ class ListPaiements extends ListRecords
                     ->icon("heroicon-o-clipboard-document-list")
                     ->modalWidth(MaxWidth::Small)
                     ->modalIcon("heroicon-o-users")
+                    ->slideOver()
                     ->action(function(array $data){
 
-                        $annee_id=$data["annee_id"];
+
                         $classe_id=$data["classe_id"];
                         $etat=$data["etat"];
 

@@ -32,7 +32,7 @@ class ElementDossierController extends Controller
             ];
 
             $pdf = Pdf::loadView('Etats/dossierEtudiant',$data);
-            return $pdf->download('Liste_Etudiants_non_en_ordre_élément_dossier_'.date("d/m/Y H:i:s").'.pdf');
+            return $pdf->stream('Liste_Etudiants_non_en_ordre_élément_dossier_'.date("d/m/Y H:i:s").'.pdf');
         }else{
             Notification::make()
             ->title('Aucune donnée trouvée!')

@@ -11,8 +11,9 @@ class EtudianttrancheController extends Controller
 {
     //
 
-    public function generate_pdf(int $annee_id, int $classe_id,string $etat){
+    public function generate_pdf(int $classe_id,string $etat){
 
+        $annee_id=session("Annee_id")[0];
         if($etat =="En ordre"){
 
             $queries=DB::select("SELECT nom,postnom,genre,prenom,cl.lib as classe,D.lib as departement,An.debut as debut,An.lib as Annee,
@@ -58,7 +59,7 @@ class EtudianttrancheController extends Controller
 
             // Pdf::setPaper('A4','landscape');
             $pdf = Pdf::loadView('Etats/etudiant_tranche',$data);
-            return $pdf->download('Liste_étudiants_première_tranche_'.date("d/m/Y H:i:s").'.pdf');
+            return $pdf->stream('Liste_étudiants_première_tranche_'.date("d/m/Y H:i:s").'.pdf');
         }else{
             Notification::make()
             ->title('Aucune donnée trouvée!')

@@ -28,7 +28,7 @@ class EtudiantprofilController extends Controller
             ];
 
             $pdf = Pdf::loadView('Etats/Etudiantprofil',$data);
-            return $pdf->download('profil_etudiant_'.$queries[0]->nom.'_'.$queries[0]->prenom.date("d/m/Y H:i:s",strtotime(now())).'.pdf');
+            return $pdf->stream('profil_etudiant_'.$queries[0]->nom.'_'.$queries[0]->prenom.date("d/m/Y H:i:s",strtotime(now())).'.pdf');
         }else{
             Notification::make()
             ->title('Aucune donnée trouvée!')

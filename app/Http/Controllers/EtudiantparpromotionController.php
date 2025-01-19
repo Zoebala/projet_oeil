@@ -12,7 +12,7 @@ class EtudiantparpromotionController extends Controller
 {
     //
     public function generate_pdf(int $classe_id){
-      
+
         $annee_id=session("Annee_id")[0];
         $queries=DB::select("SELECT nom, postnom,prenom,genre,cl.lib as classe, an.lib as Annee, dep.lib as departement,etud.datenais as Naissance
                              FROM etudiants as etud
@@ -32,7 +32,7 @@ class EtudiantparpromotionController extends Controller
             ];
 
             $pdf = Pdf::loadView('Etats/Etudiant_par_promotion',$data);
-            return $pdf->download('Liste_Etudiant_par_promotion'.date("d/m/Y H:i:s").'.pdf');
+            return $pdf->stream('Liste_Etudiant_par_promotion'.date("d/m/Y H:i:s").'.pdf');
         }else{
             Notification::make()
             ->title('Aucune donnée trouvée!')
@@ -64,7 +64,7 @@ class EtudiantparpromotionController extends Controller
             ];
 
             $pdf = Pdf::loadView('Etats/Etudiant_par_promotion',$data);
-            return $pdf->download('Liste_Etudiant_par_promotion_non_inscrits'.date("d/m/Y H:i:s").'.pdf');
+            return $pdf->stream('Liste_Etudiant_par_promotion_non_inscrits'.date("d/m/Y H:i:s").'.pdf');
         }else{
             Notification::make()
             ->title('Aucune donnée trouvée!')

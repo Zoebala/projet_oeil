@@ -36,7 +36,7 @@ class BudgetController extends Controller
         // dd($data["Etudiants"]);
 
         $pdf = Pdf::loadView('Etats/budget',$data);
-        return $pdf->download('budget_'.date("d/m/Y H:i:s").'.pdf');
+        return $pdf->stream('budget_'.date("d/m/Y H:i:s").'.pdf');
         }else{
         Notification::make()
         ->title('Aucune donnée trouvée!')
