@@ -28,6 +28,7 @@ class ListAnnees extends ListRecords
             ->icon("heroicon-o-calendar"),
             Action::make("annee")
                 ->icon("heroicon-o-calendar-days")
+                ->slideOver()
                 ->label(function(){
                     if(Auth()->user()->hasRole("CANDIDAT"))
                         return "Choisir une année Académique";
@@ -45,7 +46,7 @@ class ListAnnees extends ListRecords
                         $set("lib_annee",$Annee[0]->lib);
                         $set("annee_debut",$Annee[0]->debut);
                     })
-                    ->options(Annee::query()->pluck("lib","id")),
+                    ->options(Annee::query()->latest()->pluck("lib","id")),
                     Hidden::make("lib_annee")
                     ->label("Année Choisie")
                     ->dehydrated(true),

@@ -43,7 +43,7 @@ class CustumDashboard extends Dashboard
                         $set("lib_annee",$Annee[0]->lib);
                     }
                 })
-                ->options(Annee::query()->pluck("lib","id")),
+                ->options(Annee::query()->latest()->pluck("lib","id")),
                 Hidden::make("lib_annee")
                 ->label("Année Choisie")
                 ->disabled()
@@ -54,6 +54,8 @@ class CustumDashboard extends Dashboard
             ->modalIcon("heroicon-o-calendar")
             ->action(function(array $data){
                 if(session('Annee_id')==NULL && session('Annee')==NULL){
+                    session()->pull("Annee_id");
+                    session()->pull("Annee");
                     session()->push("Annee_id", $data["annee"]);
                     session()->push("Annee", $data["lib_annee"]);
 
@@ -101,7 +103,9 @@ class CustumDashboard extends Dashboard
                     $set("lib_annee",$Annee[0]->lib);
                 }
             })
-            ->options(Annee::query()->pluck("lib","id")),
+            ->options(Annee::query()
+            ->latest()
+            ->pluck("lib","id")),
             Hidden::make("lib_annee")
             ->label("Année Choisie")
             ->disabled()

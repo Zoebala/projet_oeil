@@ -53,7 +53,7 @@
                  @if(Auth()->user()->hasRole("CANDIDAT"))
                     <a href="{{ '/admin/etudiants' }}" class="instagram"><img src="{{ 'images/avatar.png' }}" alt="avatar" width="20" class="img-fluid rounded-circle">  <span class="ms-2 mt-1">{{ $User->name }}</span></a>
                 @else
-                    <a href="{{ '/admin' }}" class="instagram"><img src="{{ 'images/avatar.png' }}" alt="avatar" width="20" class="img-fluid rounded-circle">  <span class="ms-2 mt-1">{{ $User->name }}</span></a>
+                    <a href="{{ '/admin' }}" class="instagram"><img src="{{ './images/avatar.png' }}" alt="avatar" width="20" class="img-fluid rounded-circle">  <span class="ms-2 mt-1">{{ $User->name }}</span></a>
 
                 @endif
             @else
