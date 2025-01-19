@@ -23,6 +23,7 @@ use App\Filament\Resources\SectionResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SectionResource\RelationManagers;
 use App\Filament\Resources\SectionResource\RelationManagers\DepartementsRelationManager;
+use App\Models\Annee;
 
 class SectionResource extends Resource
 {
@@ -41,6 +42,21 @@ class SectionResource extends Resource
     public static function getNavigationBadgeColor():string
     {
         return "success";
+    }
+
+    public static function canAccess(): bool
+    {
+    
+
+        if(self::canViewAny()){
+            return Annee::isActive();
+        }
+        return false;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return static::can('viewAny');
     }
 
     public static function form(Form $form): Form

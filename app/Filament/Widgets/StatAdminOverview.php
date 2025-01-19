@@ -5,6 +5,7 @@ namespace App\Filament\Widgets;
 use App\Models\Section;
 use App\Models\Etudiant;
 use App\Models\Actualite;
+use App\Models\Annee;
 use App\Models\Departement;
 use App\Models\Inscription;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -15,6 +16,13 @@ class StatAdminOverview extends BaseWidget
 
     protected static bool $isLazy = false;
 
+
+    public static function canView(): bool
+    {
+
+        return Annee::isActive();
+
+    }
 
 
     protected function getStats(): array

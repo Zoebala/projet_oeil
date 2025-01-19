@@ -19,6 +19,7 @@ use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\Resources\ActualiteResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ActualiteResource\RelationManagers;
+use App\Models\Annee;
 
 class ActualiteResource extends Resource
 {
@@ -26,16 +27,23 @@ class ActualiteResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
-    public static function canAccess():bool
-    {
-        if(!Auth()->user()->hasRole(["Admin"])){
-            return false;
-        }else{
 
-            return true;
+
+    public static function canAccess(): bool
+    {
+        if(!Auth()->user()->hasRole(["Admin"])) {
+            return false;
         }
 
+        if(self::canViewAny()){
+            return Annee::isActive();
+        }
+        return false;
+    }
 
+    public static function canViewAny(): bool
+    {
+        return static::can('viewAny');
     }
 
     public static function form(Form $form): Form
@@ -97,8 +105,8 @@ class ActualiteResource extends Resource
 
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                ])->label("Actions")
-                ->button()
+                    Tables\Actions\ViewAction::make()->SlideOver(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

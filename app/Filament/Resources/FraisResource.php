@@ -42,6 +42,20 @@ class FraisResource extends Resource
         return "success";
     }
 
+    public static function canAccess(): bool
+    {
+        if(self::canViewAny()){
+            return Annee::isActive();
+        }
+        return false;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return static::can('viewAny');
+    }
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -151,7 +165,8 @@ class FraisResource extends Resource
 
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                ])->button()->label("Actions")
+                    Tables\Actions\ViewAction::make()->SlideOver(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

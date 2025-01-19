@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\LiaisonResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LiaisonResource\RelationManagers;
+use App\Models\Annee;
 
 class LiaisonResource extends Resource
 {
@@ -98,6 +99,20 @@ class LiaisonResource extends Resource
             ]);
     }
 
+    public static function canAccess(): bool
+    {
+
+        if(self::canViewAny()){
+            return Annee::isActive();
+        }
+        return false;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return static::can('viewAny');
+    }
+
     public static function table(Table $table): Table
     {
         return $table
@@ -141,7 +156,8 @@ class LiaisonResource extends Resource
                      Tables\Actions\EditAction::make(),
                      Tables\Actions\DeleteAction::make()
                      ->visible(fn()=> !Auth()->user()->hasRole('CANDIDAT')),
-                 ])->button()->label("Actions"),
+                     Tables\Actions\ViewAction::make()->slideOver(),
+                 ]),
 
             ])
             ->bulkActions([

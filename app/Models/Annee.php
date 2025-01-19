@@ -12,4 +12,11 @@ class Annee extends Model
     protected $fillable=[
         "lib","debut","fin"
     ];
+
+
+    public static function isActive()
+    {
+
+        return session("Annee_id") ? true : false;
+    }
 }

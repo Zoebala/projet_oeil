@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ClasseResource\RelationManagers;
 use App\Filament\Resources\ClasseResource\Widgets\CreateClasseWidget;
 use App\Filament\Resources\ClasseResource\RelationManagers\EtudiantsRelationManager;
+use App\Models\Annee;
 
 class ClasseResource extends Resource
 {
@@ -39,6 +40,21 @@ class ClasseResource extends Resource
     {
         return "success";
     }
+
+    public static function canAccess(): bool
+    {
+
+        if(self::canViewAny()){
+            return Annee::isActive();
+        }
+        return false;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return static::can('viewAny');
+    }
+
 
     public static function form(Form $form): Form
     {
@@ -108,7 +124,8 @@ class ClasseResource extends Resource
 
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                ])->button()->label("Actions")
+                    Tables\Actions\ViewAction::make()->SlideOver(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

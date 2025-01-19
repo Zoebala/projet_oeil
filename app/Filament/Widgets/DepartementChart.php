@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Annee;
 use App\Models\Etudiant;
 use App\Models\Departement;
 use Filament\Widgets\ChartWidget;
@@ -15,7 +16,7 @@ class DepartementChart extends ChartWidget
         // Votre logique de contrôle d'accès ici
         if(Auth()->user()->hasRole(["Admin","COMGER","SGACAD","SGADMN","ADMIN_BUDGET","DG"])){
 
-            return true; // ou false selon vos besoins
+            return Annee::isActive(); // ou false selon vos besoins
         }else{
 
             return false;

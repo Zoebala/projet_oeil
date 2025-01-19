@@ -21,6 +21,7 @@ use App\Filament\Resources\RoleResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\RoleResource\RelationManagers;
 use App\Filament\Resources\RoleResource\Widgets\CreateRoleWidget;
+use App\Models\Annee;
 
 class RoleResource extends Resource
 {
@@ -36,6 +37,20 @@ class RoleResource extends Resource
     public static function getNavigationBadgeColor():string
     {
         return "success";
+    }
+
+    public static function canAccess(): bool
+    {
+
+        if(self::canViewAny()){
+            return Annee::isActive();
+        }
+        return false;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return static::can('viewAny');
     }
 
     public static function form(Form $form): Form
@@ -95,8 +110,8 @@ class RoleResource extends Resource
 
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                ])->label("Actions")
-                ->button(),
+                    Tables\Actions\ViewAction::make()->slideOver(),
+                ]),
 
             ])
             ->bulkActions([

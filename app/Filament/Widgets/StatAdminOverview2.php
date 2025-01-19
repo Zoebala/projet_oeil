@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Annee;
 use App\Models\Etudiant;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
@@ -17,7 +18,7 @@ class StatAdminOverview2 extends BaseWidget
         // Votre logique de contrôle d'accès ici
         if(Auth()->user()->hasRole(["Admin","COMGER","SGACAD","SGADMN","ADMIN_BUDGET","SECTION","DG"])){
 
-            return true; // ou false selon vos besoins
+            return Annee::isActive();
         }else{
 
             return false;

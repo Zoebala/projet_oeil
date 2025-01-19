@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PermissionResource\Pages;
 use App\Filament\Resources\PermissionResource\RelationManagers;
 use App\Filament\Resources\PermissionResource\Widgets\CreatePermissionWidget;
+use App\Models\Annee;
 
 class PermissionResource extends Resource
 {
@@ -36,6 +37,20 @@ class PermissionResource extends Resource
         return "success";
     }
 
+
+    public static function canAccess(): bool
+    {
+
+        if(self::canViewAny()){
+            return Annee::isActive();
+        }
+        return false;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return static::can('viewAny');
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -75,7 +90,8 @@ class PermissionResource extends Resource
 
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                ])->button()->label("Actions")
+                    Tables\Actions\ViewAction::make()->slideOver(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

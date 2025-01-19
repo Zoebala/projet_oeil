@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Annee;
 use App\Models\Section;
 use App\Models\Etudiant;
 use Flowframe\Trend\Trend;
@@ -20,7 +21,7 @@ class SectionChart extends ChartWidget
         // Votre logique de contrôle d'accès ici
         if(Auth()->user()->hasRole(["Admin","COMGER","SGACAD","SGADMN","ADMIN_BUDGET","DG"])){
 
-            return true; // ou false selon vos besoins
+            return Annee::isActive(); // ou false selon vos besoins
         }else{
 
             return false;
