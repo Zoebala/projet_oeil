@@ -658,13 +658,7 @@ class EtudiantResource extends Resource
 
 
                     }),
-                    // Tables\Actions\BulkAction::make("Generer")
-                    // ->label("Génrérer Promotion")
-                    // ->icon("heroicon-o-document-download")
-                    // ->url(function(Collection $Students){
-                    //     return route("etudiant.generate_promotion",$Etudiants);
-                    // })
-                    // ->openUrlInNewTab(),
+                   
                 ])->visible(fn():bool => Auth()->user()->hasRole(["Admin","SACAD"])) ,
             ]);
             // ->headerActions([

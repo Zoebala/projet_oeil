@@ -23,6 +23,7 @@ class CreateInscriptionWidget extends Widget implements HasForms
     use InteractsWithForms;
     protected static string $view = 'filament.resources.inscription-resource.widgets.create-inscription-widget';
     protected int | string | array $columnSpan = 'full';
+    protected static bool $isLazy = false;
 
     public ?array $data = [];
 

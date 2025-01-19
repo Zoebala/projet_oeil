@@ -144,13 +144,7 @@ class PaiementResource extends Resource
 
                     })
                     ->columnSpanFull(),
-                    Select::make('annee_id')
-                    ->label("Annee Académique")
-                    ->required()
-                    ->options(function(){
-                        return Annee::whereId(session("Annee_id") ?? 1)
-                                    ->pluck("lib","id");
-                    }),
+
                     Select::make('classe_id')
                         ->label("Classe")
                         ->live()
@@ -165,7 +159,7 @@ class PaiementResource extends Resource
                         ->options(function(Get $get){
                             return Classe::
                                         join("frais","frais.classe_id","classes.id")
-                                        ->where('annee_id',$get('annee_id'))
+                                        ->where('annee_id',session("Annee_id")[0])
                                         ->pluck("classes.lib","classes.id");
                         }),
                     Select::make('etudiant_id')
@@ -192,7 +186,7 @@ class PaiementResource extends Resource
                         ->required()
                         ->placeholder("Ex: Frais Académique")
                         ->default("Frais Académique")
-                        ->maxLength(255)->columnSpan(2),
+                        ->maxLength(255)->columnSpan(1),
                     Select::make('devise')
                             ->label("Devise")
                             ->required()

@@ -15,5 +15,7 @@ class CreateInscription extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
-    
+
+   
+
 }
