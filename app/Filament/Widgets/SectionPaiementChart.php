@@ -48,7 +48,7 @@ class SectionPaiementChart extends ChartWidget
                                         ->join("inscriptions","inscriptions.etudiant_id","etudiants.id")
                                         ->join("paiements","paiements.etudiant_id","etudiants.id")
                                         ->join("annees","annees.id","paiements.annee_id")
-                                        ->where("annees.debut",session('AnneeDebut') ?? $annee)
+                                        ->where("annees.id",session('Annee_id')[0] ?? 1)
                                         ->where("sections.id",$index)
                                         ->where('inscriptions.actif',true)
                                         ->select(["etudiants.nom","etudiants.postnom","etudiants.prenom"])

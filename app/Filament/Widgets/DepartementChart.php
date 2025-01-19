@@ -47,7 +47,7 @@ class DepartementChart extends ChartWidget
                                         ->join("departements","departements.id","classes.departement_id")
                                         ->join("inscriptions","inscriptions.etudiant_id","etudiants.id")
                                         ->join("annees","annees.id","inscriptions.annee_id")
-                                        ->where("annees.debut",session('AnneeDebut') ?? $annee)
+                                        ->where("annees.id",session("Annee_id")[0])
                                         ->where("departements.id",$index)
                                         ->count();
         }

@@ -30,7 +30,7 @@ class StatAdminOverview2 extends BaseWidget
             //
             Stat::make("Etudiants", Etudiant::join("inscriptions","inscriptions.etudiant_id","=","etudiants.id")
                 ->join("annees","annees.id","=","inscriptions.annee_id")
-                ->Where("annees.debut",session('AnneeDebut') ?? date("Y")-1)
+                ->Where("annees.id",session('Annee_id')[0] ?? 1)
                 ->Where("inscriptions.actif",1)
                 ->count())
                 ->description("Etudiants Inscrits")
@@ -50,7 +50,7 @@ class StatAdminOverview2 extends BaseWidget
             Stat::make("Etudiant(s)", Etudiant::join("paiements","paiements.etudiant_id","=","etudiants.id")
                 ->join("annees","annees.id","=","paiements.annee_id")
                 ->join("inscriptions","inscriptions.etudiant_id","etudiants.id")
-                ->Where("annees.debut",session('AnneeDebut') ?? date("Y")-1)
+                ->Where("annees.id",session('Annee_id')[0] ?? 1)
                 ->whereActif(1)
                 ->select(["etudiants.nom","etudiants.postnom","etudiants.prenom"])
                 ->groupBy(["etudiants.nom","etudiants.postnom","etudiants.prenom"])
@@ -62,7 +62,7 @@ class StatAdminOverview2 extends BaseWidget
                 ->Icon("heroicon-o-users"),
             Stat::make("Nombre Filles", Etudiant::join("inscriptions","inscriptions.etudiant_id","=","etudiants.id")
                 ->join("annees","annees.id","=","inscriptions.annee_id")
-                ->Where("annees.debut",session('AnneeDebut') ?? date("Y")-1)
+                ->Where("annees.id",session('Annee_id')[0] ?? 1)
                 ->Where("etudiants.genre","F")
                 ->Where("actif",1)
                 ->count())
@@ -72,7 +72,7 @@ class StatAdminOverview2 extends BaseWidget
                 ->Icon("heroicon-o-users"),
                 Stat::make("Nombre Garçons", Etudiant::join("inscriptions","inscriptions.etudiant_id","=","etudiants.id")
                 ->join("annees","annees.id","=","inscriptions.annee_id")
-                ->Where("annees.debut",session('AnneeDebut') ?? date("Y")-1)
+                ->Where("annees.id",session('Annee_id')[0] ?? 1)
                 ->Where("etudiants.genre","M")
                 ->Where("actif",1)
                 ->count())
@@ -83,7 +83,7 @@ class StatAdminOverview2 extends BaseWidget
                 Stat::make("Total des paiements enregistrés", Etudiant::join("paiements","paiements.etudiant_id","=","etudiants.id")
                                         ->join("annees","annees.id","=","paiements.annee_id")
                                         ->join("inscriptions","inscriptions.etudiant_id","etudiants.id")
-                                        ->Where("annees.debut",session('AnneeDebut') ?? date("Y")-1)
+                                        ->Where("annees.id",session('Annee_id')[0] ?? 1)
                                         ->whereActif(1)
                                         ->sum("montant")." FC")
 
