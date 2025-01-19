@@ -54,6 +54,7 @@ class AnneeResource extends Resource
                         ->label("Annee Académique")
                         ->required()
                         ->placeholder('Ex :2023-2024')
+                        ->minLength(9)
                         ->unique(ignoreRecord:true,table: Annee::class)
                         ->live(debounce:1500)
                         ->afterStateUpdated(function(Get $get,Set $set){
