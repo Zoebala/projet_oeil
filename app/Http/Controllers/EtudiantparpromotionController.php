@@ -11,8 +11,9 @@ use Filament\Notifications\Notification;
 class EtudiantparpromotionController extends Controller
 {
     //
-    public function generate_pdf(int $annee_id,int $classe_id){
-        // dd($annee_id,$classe_id);
+    public function generate_pdf(int $classe_id){
+      
+        $annee_id=session("Annee_id")[0];
         $queries=DB::select("SELECT nom, postnom,prenom,genre,cl.lib as classe, an.lib as Annee, dep.lib as departement,etud.datenais as Naissance
                              FROM etudiants as etud
                              JOIN classes as cl ON etud.classe_id=cl.id

@@ -10,6 +10,7 @@ use Livewire\Attributes\On;
 use Filament\Actions\Action;
 use Illuminate\Http\Request;
 use Livewire\Attributes\Rule;
+use Filament\Actions\ActionGroup;
 use App\Imports\EtudiantsImport;
 use Illuminate\Contracts\View\View;
 use Filament\Support\Enums\MaxWidth;
@@ -29,6 +30,9 @@ use Konnco\FilamentImport\Actions\ImportField;
 use Konnco\FilamentImport\Actions\ImportAction;
 use pxlrbt\FilamentExcel\Actions\Pages\ExportAction;
 use App\Filament\Resources\EtudiantResource\Widgets\CreateEtudiantWidget;
+use App\Models\Annee;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Get;
 
 class ListEtudiants extends ListRecords
 {
@@ -37,106 +41,174 @@ class ListEtudiants extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make("Accueil")
-            ->icon("heroicon-o-home")
-            ->action(function(){
-                return redirect("/");
-            }),
-
-
-            Actions\Action::make("Je suis déjà inscrit(e)")
-            ->icon("heroicon-o-link")
-            ->action(function(){
-                return redirect()->route("filament.admin.resources.liaisons.index");
-            })
-            ->hidden(fn():bool =>Etudiant::whereUser_id(Auth()->user()->id)->exists()),
-            Actions\CreateAction::make()
-            ->label(function(){
-                if(Auth()->user()->hasRole(["Admin","SACAD"])){
-                    return "Ajouter un étudiant";
-                }else{
-                    return "Posez votre Candidature";
-                }
-            })
-            ->icon("heroicon-o-user-plus")
-            ->visible(fn():bool => Etudiant::where("user_id",Auth()->user()->id)->exists()),
-
 
 
             ImportAction::make("Importer")
-            ->label("Importer")
-            ->icon("heroicon-o-users")
-            // ->uniqueField('nom')
-            ->fields([
-                ImportField::make('nom')
-                    ->required(),
-                ImportField::make('postnom')
-                    ->required()
-                    ->label('Postnom'),
-                ImportField::make('prenom')
-                    // ->required()
-                    ->label('Prenom'),
-                ImportField::make('teletudiant')
-                    // ->required()
-                    ->label('Téléphone Etudiant'),
-                ImportField::make('genre')
-                    ->required()
-                    ->label('Genre'),
-                ImportField::make('matricule')
-                    ->required()
-                    ->label('Matricule'),
-                ImportField::make('classe_id')
-                    ->required()
-                    ->label('Classe'),
+                ->label("Importer")
+                ->icon("heroicon-o-users")
+                ->button(false)
+                ->fields([
+                    ImportField::make('nom')
+                        ->required(),
+                    ImportField::make('postnom')
+                        ->required()
+                        ->label('Postnom'),
+                    ImportField::make('prenom')
+                        // ->required()
+                        ->label('Prenom'),
+                    ImportField::make('teletudiant')
+                        // ->required()
+                        ->label('Téléphone Etudiant'),
+                    ImportField::make('genre')
+                        ->required()
+                        ->label('Genre'),
+                    ImportField::make('matricule')
+                        ->required()
+                        ->label('Matricule'),
+                    ImportField::make('classe_id')
+                        ->required()
+                        ->label('Classe'),
 
-            ])->visible(fn():bool => Auth()->user()->hasRole(["Admin","SACAD"])),
-            Action::make("classe_choix")
-                ->icon("heroicon-o-building-office")
-                ->label("Choix de la Classe")
-                ->modalSubmitActionLabel("Définir")
+                ])->visible(fn():bool => Auth()->user()->hasRole(["Admin","SACAD"])),
+            Action::make("Element_dossier")
+                ->label("Liste des étudiant n'ayant pas leurs éléments de dossiers")
                 ->form([
+
                     Select::make("classe_id")
-                    ->label("Classe")
-                    ->options(Classe::all()->pluck("lib","id"))
-                    ->searchable()
-                    ->required()
-                    ->live()
-                    ->afterStateUpdated(function($state,Set $set){
-                        $Classe=Classe::whereId($state)->get(["lib"]);
-                        $set("classe",$Classe[0]->lib);
-
-                    }),
-                    Hidden::make("classe")
-                    ->disabled()
-                    ->dehydrated(true),
-
+                        ->label("Promotion")
+                        ->required()
+                        ->options(Classe::query()->pluck("lib","id"))
+                        ->searchable(),
 
                 ])
+                ->button()
+                ->slideOver()
+                ->icon("heroicon-o-clipboard-document-list")
+                ->hidden(fn():bool => !Auth()->user()->hasRole(["Admin","SGACAD","SACAD","DG"]))
                 ->modalWidth(MaxWidth::Medium)
-                ->modalIcon("heroicon-o-building-office-2")
+                ->modalIcon("heroicon-o-users")
+                ->color("warning")
                 ->action(function(array $data){
-                    if(session('classe_id')==NULL && session('classe')==NULL){
 
-                        session()->push("classe_id", $data["classe_id"]);
-                        session()->push("classe", $data["classe"]);
 
+                    $classe_id=$data["classe_id"];
+
+
+                    return redirect()->route("element_dossier",compact("classe_id"));
+                })
+                ->openUrlInNewTab()
+                ->tooltip("Liste des étudiant n'ayant pas leurs éléments de dossiers"),
+            Actions\Action::make("Je suis déjà inscrit(e)")
+                ->icon("heroicon-o-link")
+                ->action(function(){
+                    return redirect()->route("filament.admin.resources.liaisons.index");
+                })
+                ->hidden(fn():bool =>Etudiant::whereUser_id(Auth()->user()->id)->exists()),
+                Actions\CreateAction::make()
+                ->label(function(){
+                    if(Auth()->user()->hasRole(["Admin","SACAD"])){
+                        return "Ajouter un étudiant";
                     }else{
-
-                        session()->pull("classe_id", $data["classe_id"]);
-                        session()->pull("classe", $data["classe"]);
-                        session()->push("classe_id", $data["classe_id"]);
-                        session()->push("classe", $data["classe"]);
-
-
+                        return "Posez votre Candidature";
                     }
-                    Notification::make()
-                    ->title("Classe Choisie :  ".$data['classe'])
-                    ->success()
-                     ->duration(5000)
-                    ->send();
-                     return redirect()->route("filament.admin.resources.etudiants.index");
+                })
+                ->icon("heroicon-o-user-plus")
+                ->visible(fn():bool => Etudiant::where("user_id",Auth()->user()->id)->exists()),
 
+            ActionGroup::make([
+
+                Actions\Action::make("Accueil")
+                ->icon("heroicon-o-home")
+                ->action(function(){
+                    return redirect("/");
                 }),
+                Action::make("classe_choix")
+                    ->icon("heroicon-o-building-office")
+                    ->label("Choix de la Classe")
+                    ->modalSubmitActionLabel("Définir")
+                    ->form([
+                        Select::make("classe_id")
+                        ->label("Classe")
+                        ->options(Classe::all()->pluck("lib","id"))
+                        ->searchable()
+                        ->required()
+                        ->live()
+                        ->afterStateUpdated(function($state,Set $set){
+                            $Classe=Classe::whereId($state)->get(["lib"]);
+                            $set("classe",$Classe[0]->lib);
+
+                        }),
+                        Hidden::make("classe")
+                        ->disabled()
+                        ->dehydrated(true),
+
+
+                    ])
+                    ->modalWidth(MaxWidth::Medium)
+                    ->modalIcon("heroicon-o-building-office-2")
+                    ->action(function(array $data){
+                        if(session('classe_id')==NULL && session('classe')==NULL){
+
+                            session()->push("classe_id", $data["classe_id"]);
+                            session()->push("classe", $data["classe"]);
+
+                        }else{
+
+                            session()->pull("classe_id", $data["classe_id"]);
+                            session()->pull("classe", $data["classe"]);
+                            session()->push("classe_id", $data["classe_id"]);
+                            session()->push("classe", $data["classe"]);
+
+
+                        }
+                        Notification::make()
+                        ->title("Classe Choisie :  ".$data['classe'])
+                        ->success()
+                         ->duration(5000)
+                        ->send();
+                         return redirect()->route("filament.admin.resources.etudiants.index");
+
+                    }),
+                Action::make("Etudiants_par_promotion")
+                    ->form([
+
+                        Select::make("classe_id")
+                            ->label("Promotion")
+                            ->required()
+                            ->options(Classe::query()->pluck("lib","id"))
+                            ->searchable(),
+                         Toggle::make("etat")
+                            ->live()
+                            ->label("Etudiants non inscrits"),
+
+                    ])
+                    // ->button()
+                    ->hidden(fn():bool => !Auth()->user()->hasRole(["COMGER","Admin","SGACAD","SGACA","SECTION","DG"]))
+                    ->icon("heroicon-o-clipboard-document-list")
+                    ->slideOver()
+                    ->modalWidth(MaxWidth::Small)
+                    ->modalIcon("heroicon-o-users")
+                    ->action(function(array $data){
+
+                        $etat=$data["etat"];
+
+                        if(!$etat){
+
+                            $classe_id=$data["classe_id"];
+
+                            return redirect()->route("etudiant_promotion",compact("classe_id"));
+                        }else{
+                            $classe_id=$data["classe_id"];
+                            return redirect()->route("etudiant_promotion_non_inscrits",compact("classe_id"));
+
+                        }
+
+
+
+                    })
+                    ->openUrlInNewTab()
+                    ->tooltip("Liste_étudiants_par_promotion"),
+                ]),
 
 
 
@@ -164,6 +236,7 @@ class ListEtudiants extends ListRecords
         return Action::make("classe")
                 ->modalHeading("Choix de la Classe")
                 ->modalSubmitActionLabel("Définir")
+                ->slideOver()
                 ->visible(fn():bool => session("classe_id") == null)
                 ->form([
                     Select::make("classe_id")

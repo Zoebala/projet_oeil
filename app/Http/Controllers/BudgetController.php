@@ -11,8 +11,9 @@ class BudgetController extends Controller
 {
     //
 
-    public function generate_pdf($annee_id){
+    public function generate_pdf(){
 
+        $annee_id=session("Annee_id")[0];
 
         $queries=DB::Select("SELECT f.montant, f.taux,an.lib as Annee,cl.lib as Promotion,count(etud.id) as Effectif,(f.montant*f.taux) as 'Montantapayer',((f.montant*f.taux)*count(etud.id)) as 'MontantPromotion',cl.id
                                 FROM frais as f
